@@ -70,7 +70,7 @@ class InputStream {
         return typeof (this.peek()) === "undefined";
     }
     fail(message) {
-        throw new Error(`${message} (${this.line}:${this.column}). Character: "${this.input.split("\n")[this.line - 1][this.column]}". Line: "${this.input.split("\n")[this.line - 1]}"`);
+        throw new Error(`${message} (${this.line}:${this.column})."`);
     }
 }
 class Interpreter {
@@ -92,7 +92,7 @@ class Interpreter {
                 return this.env.get(exp.value);
             case Symbols.Tokens.Assign:
                 if (exp.left.type !== Symbols.Tokens.Variable) {
-                    throw new Error("Canoot assign to " + JSON.stringify(exp.left));
+                    throw new Error("Cannot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
             case Symbols.Tokens.Binary:

@@ -20,7 +20,7 @@ class Interpreter {
 
             case Symbols.Tokens.Assign:
                 if (exp.left.type !== Symbols.Tokens.Variable) {
-                    throw new Error("Canoot assign to " + JSON.stringify(exp.left));
+                    throw new Error("Cannot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
 

@@ -30,6 +30,6 @@ class InputStream implements Stream<string> {
     }
 
     fail(message: any) {
-        throw new Error(`${message} (${this.line}:${this.column}). Character: "${this.input.split("\n")[this.line - 1][this.column]}". Line: "${this.input.split("\n")[this.line - 1]}"`);
+        throw new Error(`${message} (${this.line}:${this.column})."`);
     }
 }
