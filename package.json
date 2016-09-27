@@ -1,0 +1,14 @@
+{
+  "name": "hodor",
+  "version": "0.0.1",
+  "description": "Hodor",
+  "main": "hodor.hodor",
+  "scripts": {
+    "test": "hodor"
+  },
+  "keywords": [
+    "hodor"
+  ],
+  "author": "mmkal",
+  "license": "MIT"
+}
