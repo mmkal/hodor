@@ -9,15 +9,7 @@ globalEnv.def("print", function(txt: any){
   console.log(txt);
 });
 function run(code: string) {
-    const inputStream = new InputStream(code);
-    const tokenStream = new TokenStream(inputStream);
-    const parser = new Parser(tokenStream);
-
-    const ast = parser.parse();
-
-    const interpreter = new Interpreter(globalEnv);
-
-    const foo = interpreter.evaluate(ast);
+    new Interpreter(globalEnv).execute(code);
 }
 
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");

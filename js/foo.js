@@ -5,12 +5,7 @@ setTimeout(function () {
         console.log(txt);
     });
     function run(code) {
-        const inputStream = new InputStream(code);
-        const tokenStream = new TokenStream(inputStream);
-        const parser = new Parser(tokenStream);
-        const ast = parser.parse();
-        const interpreter = new Interpreter(globalEnv);
-        const foo = interpreter.evaluate(ast);
+        new Interpreter(globalEnv).execute(code);
     }
     run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 }, 0);
@@ -82,6 +77,9 @@ class Interpreter {
     constructor(env) {
         this.env = env;
     }
+    execute(code) {
+        return this.evaluate(new Parser(new TokenStream(new InputStream(code))).parse());
+    }
     evaluate(exp) {
         switch (exp.type) {
             case Symbols.Tokens.Number:
@@ -93,7 +91,7 @@ class Interpreter {
             case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);
             case Symbols.Tokens.Assign:
-                if (exp.left.type !== "var") {
+                if (exp.left.type !== Symbols.Tokens.Variable) {
                     throw new Error("Canoot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));

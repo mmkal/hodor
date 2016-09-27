@@ -2,6 +2,10 @@ class Interpreter {
     constructor(public env: Environment) {
     }
 
+    execute(code: string): any {
+        return this.evaluate(new Parser(new TokenStream(new InputStream(code))).parse());
+    }
+
     evaluate(exp: Token): any {
         switch (exp.type) {
             case Symbols.Tokens.Number:
@@ -15,7 +19,7 @@ class Interpreter {
                 return this.env.get(exp.value);
 
             case Symbols.Tokens.Assign:
-                if (exp.left.type !== "var") {
+                if (exp.left.type !== Symbols.Tokens.Variable) {
                     throw new Error("Canoot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
