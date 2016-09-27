@@ -9,8 +9,8 @@ setTimeout(function () {
         const tokenStream = new TokenStream(inputStream);
         const parser = new Parser(tokenStream);
         const ast = parser.parse();
-        const interpreter = new Interpreter();
-        const foo = interpreter.evaluate(ast, globalEnv);
+        const interpreter = new Interpreter(globalEnv);
+        const foo = interpreter.evaluate(ast);
     }
     run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 }, 0);
@@ -79,7 +79,10 @@ class InputStream {
     }
 }
 class Interpreter {
-    evaluate(exp, env) {
+    constructor(env) {
+        this.env = env;
+    }
+    evaluate(exp) {
         switch (exp.type) {
             case "num":
                 return this.primitive(exp.value, "number");
@@ -88,30 +91,30 @@ class Interpreter {
             case "str":
                 return exp.value;
             case "var":
-                return env.get(exp.value);
+                return this.env.get(exp.value);
             case "assign":
                 if (exp.left.type !== "var") {
                     throw new Error("Canoot assign to " + JSON.stringify(exp.left));
                 }
-                return env.set(exp.left.value, this.evaluate(exp.right, env));
+                return this.env.set(exp.left.value, this.evaluate(exp.right));
             case "binary":
-                return this.applyOp(exp.operator, this.evaluate(exp.left, env), this.evaluate(exp.right, env));
+                return this.applyOp(exp.operator, this.evaluate(exp.left), this.evaluate(exp.right));
             case "lambda":
-                return this.makeLambda(env, exp);
+                return this.makeLambda(exp);
             case "if":
-                const cond = this.evaluate(exp.cond, env);
+                const cond = this.evaluate(exp.cond);
                 if (cond !== false) {
-                    return this.evaluate(exp.then, env);
+                    return this.evaluate(exp.then);
                 }
-                return exp.else ? this.evaluate(exp.else, env) : false;
+                return exp.else ? this.evaluate(exp.else) : false;
             case "prog":
                 // TODO reduce
                 let val = false;
-                exp.prog.forEach(exp => val = this.evaluate(exp, env));
+                exp.prog.forEach(exp => val = this.evaluate(exp));
                 return val;
             case "call":
-                const func = this.evaluate(exp.func, env);
-                return func.apply(null, exp.args.map(arg => this.evaluate(arg, env)));
+                const func = this.evaluate(exp.func);
+                return func.apply(null, exp.args.map(arg => this.evaluate(arg)));
             default:
                 throw new Error("I don't know how to evaluate " + exp.type);
         }
@@ -160,15 +163,18 @@ class Interpreter {
         }
         throw new Error("Can't apply operator " + op);
     }
-    makeLambda(env, exp) {
-        var lambda = function () {
-            var names = exp.vars;
-            var scope = env.extend();
-            for (var i = 0; i < names.length; ++i)
-                scope.def(names[i], i < arguments.length ? arguments[i] : false);
-            return this.evaluate(exp.body, scope);
-        }.bind(this);
-        return lambda;
+    makeLambda(exp) {
+        const _this = this;
+        return function () {
+            const names = exp.vars;
+            const scope = new Interpreter(_this.env.extend());
+            for (let i = 0; i < names.length; i++) {
+                const name = names[i];
+                const value = i < arguments.length ? arguments[i] : false;
+                scope.env.def(name, value);
+            }
+            return scope.evaluate(exp.body);
+        };
     }
 }
 class Parser {

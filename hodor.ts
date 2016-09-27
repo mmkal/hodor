@@ -15,9 +15,9 @@ function run(code: string) {
 
     const ast = parser.parse();
 
-    const interpreter = new Interpreter();
+    const interpreter = new Interpreter(globalEnv);
 
-    const foo = interpreter.evaluate(ast, globalEnv);
+    const foo = interpreter.evaluate(ast);
 }
 
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
