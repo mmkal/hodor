@@ -21,10 +21,11 @@ class TokenStream implements Stream<Token> {
         return this.isIdStart(ch) || "?!-<>=0123456789".indexOf(ch) >= 0;
     }
     private isOpChar(ch: string) {
-        return "+-*/%=&|<>!".indexOf(ch) >= 0;
+        return Symbols.Operators.characters.has(ch);
+//      TODO remove  return "+-*/%=&|<>!".indexOf(ch) >= 0;
     }
     private isPunc(ch: string) {
-        return ",;(){}[]".indexOf(ch) >= 0;
+        return Symbols.Punctuation.values.has(ch);
     }
     private isWhitespace(ch: string) {
         return " \t\n".indexOf(ch) >= 0;

@@ -22,4 +22,4 @@ function run(code: string) {
 
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 
-}, 10);
+}, 0);

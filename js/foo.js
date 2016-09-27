@@ -13,7 +13,7 @@ setTimeout(function () {
         const foo = interpreter.evaluate(ast, globalEnv);
     }
     run("sum = lambda(x, y) x + y; print(sum(2, 3));");
-}, 10);
+}, 0);
 class Environment {
     constructor(parent) {
         this.vars = Object.create(parent ? parent.vars : null);
@@ -49,7 +49,6 @@ class Environment {
         return this.vars[name] = value;
     }
 }
-// adapted from http://lisperator.net/pltut/parser/input-stream
 class InputStream {
     constructor(input) {
         this.input = input;
@@ -352,6 +351,62 @@ class Parser {
         return this.maybeCall(() => this.maybeBinary(this.parseAtom(), 0));
     }
 }
+var Symbols;
+(function (Symbols) {
+    function values(symbolClass) {
+        return new Set(Object.keys(symbolClass).map(k => symbolClass[k]));
+    }
+    Symbols.Operators = {
+        Assign: "=",
+        Or: "||",
+        And: "&&",
+        LessThan: "<",
+        GreaterThan: ">",
+        Leq: "<=",
+        Geq: ">=",
+        EqualTo: "==",
+        NotEqualTo: "!=",
+        Plus: "+",
+        Minus: "-",
+        Multiply: "*",
+        Divide: "/",
+        Modulo: "%",
+        values: new Set(),
+        characters: new Set()
+    };
+    Symbols.Punctuation = {
+        OpenBlock: "{",
+        CloseBlock: "}",
+        OpenBrace: "[",
+        CloseBrace: "]",
+        OpenParen: "(",
+        CloseParen: ")",
+        Comma: ",",
+        EndExpression: ";",
+        values: new Set()
+    };
+    Symbols.Keywords = {
+        If: "if",
+        Then: "then",
+        Else: "else",
+        Lambda: "lambda",
+        True: "true",
+        False: "false",
+        values: new Set()
+    };
+    Symbols.Delimiters = {
+        Escape: "\\",
+        Quote: "\"",
+        Dot: ".",
+        values: new Set()
+    };
+    const symbolClasses = [Symbols.Operators, Symbols.Punctuation, Symbols.Keywords];
+    symbolClasses.forEach((symbolClass) => {
+        const values = Object.keys(symbolClass).map(k => symbolClass[k]);
+        symbolClass.values = new Set(values);
+        symbolClass.characters = new Set(values.map(v => v.charAt(0)));
+    });
+})(Symbols || (Symbols = {}));
 class TokenStream {
     constructor(input) {
         this.input = input;
@@ -374,10 +429,11 @@ class TokenStream {
         return this.isIdStart(ch) || "?!-<>=0123456789".indexOf(ch) >= 0;
     }
     isOpChar(ch) {
-        return "+-*/%=&|<>!".indexOf(ch) >= 0;
+        return Symbols.Operators.characters.has(ch);
+        //      TODO remove  return "+-*/%=&|<>!".indexOf(ch) >= 0;
     }
     isPunc(ch) {
-        return ",;(){}[]".indexOf(ch) >= 0;
+        return Symbols.Punctuation.values.has(ch);
     }
     isWhitespace(ch) {
         return " \t\n".indexOf(ch) >= 0;

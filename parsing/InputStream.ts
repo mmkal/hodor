@@ -1,4 +1,3 @@
-// adapted from http://lisperator.net/pltut/parser/input-stream
 class InputStream implements Stream<string> {
     private position = 0;
     private line = 1;
