@@ -402,7 +402,10 @@ var Symbols;
     };
     const symbolClasses = [Symbols.Operators, Symbols.Punctuation, Symbols.Keywords];
     symbolClasses.forEach((symbolClass) => {
-        const values = Object.keys(symbolClass).map(k => symbolClass[k]);
+        const values = Object
+            .keys(symbolClass)
+            .map(k => symbolClass[k])
+            .filter(v => typeof v === "string");
         symbolClass.values = new Set(values);
         symbolClass.characters = new Set(values.map(v => v.charAt(0)));
     });

@@ -58,7 +58,10 @@ module Symbols {
     const symbolClasses: any[] = [Operators, Punctuation, Keywords];
 
     symbolClasses.forEach((symbolClass) => {
-        const values: string[] = Object.keys(symbolClass).map(k => symbolClass[k]);
+        const values: string[] = Object
+            .keys(symbolClass)
+            .map(k => symbolClass[k])
+            .filter(v => typeof v === "string");
         symbolClass.values = new Set(values);
         symbolClass.characters = new Set(values.map(v => v.charAt(0)));
     });
