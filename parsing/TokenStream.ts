@@ -1,15 +1,11 @@
 class TokenStream implements Stream<Token> {
     private current: Token = null;
-    private keywords = new Set("if then else lambda λ true false".split(" "));
-    private escapeChar = "\\";
-    private quoteMark = "\"";
-    private dot = ".";
 
     constructor(public input: InputStream) {
     }
 
     private isKeyword(word: string) {
-        return this.keywords.has(word);
+        return Symbols.Keywords.values.has(word);
     }
     private isDigit(ch: string) {
         return /[0-9]/i.test(ch);
@@ -22,7 +18,6 @@ class TokenStream implements Stream<Token> {
     }
     private isOpChar(ch: string) {
         return Symbols.Operators.characters.has(ch);
-//      TODO remove  return "+-*/%=&|<>!".indexOf(ch) >= 0;
     }
     private isPunc(ch: string) {
         return Symbols.Punctuation.values.has(ch);
@@ -37,22 +32,22 @@ class TokenStream implements Stream<Token> {
         }
         return chars.join("");
     }
-    private readNumber() {
+    private readNumber(): Token {
         let hasDot = false;
         const number = this.readWhile(ch => {
-            if (ch === this.dot) {
+            if (ch === Symbols.Delimiters.Dot) {
                 if (hasDot) return false;
                 hasDot = true;
                 return true;
             }
             return this.isDigit(ch);
         });
-    return { type: "num", value: parseFloat(number).toString() };
+        return { type: Symbols.Tokens.Number, value: parseFloat(number).toString() };
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
         return {
-            type: this.isKeyword(id) ? "kw" : "var",
+            type: this.isKeyword(id) ? Symbols.Tokens.Keyword : Symbols.Tokens.Variable,
             value: id
         };
     }
@@ -65,7 +60,7 @@ class TokenStream implements Stream<Token> {
                 chars.push(ch);
                 escaped = false;
             }
-            else if (ch === this.escapeChar) {
+            else if (ch === Symbols.Delimiters.Escape) {
                 escaped = true;
             }
             else if (ch === end) {
@@ -79,8 +74,8 @@ class TokenStream implements Stream<Token> {
     }
     private readString(): Token {
         return {
-            type: "str",
-            value: this.readEscaped(this.quoteMark)
+            type: Symbols.Tokens.String,
+            value: this.readEscaped(Symbols.Delimiters.Quote)
         };
     }
     private skipComment() {
@@ -97,11 +92,11 @@ class TokenStream implements Stream<Token> {
             return this.readNext();
         }
 
-        if (ch === this.quoteMark) return this.readString();
+        if (ch === Symbols.Delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();
-        if (this.isPunc(ch)) return { type: "punc", value: this.input.next() };
-        if (this.isOpChar(ch)) return { type: "op", value: this.readWhile(ch => this.isOpChar(ch)) };
+        if (this.isPunc(ch)) return { type: Symbols.Tokens.Punctuation, value: this.input.next() };
+        if (this.isOpChar(ch)) return { type: Symbols.Tokens.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
 
         this.input.fail("Unexpected character: "  + ch);
     }

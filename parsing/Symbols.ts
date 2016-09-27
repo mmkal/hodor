@@ -55,7 +55,25 @@ module Symbols {
         values: new Set<string>()
     }
 
-    const symbolClasses: any[] = [Operators, Punctuation, Keywords];
+    export const Tokens = {
+        Number: "num",
+        Boolean: "bool",
+        Keyword: "kw",
+        Variable: "var",
+        String: "str",
+        Punctuation: "punc",
+        Operator: "op",
+        Assign: "assign",
+        Binary: "binary",
+        Call: "call",
+        If: "if",
+        Lambda: "lambda",
+        Program: "prog",
+
+        values: new Set<string>()
+    }
+
+    const symbolClasses: any[] = [Operators, Punctuation, Keywords, Delimiters, Tokens];
 
     symbolClasses.forEach((symbolClass) => {
         const values: string[] = Object

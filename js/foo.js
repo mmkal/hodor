@@ -174,7 +174,7 @@ class Interpreter {
 class Parser {
     constructor(input) {
         this.input = input;
-        this.FALSE = { type: "bool", value: false };
+        this.FALSE = { type: Symbols.Tokens.Boolean, value: false };
         this.PRECEDENCE = {
             "=": 1,
             "||": 2,
@@ -189,15 +189,15 @@ class Parser {
     }
     isPunc(ch) {
         const tok = this.input.peek();
-        return tok && tok.type == "punc" && (!ch || tok.value == ch) && tok;
+        return tok && tok.type == Symbols.Tokens.Punctuation && (!ch || tok.value == ch) && tok;
     }
     isKw(kw) {
         const tok = this.input.peek();
-        return tok && tok.type == "kw" && (!kw || tok.value == kw) && tok;
+        return tok && tok.type == Symbols.Tokens.Keyword && (!kw || tok.value == kw) && tok;
     }
     isOp(op) {
         const tok = this.input.peek();
-        return tok && tok.type == "op" && (!op || tok.value == op) && tok;
+        return tok && tok.type == Symbols.Tokens.Operator && (!op || tok.value == op) && tok;
     }
     skipPunc(ch) {
         if (this.isPunc(ch))
@@ -227,7 +227,7 @@ class Parser {
             if (tokenPrecedence > precedence) {
                 this.input.next();
                 return this.maybeBinary({
-                    type: tok.value === "=" ? "assign" : "binary",
+                    type: tok.value === Symbols.Operators.Assign ? Symbols.Tokens.Assign : Symbols.Tokens.Binary,
                     operator: tok.value,
                     left: left,
                     right: this.maybeBinary(this.parseAtom(), tokenPrecedence)
@@ -258,30 +258,30 @@ class Parser {
     }
     parseCall(func) {
         return {
-            type: "call",
+            type: Symbols.Tokens.Call,
             func: func,
-            args: this.delimited("(", ")", ",", () => this.parseExpression())
+            args: this.delimited(Symbols.Punctuation.OpenParen, Symbols.Punctuation.CloseParen, Symbols.Punctuation.Comma, () => this.parseExpression())
         };
     }
     parseVarName() {
         const name = this.input.next();
-        if (name.type !== "var")
+        if (name.type !== Symbols.Tokens.Variable)
             this.input.fail("Expecting variable name, got " + JSON.stringify(name));
         return name.value;
     }
     parseIf() {
-        this.skipKw("if");
+        this.skipKw(Symbols.Keywords.If);
         const cond = this.parseExpression();
-        if (!this.isPunc("{")) {
-            this.skipKw("then");
+        if (!this.isPunc(Symbols.Punctuation.OpenBlock)) {
+            this.skipKw(Symbols.Keywords.Then);
         }
         const then = this.parseExpression();
         const token = {
-            type: "if",
+            type: Symbols.Keywords.If,
             cond: cond,
             then: then
         };
-        if (this.isKw("else")) {
+        if (this.isKw(Symbols.Keywords.Else)) {
             this.input.next();
             token.else = this.parseExpression();
         }
@@ -289,8 +289,8 @@ class Parser {
     }
     parseLambda() {
         return {
-            type: "lambda",
-            vars: this.delimited("(", ")", ",", () => this.parseVarName()),
+            type: Symbols.Tokens.Lambda,
+            vars: this.delimited(Symbols.Punctuation.OpenParen, Symbols.Punctuation.CloseParen, Symbols.Punctuation.Comma, () => this.parseVarName()),
             body: this.parseExpression()
         };
     }
@@ -308,7 +308,7 @@ class Parser {
                 this.skipPunc(";");
             }
         }
-        return { type: "prog", prog: prog };
+        return { type: Symbols.Tokens.Program, prog: prog };
     }
     parseProg() {
         const prog = this.delimited("{", "}", ";", () => this.parseExpression());
@@ -316,28 +316,28 @@ class Parser {
             return this.FALSE;
         if (prog.length === 1)
             return prog[0];
-        return { type: "prog", prog: prog };
+        return { type: Symbols.Tokens.Program, prog: prog };
     }
     parseAtom() {
         return this.maybeCall(() => {
-            if (this.isPunc("(")) {
+            if (this.isPunc(Symbols.Punctuation.OpenParen)) {
                 this.input.next();
                 const expr = this.parseExpression();
-                this.skipPunc(")");
+                this.skipPunc(Symbols.Punctuation.CloseParen);
                 return expr;
             }
-            if (this.isPunc("{"))
+            if (this.isPunc(Symbols.Punctuation.OpenBlock))
                 return this.parseProg();
-            if (this.isKw("if"))
+            if (this.isKw(Symbols.Keywords.If))
                 return this.parseIf();
-            if (this.isKw("true") || this.isKw("false"))
+            if (this.isKw(Symbols.Keywords.True) || this.isKw(Symbols.Keywords.False))
                 return this.parseBool();
-            if (this.isKw("lambda")) {
+            if (this.isKw(Symbols.Keywords.Lambda)) {
                 this.input.next();
                 return this.parseLambda();
             }
             const tok = this.input.next();
-            if (tok.type === "var" || tok.type === "num" || tok.type === "str") {
+            if (tok.type === Symbols.Tokens.Variable || tok.type === Symbols.Tokens.Number || tok.type === Symbols.Tokens.String) {
                 return tok;
             }
             this.unexpected(tok);
@@ -345,7 +345,7 @@ class Parser {
     }
     maybeCall(expr) {
         const val = expr();
-        return this.isPunc("(") ? this.parseCall(val) : val;
+        return this.isPunc(Symbols.Punctuation.OpenParen) ? this.parseCall(val) : val;
     }
     parseExpression() {
         return this.maybeCall(() => this.maybeBinary(this.parseAtom(), 0));
@@ -400,7 +400,23 @@ var Symbols;
         Dot: ".",
         values: new Set()
     };
-    const symbolClasses = [Symbols.Operators, Symbols.Punctuation, Symbols.Keywords];
+    Symbols.Tokens = {
+        Number: "num",
+        Boolean: "bool",
+        Keyword: "kw",
+        Variable: "var",
+        String: "str",
+        Punctuation: "punc",
+        Operator: "op",
+        Assign: "assign",
+        Binary: "binary",
+        Call: "call",
+        If: "if",
+        Lambda: "lambda",
+        Program: "prog",
+        values: new Set()
+    };
+    const symbolClasses = [Symbols.Operators, Symbols.Punctuation, Symbols.Keywords, Symbols.Delimiters, Symbols.Tokens];
     symbolClasses.forEach((symbolClass) => {
         const values = Object
             .keys(symbolClass)
@@ -414,13 +430,9 @@ class TokenStream {
     constructor(input) {
         this.input = input;
         this.current = null;
-        this.keywords = new Set("if then else lambda λ true false".split(" "));
-        this.escapeChar = "\\";
-        this.quoteMark = "\"";
-        this.dot = ".";
     }
     isKeyword(word) {
-        return this.keywords.has(word);
+        return Symbols.Keywords.values.has(word);
     }
     isDigit(ch) {
         return /[0-9]/i.test(ch);
@@ -433,7 +445,6 @@ class TokenStream {
     }
     isOpChar(ch) {
         return Symbols.Operators.characters.has(ch);
-        //      TODO remove  return "+-*/%=&|<>!".indexOf(ch) >= 0;
     }
     isPunc(ch) {
         return Symbols.Punctuation.values.has(ch);
@@ -451,7 +462,7 @@ class TokenStream {
     readNumber() {
         let hasDot = false;
         const number = this.readWhile(ch => {
-            if (ch === this.dot) {
+            if (ch === Symbols.Delimiters.Dot) {
                 if (hasDot)
                     return false;
                 hasDot = true;
@@ -459,12 +470,12 @@ class TokenStream {
             }
             return this.isDigit(ch);
         });
-        return { type: "num", value: parseFloat(number).toString() };
+        return { type: Symbols.Tokens.Number, value: parseFloat(number).toString() };
     }
     readIdent() {
         const id = this.readWhile(ch => this.isId(ch));
         return {
-            type: this.isKeyword(id) ? "kw" : "var",
+            type: this.isKeyword(id) ? Symbols.Tokens.Keyword : Symbols.Tokens.Variable,
             value: id
         };
     }
@@ -477,7 +488,7 @@ class TokenStream {
                 chars.push(ch);
                 escaped = false;
             }
-            else if (ch === this.escapeChar) {
+            else if (ch === Symbols.Delimiters.Escape) {
                 escaped = true;
             }
             else if (ch === end) {
@@ -491,8 +502,8 @@ class TokenStream {
     }
     readString() {
         return {
-            type: "str",
-            value: this.readEscaped(this.quoteMark)
+            type: Symbols.Tokens.String,
+            value: this.readEscaped(Symbols.Delimiters.Quote)
         };
     }
     skipComment() {
@@ -508,16 +519,16 @@ class TokenStream {
             this.skipComment();
             return this.readNext();
         }
-        if (ch === this.quoteMark)
+        if (ch === Symbols.Delimiters.Quote)
             return this.readString();
         if (this.isDigit(ch))
             return this.readNumber();
         if (this.isIdStart(ch))
             return this.readIdent();
         if (this.isPunc(ch))
-            return { type: "punc", value: this.input.next() };
+            return { type: Symbols.Tokens.Punctuation, value: this.input.next() };
         if (this.isOpChar(ch))
-            return { type: "op", value: this.readWhile(ch => this.isOpChar(ch)) };
+            return { type: Symbols.Tokens.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
         this.input.fail("Unexpected character: " + ch);
     }
     peek() {
