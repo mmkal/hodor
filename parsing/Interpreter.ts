@@ -34,10 +34,7 @@ class Interpreter {
                 return exp.else ? this.evaluate(exp.else) : false;
 
             case Symbols.Tokens.Program:
-                // TODO reduce
-                let val = false;
-                exp.prog.forEach(exp => val = this.evaluate(exp));
-                return val;
+                return exp.prog.reduce((prev, currentToken) => this.evaluate(currentToken), false);
 
             case Symbols.Tokens.Call:
                 const func = this.evaluate(exp.func);

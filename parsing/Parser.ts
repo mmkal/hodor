@@ -51,7 +51,7 @@ class Parser {
         if (this.isOp(op)) this.input.next();
         else this.input.fail("Expecting operator: \"" + op + "\"");
     }
-    private unexpected(tok?: Token) { // TODO does my tok?: Token bit make sense?
+    private unexpected(tok?: Token) {
         this.input.fail("Unexpected token: " + JSON.stringify(tok || this.input.peek()));
     }
     private maybeBinary(left: Token, precedence: number): Token {
