@@ -10,4 +10,6 @@ interface Token {
     func?: Token;
     args?: Token[];
     prog?: Token[];
+    vars?: Token[];
+    body?: Token;
 }

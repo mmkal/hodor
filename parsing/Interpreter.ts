@@ -91,7 +91,7 @@ class Interpreter {
         throw new Error("Can't apply operator " + op);
     }
 
-    makeLambda(exp: any) { // TODO exp should be Token
+    makeLambda(exp: any) {
         const _this = this;
         return function() {
             const names: any[] = exp.vars;
@@ -104,15 +104,4 @@ class Interpreter {
             return scope.evaluate(exp.body);
         };
     }
-
-    // makeLambda(env: Environment, exp: any) { // TODO exp should be Token
-    //     var lambda = function() { // TODO why declare and then return function?
-    //         var names = exp.vars;
-    //         var scope = env.extend();
-    //         for (var i = 0; i < names.length; ++i)
-    //             scope.def(names[i], i < arguments.length ? arguments[i] : false);
-    //         return this.evaluate(exp.body, scope);
-    //     }.bind(this);
-    //     return lambda;   
-    // }
 }

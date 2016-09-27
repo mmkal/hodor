@@ -182,12 +182,20 @@ class Parser {
         this.input = input;
         this.FALSE = { type: Symbols.Tokens.Boolean, value: false };
         this.PRECEDENCE = {
-            "=": 1,
-            "||": 2,
-            "&&": 3,
-            "<": 7, ">": 7, "<=": 7, ">=": 7, "==": 7, "!=": 7,
-            "+": 10, "-": 10,
-            "*": 20, "/": 20, "%": 20,
+            [Symbols.Operators.Assign]: 1,
+            [Symbols.Operators.Or]: 2,
+            [Symbols.Operators.And]: 3,
+            [Symbols.Operators.LessThan]: 7,
+            [Symbols.Operators.GreaterThan]: 7,
+            [Symbols.Operators.Leq]: 7,
+            [Symbols.Operators.Geq]: 7,
+            [Symbols.Operators.EqualTo]: 7,
+            [Symbols.Operators.NotEqualTo]: 7,
+            [Symbols.Operators.Plus]: 10,
+            [Symbols.Operators.Minus]: 10,
+            [Symbols.Operators.Multiply]: 20,
+            [Symbols.Operators.Divide]: 20,
+            [Symbols.Operators.Modulo]: 20
         };
     }
     parse() {
@@ -302,8 +310,8 @@ class Parser {
     }
     parseBool() {
         return {
-            type: "bool",
-            value: this.input.next().value === "true"
+            type: Symbols.Tokens.Boolean,
+            value: this.input.next().value === Symbols.Keywords.True
         };
     }
     parseTopLevel() {
@@ -311,13 +319,13 @@ class Parser {
         while (!this.input.eof()) {
             prog.push(this.parseExpression());
             if (!this.input.eof()) {
-                this.skipPunc(";");
+                this.skipPunc(Symbols.Punctuation.EndExpression);
             }
         }
         return { type: Symbols.Tokens.Program, prog: prog };
     }
     parseProg() {
-        const prog = this.delimited("{", "}", ";", () => this.parseExpression());
+        const prog = this.delimited(Symbols.Punctuation.OpenBlock, Symbols.Punctuation.CloseBlock, Symbols.Punctuation.EndExpression, () => this.parseExpression());
         if (prog.length === 0)
             return this.FALSE;
         if (prog.length === 1)
