@@ -24,7 +24,14 @@ class Parser {
     }
 
     parse() {
-        return this.parseTopLevel();
+        const prog = new Array<Token>();
+        while (!this.input.eof()) {
+            prog.push(this.parseExpression());
+            if (!this.input.eof()) {
+                this.skipPunc(Symbols.Punctuation.EndExpression);
+            }
+        }
+        return { type: Symbols.Tokens.Program, prog: prog };
     }
 
     private isPunc(ch: string) {
@@ -139,16 +146,6 @@ class Parser {
             type: Symbols.Tokens.Boolean,
             value: this.input.next().value === Symbols.Keywords.True
         };
-    }
-    private parseTopLevel(): Token {
-        const prog = new Array<Token>();
-        while (!this.input.eof()) {
-            prog.push(this.parseExpression());
-            if (!this.input.eof()) {
-                this.skipPunc(Symbols.Punctuation.EndExpression);
-            }
-        }
-        return { type: Symbols.Tokens.Program, prog: prog };
     }
 
     private parseProg(): Token {

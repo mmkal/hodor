@@ -196,7 +196,14 @@ class Parser {
         };
     }
     parse() {
-        return this.parseTopLevel();
+        const prog = new Array();
+        while (!this.input.eof()) {
+            prog.push(this.parseExpression());
+            if (!this.input.eof()) {
+                this.skipPunc(Symbols.Punctuation.EndExpression);
+            }
+        }
+        return { type: Symbols.Tokens.Program, prog: prog };
     }
     isPunc(ch) {
         const tok = this.input.peek();
@@ -310,16 +317,6 @@ class Parser {
             type: Symbols.Tokens.Boolean,
             value: this.input.next().value === Symbols.Keywords.True
         };
-    }
-    parseTopLevel() {
-        const prog = new Array();
-        while (!this.input.eof()) {
-            prog.push(this.parseExpression());
-            if (!this.input.eof()) {
-                this.skipPunc(Symbols.Punctuation.EndExpression);
-            }
-        }
-        return { type: Symbols.Tokens.Program, prog: prog };
     }
     parseProg() {
         const prog = this.delimited(Symbols.Punctuation.OpenBlock, Symbols.Punctuation.CloseBlock, Symbols.Punctuation.EndExpression, () => this.parseExpression());
