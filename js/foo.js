@@ -84,39 +84,39 @@ class Interpreter {
     }
     evaluate(exp) {
         switch (exp.type) {
-            case "num":
+            case Symbols.Tokens.Number:
                 return this.primitive(exp.value, "number");
-            case "bool":
+            case Symbols.Tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
-            case "str":
+            case Symbols.Tokens.String:
                 return exp.value;
-            case "var":
+            case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);
-            case "assign":
+            case Symbols.Tokens.Assign:
                 if (exp.left.type !== "var") {
                     throw new Error("Canoot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
-            case "binary":
+            case Symbols.Tokens.Binary:
                 return this.applyOp(exp.operator, this.evaluate(exp.left), this.evaluate(exp.right));
-            case "lambda":
+            case Symbols.Tokens.Lambda:
                 return this.makeLambda(exp);
-            case "if":
+            case Symbols.Tokens.If:
                 const cond = this.evaluate(exp.cond);
                 if (cond !== false) {
                     return this.evaluate(exp.then);
                 }
                 return exp.else ? this.evaluate(exp.else) : false;
-            case "prog":
+            case Symbols.Tokens.Program:
                 // TODO reduce
                 let val = false;
                 exp.prog.forEach(exp => val = this.evaluate(exp));
                 return val;
-            case "call":
+            case Symbols.Tokens.Call:
                 const func = this.evaluate(exp.func);
                 return func.apply(null, exp.args.map(arg => this.evaluate(arg)));
             default:
-                throw new Error("I don't know how to evaluate " + exp.type);
+                throw new Error("Invalid token type: " + exp.type);
         }
     }
     primitive(value, type) {
@@ -147,19 +147,19 @@ class Interpreter {
             return x;
         }
         switch (op) {
-            case "+": return num(a) + num(b);
-            case "-": return num(a) - num(b);
-            case "*": return num(a) * num(b);
-            case "/": return num(a) / div(b);
-            case "%": return num(a) % div(b);
-            case "&&": return a !== false && b;
-            case "||": return a !== false ? a : b;
-            case "<": return num(a) < num(b);
-            case ">": return num(a) > num(b);
-            case "<=": return num(a) <= num(b);
-            case ">=": return num(a) >= num(b);
-            case "==": return a === b;
-            case "!=": return a !== b;
+            case Symbols.Operators.Plus: return num(a) + num(b);
+            case Symbols.Operators.Minus: return num(a) - num(b);
+            case Symbols.Operators.Multiply: return num(a) * num(b);
+            case Symbols.Operators.Divide: return num(a) / div(b);
+            case Symbols.Operators.Modulo: return num(a) % div(b);
+            case Symbols.Operators.And: return a !== false && b;
+            case Symbols.Operators.Or: return a !== false ? a : b;
+            case Symbols.Operators.LessThan: return num(a) < num(b);
+            case Symbols.Operators.GreaterThan: return num(a) > num(b);
+            case Symbols.Operators.Leq: return num(a) <= num(b);
+            case Symbols.Operators.Geq: return num(a) >= num(b);
+            case Symbols.Operators.EqualTo: return a === b;
+            case Symbols.Operators.NotEqualTo: return a !== b;
         }
         throw new Error("Can't apply operator " + op);
     }
