@@ -13,7 +13,7 @@ import fs = require("fs");
     "Hodor.",
     "Hodor!",
     "Hodor?",
-    "// If the token started with spaces, the spaces may been incorporated by the first Hodorish token.",
+    "// It rubs the lotion on its skin, or else it gets the hose again.",
     fs.readFileSync("package.json", "utf8")
 ].forEach(original => {
     test("Hodor then Wylis returns original: " + original.substring(0, (original + "\n").indexOf("\n")), t => {

@@ -2,9 +2,12 @@ import test from "../great-ape";
 import fs = require("fs");
 import Environment from "../../lang/Environment";
 import Interpreter from "../../lang/Interpreter";
+import glob = require("glob");
 
-test("Hodor script should not throw", t => {
-    const code = fs.readFileSync("test/lang/hodor.hodor", "utf8");
-    const interpreter = new Environment().withConsoleLogger().createInterpreter();
-    t.doesNotThrow(() => interpreter.execute(code));
-});
+glob("test/**/*.hodor", (err, matches) => matches.forEach(filename => {
+    test("Hodor script should not throw for file " + filename, t => {
+        const code = fs.readFileSync(filename, "utf8");
+        const interpreter = new Environment().withConsoleLogger().createInterpreter();
+        t.doesNotThrow(() => interpreter.execute(code));
+    });
+}));
