@@ -81,7 +81,7 @@ export default class Interpreter {
             return x;
         }
         switch (op) {
-            case Symbols.Operators.Plus: return num(a) + num(b);
+            case Symbols.Operators.Plus: return a + b;
             case Symbols.Operators.Minus: return num(a) - num(b);
             case Symbols.Operators.Multiply: return num(a) * num(b);
             case Symbols.Operators.Divide: return num(a) / div(b);

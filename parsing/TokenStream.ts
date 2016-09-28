@@ -58,6 +58,7 @@ export default class TokenStream implements Stream<Token> {
     private readEscaped(end: string) {
         let escaped = false;
         let chars: string[] = [];
+        this.input.next();
         while (!this.input.eof()) {
             const ch = this.input.next();
             if (escaped) {
