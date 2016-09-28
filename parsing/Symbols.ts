@@ -1,6 +1,4 @@
 abstract class SymbolSet {
-    abstract tokenType(): string;
-
     private _values: Set<string>;
     public get values() {
         if (!this._values) {
@@ -12,8 +10,6 @@ abstract class SymbolSet {
 }
 
 class Keywords extends SymbolSet {
-    tokenType() { return Symbols.Tokens.Keyword; }
-
     If = "if";
     Then = "then";
     Else = "else";
@@ -23,8 +19,6 @@ class Keywords extends SymbolSet {
 }
 
 class Operators extends SymbolSet {
-    tokenType() { return Symbols.Tokens.Operator; }
-
     Assign = "=";
     Or = "or";
     And = "and";
@@ -41,14 +35,12 @@ class Operators extends SymbolSet {
     Modulo = "%";
 
     get identifyingCharacters() {
-        // TODO remove. I don't like relying on the first character to identify an operator.
+        // Consider removing. I don't like relying on the first character to identify an operator.
         return new Set([...this.values.values()].map(v => v.charAt(0)).filter(c => /[^a-z]/.test(c)));
     }
 }
 
 class Punctuation extends SymbolSet {
-    tokenType() { return Symbols.Tokens.Punctuation; }
-
     OpenBlock = "{";
     CloseBlock = "}";
     OpenBrace = "[";
@@ -60,16 +52,12 @@ class Punctuation extends SymbolSet {
 };
 
 class Delimiters extends SymbolSet {
-    tokenType(): string { throw new Error("No \"delimiter\" token type"); }
-
     Escape = "\\";
     Quote = "\"";
     Dot = ".";
 }
 
 class Tokens extends SymbolSet {
-    tokenType(): string { throw new Error("No \"token\" token type"); }
-
     Number = "num";
     Boolean = "bool";
     Keyword = "kw";
