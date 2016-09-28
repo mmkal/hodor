@@ -1,11 +1,12 @@
-enum MorseUnit {
-    Dot,
-    Dash
-}
-
 export module Transpiler {
+    enum MorseUnit {
+        Dot,
+        Dash
+    }
+
     const _hodors = BuildHodors();
     const _nodors = BuildNodors();
+    const _nodorKeys = Object.keys(_nodors).sort((k1, k2) => k2.length - k1.length);
 
     const _beforeHodor = "Ho-dor? ";
     const _afterHodor = " Ho-dor!";
@@ -48,47 +49,51 @@ export module Transpiler {
         const splitRegex = `(${escapeRegExp(_beforeHodor)})|(${escapeRegExp(_afterHodor)})`;
         return hodor
             .split(new RegExp(splitRegex))
+            .filter(hodorToken => typeof hodorToken !== "undefined" && hodorToken !== _beforeHodor && hodorToken !== _afterHodor)
             .map(hodorToken => {
-                const handledIndexes: { [indexes: string]: string } = {};
-                Object
-                    .keys(_nodors)
-                    .sort((k1, k2) => k2.length - k1.length)
-                    .forEach(nodor => {
-                        const nodorRegex = new RegExp(escapeRegExp(nodor), "gm");
-                        const indexes = new Array<number>(); 
-                        
-                        let match: RegExpExecArray;
-                        while ((match = nodorRegex.exec(hodorToken)) !== null) {
-                            indexes.push(match.index);
-                        }
+                const replacements = getWylisReplacements(hodorToken);
 
-                        indexes.forEach(index => {
-                            const overlapping = Object
-                                .keys(handledIndexes)
-                                .map(k => JSON.parse(k))
-                                .some((tuple: number[]) => index >= tuple[0] && index < tuple[1]);
-                            
-                            if (overlapping) return;
+                Object.keys(replacements)
+                    .map(k => JSON.parse(k))
+                    .sort((left, right) => right[0] - left[0])
+                    .forEach(tuple => {
+                        const before = hodorToken.substring(0, tuple[0]);
+                        const after = hodorToken.substring(tuple[1]);
 
-                            const key = JSON.stringify([index, index + nodor.length]);
-                            handledIndexes[key] = _nodors[nodor];
-                        });
+                        hodorToken = before + replacements[JSON.stringify(tuple)] + after;
                     });
 
-                    Object
-                        .keys(handledIndexes)
-                        .map(k => JSON.parse(k))
-                        .sort((left, right) => right[0] - left[0])
-                        .forEach(tuple => {
-                            const before = hodorToken.substring(0, tuple[0]);
-                            const after = hodorToken.substring(tuple[1]);
-
-                            hodorToken = before + handledIndexes[JSON.stringify(tuple)] + after;
-                        });
-
-                    return hodorToken;
+                return hodorToken;
             })
             .join("");
+    }
+
+    function getWylisReplacements(hodorToken: string) {
+        const replacements: { [key: string]: string } = {};
+        _nodorKeys
+            .forEach(nodor => {
+                const nodorRegex = new RegExp(escapeRegExp(nodor), "gm");
+                const indexes = new Array<number>(); 
+                
+                let match: RegExpExecArray;
+                while ((match = nodorRegex.exec(hodorToken)) !== null) {
+                    indexes.push(match.index);
+                }
+
+                indexes.forEach(index => {
+                    const overlapping = Object
+                        .keys(replacements)
+                        .map(k => JSON.parse(k))
+                        .some((tuple: number[]) => index >= tuple[0] && index < tuple[1]);
+                    
+                    if (overlapping) return;
+
+                    const key = JSON.stringify([index, index + nodor.length]);
+                    replacements[key] = _nodors[nodor];
+                });
+            });
+
+        return replacements;
     }
 
     function ParseMorseUnit(symbol: string) {
@@ -162,7 +167,12 @@ export module Transpiler {
 
     function BuildNodors() {
         const nodors: { [key: string]: string } = {};
-        Object.keys(_hodors).forEach(k => nodors[_hodors[k]] = k);
+        Object.keys(_hodors).forEach(k => {
+            const key = _hodors[k];
+            const value = k;
+            nodors[key] = value;
+            nodors[" " + key] = value;
+        });
         return nodors;
     }
 }
