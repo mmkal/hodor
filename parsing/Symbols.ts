@@ -14,14 +14,14 @@ class Keywords extends SymbolSet {
     Then = "Hodor!";
     Else = "Hodor!!";
     Lambda = "Hodor";
-    True = "HODOR!";
+    True = "HODOR";
     False = "hodor";
 }
 
 class Operators extends SymbolSet {
     Assign = "=";
-    Or = "or";
-    And = "and";
+    Or = "Hod-or";
+    And = "Ho-dor";
     LessThan = "<";
     GreaterThan = ">";
     Leq = "<=";
