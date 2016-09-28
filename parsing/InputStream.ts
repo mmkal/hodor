@@ -30,6 +30,15 @@ export default class InputStream implements Stream<string> {
     }
 
     fail(message: any) {
-        throw new Error(`${message} (${this.line}:${this.column})."`);
+        const line = this.input.split("\n")[this.line - 1];
+        const part1 = line.substring(0, this.column);
+        const part2 = line.substring(this.column);
+
+        const explanation = part1 + " >>> " +  line[this.column] + " <<< " + part2;
+        
+        const err = `${message} (${this.line}:${this.column}).\n${explanation}"`;
+
+        console.error(err);
+        throw new Error(err);
     }
 }

@@ -11,11 +11,11 @@ abstract class SymbolSet {
 
 class Keywords extends SymbolSet {
     If = "Hodor?";
-    Then = "then";
-    Else = "else";
-    Lambda = "lambda";
-    True = "true";
-    False = "false";
+    Then = "Hodor!";
+    Else = "Hodor!!";
+    Lambda = "Hodor";
+    True = "HODOR!";
+    False = "hodor";
 }
 
 class Operators extends SymbolSet {
