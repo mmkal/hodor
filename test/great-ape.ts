@@ -1,4 +1,7 @@
 import tape = require("tape");
+const tapSpec = require("tap-spec");
+
+tape.createStream().pipe(tapSpec()).pipe(process.stdout);
 
 interface PromiseCase {
 	(t: tape.Test): void | Promise<{}>;
