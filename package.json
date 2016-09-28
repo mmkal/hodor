@@ -1,7 +1,7 @@
 {
   "name": "hodor",
   "version": "0.0.1",
-  "description": "Hodor",
+  "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "hodor.hodor",
   "scripts": {
     "test": "hodor"
