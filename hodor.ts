@@ -17,4 +17,6 @@ run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
-run("and = lambda(x, y) if x > y then x else y; print(and(2, 3));");
+run("sum = lambda(x, y) if (x > y and x > 0) then x else y; print(sum(2, 3));");
+run("sum = lambda(x, y) if (x > y and x > 0) then x else y; print(sum(5, 3));");
+run("sum = lambda(x, y) if (x > y and x > 3) then x else y; print(sum(2, 1));");

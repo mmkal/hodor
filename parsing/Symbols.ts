@@ -26,8 +26,8 @@ class Operators extends SymbolSet {
     tokenType() { return Symbols.Tokens.Operator; }
 
     Assign = "=";
-    Or = "||";
-    And = "&&";
+    Or = "or";
+    And = "and";
     LessThan = "<";
     GreaterThan = ">";
     Leq = "<=";
@@ -40,9 +40,9 @@ class Operators extends SymbolSet {
     Divide = "/";
     Modulo = "%";
 
-    get characters() {
+    get identifyingCharacters() {
         // TODO remove. I don't like relying on the first character to identify an operator.
-        return new Set([...this.values.values()].map(v => v.charAt(0)));
+        return new Set([...this.values.values()].map(v => v.charAt(0)).filter(c => /[^a-z]/.test(c)));
     }
 }
 

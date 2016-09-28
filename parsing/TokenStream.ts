@@ -7,9 +7,6 @@ export default class TokenStream implements Stream<Token> {
     constructor(public input: InputStream) {
     }
 
-    private isKeyword(word: string) {
-        return Symbols.Keywords.values.has(word);
-    }
     private isDigit(ch: string) {
         return /[0-9]/i.test(ch);
     }
@@ -20,7 +17,7 @@ export default class TokenStream implements Stream<Token> {
         return this.isIdStart(ch) || "?!-<>=0123456789".indexOf(ch) >= 0;
     }
     private isOpChar(ch: string) {
-        return Symbols.Operators.characters.has(ch);
+        return Symbols.Operators.identifyingCharacters.has(ch);
     }
     private isPunc(ch: string) {
         return Symbols.Punctuation.values.has(ch);
@@ -49,8 +46,12 @@ export default class TokenStream implements Stream<Token> {
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
+        const type
+            = Symbols.Keywords.values.has(id)   ? Symbols.Tokens.Keyword
+            : Symbols.Operators.values.has(id)  ? Symbols.Tokens.Operator
+                                                : Symbols.Tokens.Variable;
         return {
-            type: this.isKeyword(id) ? Symbols.Tokens.Keyword : Symbols.Tokens.Variable,
+            type: type,
             value: id
         };
     }
