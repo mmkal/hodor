@@ -1,4 +1,7 @@
-class Parser {
+import Symbols from "./Symbols"
+import TokenStream from "./TokenStream"
+
+export default class Parser {
     private FALSE : Token = { type: Symbols.Tokens.Boolean, value: false };
     private PRECEDENCE: { [key: string]: number } = {
         [Symbols.Operators.Assign]: 1,

@@ -4,6 +4,6 @@
         "module": "commonjs",
         "sourceMap": true,
         "noImplicitAny": true,
-        "outFile": "js/foo.js"
+        "outDir": "js"
     }
 }

@@ -1,4 +1,4 @@
-class InputStream implements Stream<string> {
+export default class InputStream implements Stream<string> {
     private position = 0;
     private line = 1;
     private column = 0;

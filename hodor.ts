@@ -1,8 +1,9 @@
+import Environment from "./parsing/Environment"
+import Interpreter from "./parsing/Interpreter"
+
 declare var process: any, require: any;
 
-setTimeout(function() {
-
-var globalEnv = new Environment();
+const globalEnv = new Environment();
 
 // define the "print" primitive function
 globalEnv.def("print", function(txt: any){
@@ -13,5 +14,7 @@ function run(code: string) {
 }
 
 run("sum = lambda(x, y) x + y; print(sum(2, 3));");
-
-}, 0);
+run("sum = lambda(x, y) x + y; print(sum(2, 3));");
+run("sum = lambda(x, y) x + y; print(sum(2, 3));");
+run("sum = lambda(x, y) x + y; print(sum(2, 3));");
+run("and = lambda(x, y) if x > y then x else y; print(and(2, 3));");

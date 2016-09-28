@@ -1,4 +1,7 @@
-class TokenStream implements Stream<Token> {
+import InputStream from "./InputStream"
+import Symbols from "./Symbols"
+
+export default class TokenStream implements Stream<Token> {
     private current: Token = null;
 
     constructor(public input: InputStream) {

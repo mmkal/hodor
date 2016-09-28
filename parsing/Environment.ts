@@ -1,4 +1,4 @@
-class Environment {
+export default class Environment {
     public vars: { [key: string]: boolean };
     public parent: Environment;
 

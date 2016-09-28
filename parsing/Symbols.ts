@@ -1,9 +1,5 @@
-module Symbols {
-    function values(symbolClass: { [key: string]: string }) {
-        return new Set(Object.keys(symbolClass).map(k => symbolClass[k]));
-    }
-
-    export const Operators = {
+export default class Symbols {
+    static Operators = {
         Assign: "=",
         Or: "||",
         And: "&&",
@@ -23,7 +19,7 @@ module Symbols {
         characters: new Set<string>()
     };
 
-    export const Punctuation = {
+    static Punctuation = {
         OpenBlock: "{",
         CloseBlock: "}",
         OpenBrace: "[",
@@ -36,7 +32,7 @@ module Symbols {
         values: new Set<string>()
     };
 
-    export const Keywords = {
+    static Keywords = {
         If: "if",
         Then: "then",
         Else: "else",
@@ -47,7 +43,7 @@ module Symbols {
         values: new Set<string>()
     };
 
-    export const Delimiters = {
+    static Delimiters = {
         Escape: "\\",
         Quote: "\"",
         Dot: ".",
@@ -55,7 +51,7 @@ module Symbols {
         values: new Set<string>()
     }
 
-    export const Tokens = {
+    static Tokens = {
         Number: "num",
         Boolean: "bool",
         Keyword: "kw",
@@ -72,15 +68,21 @@ module Symbols {
 
         values: new Set<string>()
     }
+}
 
-    const symbolClasses: any[] = [Operators, Punctuation, Keywords, Delimiters, Tokens];
-
-    symbolClasses.forEach((symbolClass) => {
+Object
+    .keys(Symbols)
+    .map(k => {
+        const symbols: any = Symbols;
+        return symbols[k];
+    })
+    .filter(value => value.hasOwnProperty("values"))
+    .forEach((symbolClass) => {
         const values: string[] = Object
             .keys(symbolClass)
             .map(k => symbolClass[k])
             .filter(v => typeof v === "string");
+        
         symbolClass.values = new Set(values);
         symbolClass.characters = new Set(values.map(v => v.charAt(0)));
     });
-}
