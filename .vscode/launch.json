@@ -22,26 +22,6 @@
             "outDir": "${workspaceRoot}/js"
         },
         {
-            "name": "Lisperator",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceRoot}/lisperator.js",
-            "stopOnEntry": false,
-            "args": [],
-            "cwd": "${workspaceRoot}",
-            "preLaunchTask": null,
-            "runtimeExecutable": null,
-            "runtimeArgs": [
-                "--nolazy"
-            ],
-            "env": {
-                "NODE_ENV": "development"
-            },
-            "console": "internalConsole",
-            "sourceMaps": false,
-            "outDir": null
-        },
-        {
             "name": "Attach",
             "type": "node",
             "request": "attach",
