@@ -81,9 +81,10 @@ export default class Parser {
         return left;
     }
     private delimited(start: string, stop: string, separator: string, parser: () => Token) {
-        const a: Token[] = [];
+        const tokens = new Array<Token>();
         let first = true;
         this.skipPunc(start);
+        
         while (!this.input.eof()) {
             if (this.isPunc(stop)) break;
             if (first) {
@@ -94,10 +95,10 @@ export default class Parser {
             }
             if (this.isPunc(stop)) break;
 
-            a.push(parser());
+            tokens.push(parser());
         }
         this.skipPunc(stop);
-        return a;
+        return tokens;
     }
     private parseCall(func: Token): Token {
         return {
