@@ -23,7 +23,7 @@ export default class TokenStream implements Stream<Token> {
         return Symbols.Punctuation.values.has(ch);
     }
     private isWhitespace(ch: string) {
-        return " \t\n".indexOf(ch) >= 0;
+        return " \r\t\n".indexOf(ch) >= 0;
     }
     private readWhile(predicate: (char: string) => boolean) {
         const chars: string[] = [];
