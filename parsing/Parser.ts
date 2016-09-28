@@ -84,7 +84,7 @@ export default class Parser {
         const tokens = new Array<Token>();
         let first = true;
         this.skipPunc(start);
-        
+
         while (!this.input.eof()) {
             if (this.isPunc(stop)) break;
             if (first) {
@@ -124,7 +124,7 @@ export default class Parser {
         }
         const then = this.parseExpression();
         const token: Token = {
-            type: Symbols.Keywords.If,
+            type: Symbols.Tokens.If,
             cond: cond,
             then: then
         };

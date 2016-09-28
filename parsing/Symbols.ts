@@ -10,7 +10,7 @@ abstract class SymbolSet {
 }
 
 class Keywords extends SymbolSet {
-    If = "if";
+    If = "Hodor?";
     Then = "then";
     Else = "else";
     Lambda = "lambda";
