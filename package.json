@@ -4,11 +4,14 @@
   "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "hodor.hodor",
   "scripts": {
-    "test": "hodor"
+    "test": "tape js/test/**/*.js"
   },
   "keywords": [
     "hodor"
   ],
   "author": "mmkal",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "tape": "^4.6.0"
+  }
 }

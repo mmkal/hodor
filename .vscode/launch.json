@@ -22,6 +22,26 @@
             "outDir": "${workspaceRoot}/js"
         },
         {
+            "name": "Test",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/test/hodor/Transpiler.ts",
+            "stopOnEntry": false,
+            "args": ["hodor.hodor"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "outDir": "${workspaceRoot}/js"
+        },
+        {
             "name": "Attach",
             "type": "node",
             "request": "attach",
