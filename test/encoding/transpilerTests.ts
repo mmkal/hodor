@@ -1,4 +1,4 @@
-import { Transpiler } from "../../hodor/transpiler";
+import { Transpiler } from "../../encoding/transpiler";
 import test from "../great-ape";
 import fs = require("fs");
 
@@ -14,7 +14,7 @@ import fs = require("fs");
     "Hodor!",
     "Hodor?",
     "// If the token started with spaces, the spaces may been incorporated by the first Hodorish token.",
-    fs.readFileSync("test/hodor/Transpiler.ts", "utf8") // This file!
+    fs.readFileSync("package.json", "utf8")
 ].forEach(original => {
     test("Hodor then Wylis returns original: " + original.substring(0, (original + "\n").indexOf("\n")), t => {
         const hodor = Transpiler.Hodor(original);

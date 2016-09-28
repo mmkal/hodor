@@ -1,3 +1,5 @@
+import Interpreter from "./Interpreter";
+
 export default class Environment {
     public vars: { [key: string]: boolean };
     public parent: Environment;
@@ -35,5 +37,21 @@ export default class Environment {
     }
     def (name: string, value: any) {
         return this.vars[name] = value;
+    }
+
+    withConsoleLogger(print: string = "print") {
+        this.def(print, (txt: any) => console.log(txt));
+        return this;
+    }
+
+    withFileIO(readFile: string = "readFile", writeFile: string = "writeFile") {
+        const fs = require("fs");
+        this.def(readFile, (path: string) => fs.readFileSync(path, "utf8"));
+        this.def(writeFile, (path: string, text: string) => fs.writeFileSync(path, text, { encoding: "utf8" }));
+        return this;
+    }
+
+    createInterpreter() {
+        return new Interpreter(this);
     }
 }
