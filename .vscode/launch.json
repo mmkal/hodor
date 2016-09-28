@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/hodor.ts",
             "stopOnEntry": false,
-            "args": [],
+            "args": ["hodor.hodor"],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
