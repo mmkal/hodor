@@ -3,6 +3,7 @@ import Environment from "./Environment"
 import Parser from "./Parser"
 import TokenStream from "./TokenStream"
 import InputStream from "./InputStream"
+import { Transpiler } from "../encoding/Transpiler";
 
 export default class Interpreter {
     constructor(public env: Environment) {
@@ -19,7 +20,7 @@ export default class Interpreter {
             case Symbols.Tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
             case Symbols.Tokens.String:
-                return exp.value;
+                return this.wylis(exp.value);
 
             case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);
@@ -55,7 +56,18 @@ export default class Interpreter {
         }
     }
 
-    primitive(value: any, type: string) {
+    private wylis(hodor: string) {
+        const wylis = Transpiler.Wylis(hodor);
+        if (Transpiler.Hodor(wylis) !== hodor) {
+            throw new Error(`String ${hodor} is not correctly hodorised.`);
+        }
+        return wylis;
+    }
+
+    private primitive(value: any, type: string) {
+        if (typeof value === type) {
+            return value;
+        }
         if (type !== "number" && type !== "boolean") {
             throw new Error(type + " is not a primitive type.");
         }

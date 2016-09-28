@@ -1,5 +1,8 @@
-sum = Hodor(x, y) Hodor? (x > y Ho-dor x > 3) Hodor! HODOR Hodor!! hodor; print(sum(2, 1));
-sum = Hodor(x, y) (x > y Ho-dor x > 3); print(sum(2, 1));
+biggerThanOtherAndAlsoThree = Hodor(x, y) Hodor? (x > y Ho-dor x > 3) Hodor! HODOR Hodor!! hodor;
+print(biggerThanOtherAndAlsoThree(2, 1));
 
-foo = Hodor(msg) "Hello I am a text " + msg; 
-print(foo("bob"));
+biggerThanOtherAndAlsoThree = Hodor(x, y) (x > y Ho-dor x > 3);
+print(biggerThanOtherAndAlsoThree(2, 1));
+
+addToT = Hodor(msg) "HODOR! Ho-dor! " + msg; 
+print(addToT("Hodor."));

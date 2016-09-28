@@ -3,6 +3,7 @@
   "dependencies": {},
   "globalDependencies": {
     "glob": "registry:dt/glob#5.0.10+20160317120654",
+    "minimatch": "registry:dt/minimatch#2.0.8+20160317120654",
     "node": "registry:dt/node#6.0.0+20160925070332",
     "tape": "registry:dt/tape#4.2.2+20160317120654"
   }
