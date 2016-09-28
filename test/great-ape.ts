@@ -19,13 +19,13 @@ function greatApe() {
 		cb = arguments[0];
 	}
 	else if (arguments.length === 2) {
-		cb = arguments[1];
 		if (typeof arguments[0] === "string") {
 			name = arguments[0];
 		}
 		else {
 			opts = arguments[0];
 		}
+		cb = arguments[1];
 	}
 	else {
 		name = arguments[0];
@@ -38,18 +38,15 @@ function greatApe() {
 	if (name && typeof name !== "string") {
 		throw new TypeError(`Test name should be a string, instead it's ${typeof name}`);
 	}
-	tape(name, opts, createTapeCallback(cb));
-}
-
-function createTapeCallback(cb: PromiseCase) {
-	return async (t: tape.Test) => {
-        try {
-            await cb(t);
-        } catch (e) {
-            t.fail(e && e.toString());
-        }
-        t.end();
-    }
+	tape(name, opts, async (t: tape.Test) => {
+		try {
+			await cb(t);
+		}
+		catch (e) {
+			t.fail(e && e.toString());
+		}
+		t.end();
+	});
 }
 
 export default greatApe;
