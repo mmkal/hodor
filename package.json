@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
     "build": "tsc -p .",
-    "pretest": "npm build",
+    "pretest": "npm run build",
     "test": "tape js/test/**/*.js | tap-dot"
   },
   "keywords": [
