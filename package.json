@@ -4,6 +4,8 @@
   "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "hodor.hodor",
   "scripts": {
+    "foo": "echo foo",
+    "bar": "echo bar",
     "test": "tape js/test/**/*.js"
   },
   "keywords": [
@@ -14,6 +16,7 @@
   "devDependencies": {
     "glob": "^7.1.0",
     "tap-spec": "^4.1.1",
-    "tape": "^4.6.0"
+    "tape": "^4.6.0",
+    "tape-watch": "^2.2.3"
   }
 }
