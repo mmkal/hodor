@@ -1,7 +1,7 @@
 import tape = require("tape");
 let prettify = require("tap-spec");
 
-tape.createStream().pipe(prettify()).pipe(process.stdout);
+//tape.createStream().pipe(prettify()).pipe(process.stdout);
 
 interface PromiseCase {
 	(t: tape.Test): void | Promise<{}>;
