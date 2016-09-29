@@ -4,12 +4,10 @@
   "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "hodor.hodor",
   "scripts": {
+    "watch": "chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
     "build": "tsc -p .",
-    "pretest": "echo about to run tests",
-    "test": "tape js/test/**/*.js | tap-dot",
-    "test-o": "echo test-o",
-    "testo": "echo testo",
-    "posttest": "echo ran tests"
+    "pretest": "npm build",
+    "test": "tape js/test/**/*.js | tap-dot"
   },
   "keywords": [
     "hodor"
@@ -17,6 +15,7 @@
   "author": "mmkal",
   "license": "MIT",
   "devDependencies": {
+    "chokidar-cli": "^1.2.0",
     "glob": "^7.1.0",
     "tap-dot": "^1.0.5",
     "tap-spec": "^4.1.1",

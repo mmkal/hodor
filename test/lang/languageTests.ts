@@ -4,7 +4,6 @@ import Environment from "../../lang/Environment";
 import Interpreter from "../../lang/Interpreter";
 import glob = require("glob");
 
-
 glob.sync("test/**/*.hodor").forEach(filename => {
     test("Hodor script should not throw for file " + filename, t => {
         const code = fs.readFileSync(filename, "utf8");
