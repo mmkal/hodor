@@ -1,7 +1,7 @@
 import tape = require("tape");
-const tapSpec = require("tap-spec");
+let prettify = require("tap-spec");
 
-tape.createStream().pipe(tapSpec()).pipe(process.stdout);
+tape.createStream().pipe(prettify()).pipe(process.stdout);
 
 interface PromiseCase {
 	(t: tape.Test): void | Promise<{}>;
@@ -17,7 +17,7 @@ function greatApe(cb: PromiseCase): void;
 function greatApe(name: string, cb: PromiseCase): void;
 function greatApe(name: string, opts: tape.TestOptions, cb: PromiseCase): void; 
 function greatApe() {
-	let name: any, opts: any, cb: any;
+	let name: string, opts: tape.TestOptions, cb: PromiseCase;
 	if (arguments.length === 1) {
 		cb = arguments[0];
 	}
