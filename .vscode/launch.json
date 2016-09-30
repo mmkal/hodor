@@ -5,7 +5,7 @@
             "name": "Launch",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/hodor.ts",
+            "program": "${workspaceRoot}/go.ts",
             "stopOnEntry": false,
             "args": ["hodor.hodor"],
             "cwd": "${workspaceRoot}",

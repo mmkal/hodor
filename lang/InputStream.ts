@@ -21,8 +21,8 @@ export default class InputStream implements Stream<string> {
         return char;
     }
 
-    peek() {
-        return this.input[this.position];
+    peek(ahead?: number) {
+        return ahead ? this.input.substring(this.position, this.position + arguments[0]) : this.input[this.position];
     }
 
     eof() {

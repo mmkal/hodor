@@ -25,9 +25,33 @@ export default class TokenStream implements Stream<Token> {
     private isWhitespace(ch: string) {
         return " \r\t\n".indexOf(ch) >= 0;
     }
-    private readWhile(predicate: (char: string) => boolean) {
+
+    private isAhead(str: string) {
+        return this.input.peek(str.length) === str;
+    }
+
+    private movePast(str: string) {
+        [...str].forEach(ch => {
+            if (this.input.next() !== ch) {
+                this.input.fail("Unexpected character: " + ch);
+            }
+        });
+    }
+
+    private readUntil(str: string) {
+        const chars = new Array<string>();
+        while (!this.input.eof() && !this.isAhead(str)) {
+            chars.push(this.input.next());
+        }
+        if (!this.isAhead(str)) {
+            this.fail(`Expected to find "${str}" but reached end of file.`);
+        }
+        return chars.join("");
+    }
+
+    private readWhile(predicate: (char: string) => boolean, lookAhead?: number) {
         const chars: string[] = [];
-        while (!this.input.eof() && predicate(this.input.peek())) {
+        while (!this.input.eof() && predicate(this.input.peek(lookAhead))) {
             chars.push(this.input.next());
         }
         return chars.join("");
@@ -83,6 +107,19 @@ export default class TokenStream implements Stream<Token> {
             value: this.readEscaped(Symbols.Delimiters.Quote)
         };
     }
+
+    private readLiteral(): Token {
+        const start = "@\"\r\n";
+        const stop = "\r\n\"@";
+        this.movePast(start);
+        const literal = {
+            type: Symbols.Tokens.String,
+            value: this.readUntil(stop)
+        };
+        this.movePast(stop);
+        return literal;
+    }
+
     private skipComment() {
         this.readWhile(ch => ch !== "\n");
         this.input.next();
@@ -97,6 +134,7 @@ export default class TokenStream implements Stream<Token> {
             return this.readNext();
         }
 
+        if (this.isAhead("@\"")) return this.readLiteral();
         if (ch === Symbols.Delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();

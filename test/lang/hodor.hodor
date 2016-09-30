@@ -4,5 +4,9 @@ print(biggerThanOtherAndAlsoThree(2, 1));
 biggerThanOtherAndAlsoThree = Hodor(x, y) (x > y Ho-dor x > 3);
 print(biggerThanOtherAndAlsoThree(2, 1));
 
-addToT = Hodor(msg) "HODOR! Ho-dor! " + msg; 
+foo = @"
+HODOR HODOR HODOR!
+"@;
+
+addToT = Hodor(msg) "HODOR! Ho-dor! " + msg + foo; 
 print(addToT("Hodor."));
