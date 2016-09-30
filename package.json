@@ -7,7 +7,7 @@
     "watch": "npm test && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
     "build": "tsc -p .",
     "test": "npm run build && npm run _test",
-    "_test": "ava js/test/"
+    "_test": "ava js/test"
   },
   "keywords": [
     "hodor"

@@ -6,18 +6,29 @@
     "isShellCommand": true,
     "args": ["test"],
     "showOutput": "silent",
-    "isWatching": true,
+    "isWatching": false,
     "echoCommand": true,
     "problemMatcher": [
         {
-            "owner": "tape",
-            "fileLocation": ["relative", "{workspaceRoot}"],
-            "pattern": {
-                "regexp": "<testsuite name=\"(.*) for file (.*?)\".*? failures=\"([1-9]\\d*)\".*?>",
-                "file": 2,
-                "line": 3,
-                "message": 1
-            } 
+            "owner": "ava",
+            "fileLocation":"absolute",
+            "pattern": [
+                // {
+                //     "regexp": "\\d+ failed"
+                // },
+                // {
+                //     "regexp": "\\d+\\. (((.*)( »)?)+)",
+                //     "message": 1
+                // },
+                {
+                    "regexp": "\\s*Test.fn \\((.*):(\\d+):(\\d+)",
+                    "message": 1,
+                    "file": 1,
+                    "line": 2,
+                    "column": 3,
+                    "loop": true
+                }
+            ]
         }
     ]
 }
