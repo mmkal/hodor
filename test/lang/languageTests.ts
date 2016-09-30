@@ -18,11 +18,3 @@ glob.sync(packageDir + "/test/**/*.hodor").forEach(filename => {
         t.notThrows(() => interpreter.execute(code));
     });
 });
-
-test("hi", t => {
-    t.fail("hi");
-});
-
-test("bye", t => {
-    t.fail("bye");
-});
