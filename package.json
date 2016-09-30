@@ -12,9 +12,9 @@
     "_test": "ava js/test",
     "test": "npm run build && npm run _test",
 
-    "watch-tap": "chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm run test-tap --silent\"",
+    "watch-tap": "npm run test-tap && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm run test-tap\"",
     "_test-tap": "ava js/test --tap | tap-markdown",
-    "test-tap": "echo pretap && npm run build && npm run _test-tap && posttap"
+    "test-tap": "echo pretap && npm run build && npm run _test-tap --silent || echo posttap && echo posttap"
   },
   "keywords": [
     "hodor"
