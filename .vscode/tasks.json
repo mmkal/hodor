@@ -4,86 +4,26 @@
     "version": "0.1.0",
     "command": "npm",
     "isShellCommand": true,
-    "args": ["run", "watch-xunit"],
+    "args": ["run", "watch-tap"],
     "showOutput": "silent",
-    "isWatching": false,
+    "isWatching": true,
     "echoCommand": true,
     "problemMatcher": [
-        {
-            "owner": "ava",
-            "fileLocation":"absolute",
-            "pattern": [
-                // {
-                //     "regexp": "\\d+ failed"
-                // },
-                // {
-                //     "regexp": "\\d+\\. (((.*)( »)?)+)",
-                //     "message": 1
-                // },
-                {
-                    "regexp": "\\s*Test.fn \\((.*):(\\d+):(\\d+)",
-                    "message": 1,
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "loop": true
-                }
-            ]
-        },
-        {
-            "owner": "tap-json",
-            "fileLocation": "absolute",
-            "pattern": {
-                "regexp": "{\"number\":(\\d+).*,\"name\":\"(.*)\",\"ok\":false,",
-                "file": 1,
-                "code": 1,
-                "message": 2
-            }
-        },
         {
             "owner": "tap-markdown",
             "fileLocation": "absolute",
             "pattern": [
-                { "regexp": "\\`\\`\\`" },
-                { "regexp": "^× (.*)", "message": 1 },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3 }
-            ]
-        },
-        {
-            "owner": "faucet",
-            "fileLocation": "absolute",
-            "pattern": {
-                "regexp": "foofofsodfo⨯ (.*)",
-                "message": 1,
-                "file": 1
-            }
-        },
-        {
-            "owner": "tap-xunit",
-            "fileLocation": "absolute",
-            "pattern": [
-                { "regexp": "<testsuite .* failures=\"\\d+\".*>" },
-                {
-                    "regexp": "<testcase name=\"#(\\d+) (.*)\".*>",
-                    "code": 1,
-                    "message": 2
-                },
-                { "regexp": "<failure>" },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                {
-                    "regexp": "at: Test.fn \\((.*):(\\d+):(\\d+)",
-                    "message": 1,
-                    "file": 1,
-                    "line": 2,
-                    "column": 3
-                }
-            ]
+                // { "regexp": "\\`\\`\\`" },
+                // { "regexp": "^× (.*)", "message": 1 },
+                // { "regexp": ".*" },
+                // { "regexp": ".*" },
+                // { "regexp": ".*" },
+                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3, "message": 1 }
+                // { "regexp": ".*", "file": 0, "message": 0, "line": 0 }
+            ],
+            "watchedTaskBeginsRegExp": "pretap",
+            "watchedTaskEndsRegExp": "sdoijsdoifsdoifsdoifjsosidjfosi"
+            // "watchedTaskEndsRegExp": "posttap|npm ERR!|Watching .*\\.\\."
         }
     ]
 }

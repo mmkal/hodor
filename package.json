@@ -4,13 +4,17 @@
   "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "hodor.hodor",
   "scripts": {
-    "watch": "npm test && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
-    "watch-xunit": "npm run test-xunit && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm run test-xunit\"",
     "build": "tsc -p .",
-    "test": "npm run build && npm run _test",
-    "test-xunit": "npm run build && npm run _test-xunit",
+    
+
+    
+    "watch": "chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
     "_test": "ava js/test",
-    "_test-xunit": "ava js/test --tap | tap-markdown"
+    "test": "npm run build && npm run _test",
+
+    "watch-tap": "chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm run test-tap --silent\"",
+    "_test-tap": "ava js/test --tap | tap-markdown",
+    "test-tap": "echo pretap && npm run build && npm run _test-tap && posttap"
   },
   "keywords": [
     "hodor"
