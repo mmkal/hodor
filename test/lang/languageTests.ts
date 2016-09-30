@@ -20,7 +20,7 @@ glob.sync(packageDir + "/test/**/*.hodor").forEach(filename => {
 });
 
 test("hi", t => {
-    t.fail("hi");
+    t.fail("h i");
 });
 
 test("bye", t => {

@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "command": "npm",
     "isShellCommand": true,
-    "args": ["run", "test-xunit"],
+    "args": ["run", "watch-xunit"],
     "showOutput": "silent",
     "isWatching": false,
     "echoCommand": true,
@@ -29,6 +29,37 @@
                     "loop": true
                 }
             ]
+        },
+        {
+            "owner": "tap-json",
+            "fileLocation": "absolute",
+            "pattern": {
+                "regexp": "{\"number\":(\\d+).*,\"name\":\"(.*)\",\"ok\":false,",
+                "file": 1,
+                "code": 1,
+                "message": 2
+            }
+        },
+        {
+            "owner": "tap-markdown",
+            "fileLocation": "absolute",
+            "pattern": [
+                { "regexp": "\\`\\`\\`" },
+                { "regexp": "^× (.*)", "message": 1 },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3 }
+            ]
+        },
+        {
+            "owner": "faucet",
+            "fileLocation": "absolute",
+            "pattern": {
+                "regexp": "foofofsodfo⨯ (.*)",
+                "message": 1,
+                "file": 1
+            }
         },
         {
             "owner": "tap-xunit",

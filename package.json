@@ -5,11 +5,12 @@
   "main": "hodor.hodor",
   "scripts": {
     "watch": "npm test && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
+    "watch-xunit": "npm run test-xunit && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm run test-xunit\"",
     "build": "tsc -p .",
     "test": "npm run build && npm run _test",
     "test-xunit": "npm run build && npm run _test-xunit",
     "_test": "ava js/test",
-    "_test-xunit": "ava js/test --tap | tap-xunit"
+    "_test-xunit": "ava js/test --tap | tap-markdown"
   },
   "keywords": [
     "hodor"
