@@ -1,6 +1,6 @@
 import tape = require("tape");
-let prettify = require("tap-spec");
 
+// let prettify = require("tap-spec");
 //tape.createStream().pipe(prettify()).pipe(process.stdout);
 
 interface PromiseCase {

@@ -2,10 +2,22 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "tsc",
+    "command": "npm",
     "isShellCommand": true,
-    "args": ["-w", "-p", "."],
+    "args": ["test"],
     "showOutput": "silent",
     "isWatching": true,
-    "problemMatcher": "$tsc-watch"
+    "echoCommand": true,
+    "problemMatcher": [
+        {
+            "owner": "tape",
+            "fileLocation": ["relative", "{workspaceRoot}"],
+            "pattern": {
+                "regexp": "<testsuite name=\"(.*) for file (.*?)\".*? failures=\"([1-9]\\d*)\".*?>",
+                "file": 2,
+                "line": 3,
+                "message": 1
+            } 
+        }
+    ]
 }

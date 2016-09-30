@@ -1,6 +1,10 @@
 import { Transpiler } from "../../encoding/transpiler";
-import test from "../great-ape";
+const test = require("zopf");
 import fs = require("fs");
+
+test("foo", (t: any) => {
+    t.fail("bad");
+});
 
 [
     "e",
@@ -16,7 +20,7 @@ import fs = require("fs");
     "// It rubs the lotion on its skin, or else it gets the hose again.",
     fs.readFileSync("package.json", "utf8")
 ].forEach(original => {
-    test("Hodor then Wylis returns original: " + original.substring(0, (original + "\n").indexOf("\n")), t => {
+    test("Hodor then Wylis returns original: " + original.substring(0, (original + "\n").indexOf("\n")), (t: any) => {
         const hodor = Transpiler.Hodor(original);
         const wylis = Transpiler.Wylis(hodor);
         t.isEqual(wylis, original);
@@ -29,7 +33,7 @@ import fs = require("fs");
     "et eT",
     "et Et"
 ].map(s => s.split(" ")).forEach(cases => {
-    test("Hodor is case sensitive: " + cases.join(), t => {
+    test("Hodor is case sensitive: " + cases.join(), (t: any) => {
         t.isNotEqual(Transpiler.Hodor(cases[0]), Transpiler.Hodor(cases[1]));
     });
 });
