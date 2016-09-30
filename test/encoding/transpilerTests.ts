@@ -1,10 +1,7 @@
 import { Transpiler } from "../../encoding/transpiler";
 import test from "ava";
 import fs = require("fs");
-
-test("foo", t => {
-    t.fail("bad");
-});
+import {packageDir} from "../_ava-meta";
 
 [
     "e",
@@ -18,7 +15,7 @@ test("foo", t => {
     "Hodor!",
     "Hodor?",
     "// It rubs the lotion on its skin, or else it gets the hose again.",
-    fs.readFileSync("package.json", "utf8")
+    fs.readFileSync(packageDir + "/package.json", "utf8")
 ].forEach(original => {
     test("Hodor then Wylis returns original: " + original.substring(0, (original + "\n").indexOf("\n")), t => {
         const hodor = Transpiler.Hodor(original);
