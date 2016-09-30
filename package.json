@@ -7,7 +7,7 @@
     "watch": "npm test && chokidar \"**/*.ts\" \"**/*.hodor\" --command \"npm test\"",
     "build": "tsc -p .",
     "test": "npm run build && npm run _test",
-    "_test": "tap js/test/**/*.js | tap-xunit"
+    "_test": "ava js/test/"
   },
   "keywords": [
     "hodor"
@@ -15,12 +15,8 @@
   "author": "mmkal",
   "license": "MIT",
   "devDependencies": {
+    "ava": "^0.16.0",
     "chokidar-cli": "^1.2.0",
-    "glob": "^7.1.0",
-    "tap-dot": "^1.0.5",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.0",
-    "tape-watch": "^2.2.3",
-    "zopf": "^4.5.0"
+    "glob": "^7.1.0"
   }
 }
