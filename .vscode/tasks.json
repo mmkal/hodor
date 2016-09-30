@@ -13,17 +13,15 @@
             "owner": "tap-markdown",
             "fileLocation": "absolute",
             "pattern": [
-                // { "regexp": "\\`\\`\\`" },
-                // { "regexp": "^× (.*)", "message": 1 },
-                // { "regexp": ".*" },
-                // { "regexp": ".*" },
-                // { "regexp": ".*" },
-                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3, "message": 1 }
-                // { "regexp": ".*", "file": 0, "message": 0, "line": 0 }
+                { "regexp": "\\`\\`\\`" },
+                { "regexp": "^× (.*)", "message": 1 },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3 }
             ],
             "watchedTaskBeginsRegExp": "pretap",
             "watchedTaskEndsRegExp": "posttap"
-            // "watchedTaskEndsRegExp": "posttap|npm ERR!|Watching .*\\.\\."
         }
     ]
 }

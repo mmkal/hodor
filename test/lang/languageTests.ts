@@ -24,5 +24,5 @@ test("hi", t => {
 });
 
 test("bye", t => {
-    t.pass("bye");
+    t.fail("bye");
 });
