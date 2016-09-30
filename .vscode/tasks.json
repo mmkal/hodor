@@ -4,7 +4,7 @@
     "version": "0.1.0",
     "command": "npm",
     "isShellCommand": true,
-    "args": ["test"],
+    "args": ["run", "test-xunit"],
     "showOutput": "silent",
     "isWatching": false,
     "echoCommand": true,
@@ -27,6 +27,30 @@
                     "line": 2,
                     "column": 3,
                     "loop": true
+                }
+            ]
+        },
+        {
+            "owner": "tap-xunit",
+            "fileLocation": "absolute",
+            "pattern": [
+                { "regexp": "<testsuite .* failures=\"\\d+\".*>" },
+                {
+                    "regexp": "<testcase name=\"#(\\d+) (.*)\".*>",
+                    "code": 1,
+                    "message": 2
+                },
+                { "regexp": "<failure>" },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                { "regexp": ".*" },
+                {
+                    "regexp": "at: Test.fn \\((.*):(\\d+):(\\d+)",
+                    "message": 1,
+                    "file": 1,
+                    "line": 2,
+                    "column": 3
                 }
             ]
         }
