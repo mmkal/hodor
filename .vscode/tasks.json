@@ -22,7 +22,7 @@
                 // { "regexp": ".*", "file": 0, "message": 0, "line": 0 }
             ],
             "watchedTaskBeginsRegExp": "pretap",
-            "watchedTaskEndsRegExp": "sdoijsdoifsdoifsdoifjsosidjfosi"
+            "watchedTaskEndsRegExp": "posttap"
             // "watchedTaskEndsRegExp": "posttap|npm ERR!|Watching .*\\.\\."
         }
     ]
