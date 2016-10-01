@@ -1,4 +1,5 @@
 import Interpreter from "./Interpreter";
+import { Transpiler } from "../encoding/Transpiler";
 
 export default class Environment {
     public vars: { [key: string]: boolean };
@@ -49,6 +50,21 @@ export default class Environment {
         this.def(readFile, (path: string) => fs.readFileSync(path, "utf8"));
         this.def(writeFile, (path: string, text: string) => fs.writeFileSync(path, text, { encoding: "utf8" }));
         return this;
+    }
+
+    withHodor() {
+        this.def("hhodor", (wylis: string) => Transpiler.Hodor(wylis));
+        this.def("wylis", (hodor: string) => Transpiler.Wylis(hodor));
+        return this;
+    }
+
+    withEval() {
+        this.def("eval", (code: string) => eval(code));
+        return this;
+    }
+
+    static createStandard(): Environment {
+        return new Environment().withConsoleLogger().withFileIO().withHodor().withEval();
     }
 
     createInterpreter() {
