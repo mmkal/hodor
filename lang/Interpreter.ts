@@ -7,6 +7,7 @@ import { Transpiler } from "../encoding/Transpiler";
 
 export default class Interpreter {
     constructor(public env: Environment) {
+        this.env.def("eval", (code: string) => this.execute(code));
     }
 
     execute(code: string): any {
@@ -20,7 +21,7 @@ export default class Interpreter {
             case Symbols.Tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
             case Symbols.Tokens.String:
-                return this.wylis(exp.value);
+                return exp.value;//this.wylis(exp.value);
 
             case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);

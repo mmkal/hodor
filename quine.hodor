@@ -1,2 +1,5 @@
-concater = Hodor(x) "print(concater)";
-print(wylis(concater(1)));
+code = @"
+startq = fromCharCode(64) + fromCharCode(34) + fromCharCode(13) + fromCharCode(10);
+endq = fromCharCode(13) + fromCharCode(10) + fromCharCode(34) + fromCharCode(64);
+print("code = "+startq+code+endq+";eval(code);")
+"@;eval(code);

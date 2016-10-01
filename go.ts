@@ -3,5 +3,10 @@ import Interpreter from "./lang/Interpreter";
 import fs = require("fs");
 
 const interpreter = Environment.createStandard().createInterpreter();
-interpreter.execute(fs.readFileSync("quine.hodor", "utf8"));
-console.log(123);
+let output = "";
+interpreter.env.def("print", (message: string) => output += message);
+const source = fs.readFileSync("quine.hodor", "utf8");
+interpreter.execute(source);
+console.log("Is quine?");
+console.log(output === source);
+process.exit();

@@ -58,13 +58,13 @@ export default class Environment {
         return this;
     }
 
-    withEval() {
-        this.def("eval", (code: string) => eval(code));
+    withStringFunctions() {
+        this.def("fromCharCode", (code: number) => String.fromCharCode(code));
         return this;
     }
 
     static createStandard(): Environment {
-        return new Environment().withConsoleLogger().withFileIO().withHodor().withEval();
+        return new Environment().withConsoleLogger().withFileIO().withHodor().withStringFunctions();
     }
 
     createInterpreter() {
