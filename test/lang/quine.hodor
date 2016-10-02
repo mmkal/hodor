@@ -1,7 +1,7 @@
-code = @"!!!!
+c = @"
 
-startq = fromCharCode(64) + fromCharCode(34);
-endq = fromCharCode(34) + fromCharCode(64);
-print("!!!!code = "+startq+hhodor(code)+endq+"!!!!;eval(code);")
+s = fromCharCode(64) + fromCharCode(34);
+e = fromCharCode(34) + fromCharCode(64);
+print("c = "+s+hhodor(c)+e+";eval(c);")
 
-"@;eval(code);
+"@;eval(c);
