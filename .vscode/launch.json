@@ -25,7 +25,7 @@
             "name": "Test",
             "type": "node",
             "request": "launch",
-            "program": "${workspaceRoot}/test/encoding/transpilerTests.ts",
+            "program": "${workspaceRoot}/test/_ava-shim.ts",
             "stopOnEntry": false,
             "args": ["hodor.hodor"],
             "cwd": "${workspaceRoot}",
