@@ -5,8 +5,6 @@ import Interpreter from "../../lang/Interpreter";
 import glob = require("glob");
 import {packageDir} from "../_ava-meta";
 
-test.todo("Check out pify", null);
-
 function executeAndGetOutput(code: string) {
     let output = "";
     const interpreter = Environment.createStandard().createInterpreter();
