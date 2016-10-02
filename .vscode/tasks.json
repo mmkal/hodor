@@ -2,27 +2,10 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "0.1.0",
-    "command": "npm",
+    "command": "tsc",
     "isShellCommand": true,
-    "args": ["run", "watch-tap"],
+    "args": ["-w", "-p", "."],
     "showOutput": "silent",
     "isWatching": true,
-    "echoCommand": true,
-    "problemMatcher": [
-        "$tsc",
-        {
-            "owner": "tap-markdown",
-            "fileLocation": "absolute",
-            "pattern": [
-                { "regexp": "\\`\\`\\`" },
-                { "regexp": "^× (.*)", "message": 1 },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": ".*" },
-                { "regexp": "^at: Test.fn \\((.*):(\\d+):(\\d+)\\)", "file": 1, "line": 2, "column": 3 }
-            ],
-            "watchedTaskBeginsRegExp": "pretap",
-            "watchedTaskEndsRegExp": "posttap"
-        }
-    ]
+    "problemMatcher": "$tsc-watch"
 }

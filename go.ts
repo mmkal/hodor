@@ -1,5 +1,4 @@
 import Environment from "./lang/Environment";
-import Interpreter from "./lang/Interpreter";
 import {Transpiler} from "./encoding/Transpiler";
 import fs = require("fs");
 
@@ -32,30 +31,19 @@ function buildQuine() {
 
     const hodorisedEvalableString = Transpiler.Hodor(evalableString);
 
-    const quine = hodoriseVariables(`@c = @"`) + hodorisedEvalableString + hodoriseVariables(`"@;@eval(@c);`);
+    const quine = hodoriseVariables(`@c = @"`) + hodorisedEvalableString + hodoriseVariables(`"@;@eval(@c);\r\n`);
 
     return quine;
 };
 
 let source = buildQuine();
 let output = "";
-interpreter.env.def("print", (message: string) => output += message);
 
-// source = `'HODOR.' = "Hodor."; print(E);`; 
+interpreter.env.def("print", (message: string) => output += message + "\r\n");
 
 interpreter.execute(source);
 
-console.log("Is quine?");
-console.log(output === source);
-
-if (output === source){
-    fs.writeFileSync("foo.hodor", source, { encoding: "utf8" });
-}
-else {
-    console.log("source########\r\n");
-    console.log(source);
-    console.log("output########\r\n");
-    console.log(output);
-}
+if (output !== source) throw new Error("Didn't produce a valid quine.");
+fs.writeFileSync("test/lang/quine.hodor", source, { encoding: "utf8" });
 
 process.exit();

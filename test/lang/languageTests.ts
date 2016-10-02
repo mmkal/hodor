@@ -10,7 +10,7 @@ test.todo("Check out pify", null);
 function executeAndGetOutput(code: string) {
     let output = "";
     const interpreter = Environment.createStandard().createInterpreter();
-    interpreter.env.def("print", (message: string) => output += message);
+    interpreter.env.def("print", (message: string) => output += message + "\r\n");
     interpreter.execute(code);
 
     return output;
@@ -20,6 +20,11 @@ const hodorTests: { [filename: string]: (filepath: string, code: string) => void
     ["quine.hodor"]: (filepath, code) => {
         test(`${filepath} should be a quine`, t => {
             t.is(executeAndGetOutput(code), code);
+        });
+    },
+    ["hodor.hodor"]: (filepath, code) => {
+        test(`${filepath} should output stuff`, t=> {
+            t.is(executeAndGetOutput(code), ["false", "false", "T eU", ""].join("\r\n"))
         });
     },
     [""]: (filepath, code) => {
