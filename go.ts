@@ -10,7 +10,7 @@ function buildQuine() {
         ``,
         `@s = fromCharCode(64) + fromCharCode(34);`,
         `@e = fromCharCode(34) + fromCharCode(64);`,
-        `print("@c = "+@s+hhodor(@c)+@e+";eval(@c);")`,
+        `print("@c = "+@s+hhodor(@c)+@e+";@eval(@c);")`,
         ``
     ];
 
@@ -26,16 +26,13 @@ function buildQuine() {
         line = hodoriseVariables(line);
         line = hodoriseQuotes(line);
         return line;
-        // const hodorisedQuotes = hodoriseQuotes(line);
-        // const hodorisedVariables = hodoriseVariables(hodorisedQuotes);
-        // return hodorisedVariables;
     });
 
     const evalableString = substringsHodorisedLines.join(`\r\n`);
 
     const hodorisedEvalableString = Transpiler.Hodor(evalableString);
 
-    const quine = hodoriseVariables(`@c = @"`) + hodorisedEvalableString + hodoriseVariables(`"@;eval(@c);`);
+    const quine = hodoriseVariables(`@c = @"`) + hodorisedEvalableString + hodoriseVariables(`"@;@eval(@c);`);
 
     return quine;
 };
@@ -62,26 +59,3 @@ else {
 }
 
 process.exit();
-
-
-// const interpreter = Environment.createStandard().createInterpreter();
-// let output = "";
-// interpreter.env.def("print", (message: string) => output += message);
-// const source = fs.readFileSync("foo.hodor", "utf8");
-
-
-// console.log(Transpiler.Hodor(Transpiler.Hodor(";eval(c);")));
-
-// const hodor = Transpiler.Hodor(source);
-// console.log(hodor);
-
-// interpreter.execute(source);
-// console.log("Is quine?");
-// console.log(output === source);
-// if (output !== source) {
-//     console.log("source########\r\n");
-//     console.log(source);
-//     console.log("output########\r\n");
-//     console.log(output);
-// }
-// process.exit();
