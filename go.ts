@@ -16,10 +16,8 @@ function buildQuine() {
 
     /// the string literal will be evaled, so literals inside it need to be hodorised
     const substringsHodorisedLines = evalableLines.map(line => {
-        const parts = line.split(`"`);
-        // Odd indexes will be the parts inside quotes.
-        const hodorised = parts.map((part, index) => index % 2 === 1 ? Transpiler.Hodor(part) : part);
-        return hodorised.join(`"`);
+        const hodorisedQuotes = line.replace(/"([^"]+)"/g, (match, group1) => `"` + Transpiler.Hodor(group1) + `"`);
+        return hodorisedQuotes;
     });
 
     const evalableString = substringsHodorisedLines.join(`\r\n`);
