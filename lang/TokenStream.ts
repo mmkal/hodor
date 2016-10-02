@@ -109,16 +109,17 @@ export default class TokenStream implements Stream<Token> {
     }
 
     private readLiteral(): Token {
-        // TODO: handle newlines properly.
-        const start = "@\"\r\n";
-        const stop = "\r\n\"@";
+        const start = `@"`;
+        const stop = `"@`;
+
         this.movePast(start);
-        const literal = {
-            type: Symbols.Tokens.String,
-            value: this.readUntil(stop)
-        };
+        const value = this.readUntil(stop);
         this.movePast(stop);
-        return literal;
+
+        return {
+            type: Symbols.Tokens.String,
+            value: value
+        };
     }
 
     private skipComment() {
