@@ -9,6 +9,7 @@
     "isWatching": true,
     "echoCommand": true,
     "problemMatcher": [
+        "$tsc",
         {
             "owner": "tap-markdown",
             "fileLocation": "absolute",

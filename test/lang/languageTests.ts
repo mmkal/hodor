@@ -5,10 +5,6 @@ import Interpreter from "../../lang/Interpreter";
 import glob = require("glob");
 import {packageDir} from "../_ava-meta";
 
-test.todo("Multi-line string literals", null);
-
-test.todo("Quine", null);
-
 test.todo("Check out pify", null);
 
 function executeAndGetOutput(code: string) {
@@ -20,23 +16,20 @@ function executeAndGetOutput(code: string) {
     return output;
 }
 
-const specificTests: { [filename: string]: (filepath: string) => void } = {
-    ["quine.hodor"]: filepath => {
+const hodorTests: { [filename: string]: (filepath: string, code: string) => void } = {
+    ["quine.hodor"]: (filepath, code) => {
         test(`${filepath} should be a quine`, t => {
-            const code = fs.readFileSync(filepath, "utf8");
             t.is(executeAndGetOutput(code), code);
         });
+    },
+    [""]: (filepath, code) => {
+        test(filepath + " should not throw", t => t.notThrows(() => executeAndGetOutput(code)));
     }
 }
 
 glob.sync(packageDir + "/test/**/*.hodor").forEach(filepath => {
-    test("Hodor script should not throw for file " + filepath, t => {
-        t.notThrows(() => executeAndGetOutput(fs.readFileSync(filepath, "utf8")));
-    });
-
-    const filename = filepath.split("/").slice(-1)[0];
-    const specificTest = specificTests[filename];
-    specificTest && specificTest(filepath);
+    const code = fs.readFileSync(filepath, "utf8");
+    Object.keys(hodorTests)
+        .filter(filename => filepath.endsWith(filename))
+        .forEach(filename => hodorTests[filename](filepath, code));
 });
-
-
