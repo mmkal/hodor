@@ -6,11 +6,18 @@ import fs = require("fs");
 const interpreter = Environment.createStandard().createInterpreter();
 
 function buildQuine() {
+    const variables = {
+        startQuote: "s",
+        endQuote: "e",
+        code: "c",
+        eval: "eval"
+    };
+
     const evalableLines = [
         ``,
         `@s = fromCharCode(64) + fromCharCode(34);`,
         `@e = fromCharCode(34) + fromCharCode(64);`,
-        `print("@c = "+@s+hhodor(@c)+@e+";@eval(@c);")`,
+        `print("@c = "+@s+@hhodor(@c)+@e+";@eval(@c);")`,
         ``
     ];
 
