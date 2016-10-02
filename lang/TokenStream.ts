@@ -1,5 +1,6 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
+import {Transpiler} from "../encoding/Transpiler";
 
 export default class TokenStream implements Stream<Token> {
     private current: Token = null;
@@ -79,6 +80,16 @@ export default class TokenStream implements Stream<Token> {
             value: id
         };
     }
+
+    private readVariableName(): Token {
+        const hodorValue = this.readEscaped(Symbols.Delimiters.SingleQuote);
+        const wylisValue = Transpiler.Wylis(hodorValue);
+        return {
+            type: Symbols.Tokens.Variable,
+            value: wylisValue
+        };
+    }
+
     private readEscaped(end: string) {
         let escaped = false;
         let chars: string[] = [];
@@ -109,12 +120,9 @@ export default class TokenStream implements Stream<Token> {
     }
 
     private readLiteral(): Token {
-        const start = `@"`;
-        const stop = `"@`;
-
-        this.movePast(start);
-        const value = this.readUntil(stop);
-        this.movePast(stop);
+        this.movePast(Symbols.Delimiters.LiteralQuoteStart);
+        const value = this.readUntil(Symbols.Delimiters.LiteralQuoteEnd);
+        this.movePast(Symbols.Delimiters.LiteralQuoteEnd);
 
         return {
             type: Symbols.Tokens.String,
@@ -136,7 +144,8 @@ export default class TokenStream implements Stream<Token> {
             return this.readNext();
         }
 
-        if (this.isAhead("@\"")) return this.readLiteral();
+        if (this.isAhead(Symbols.Delimiters.LiteralQuoteStart)) return this.readLiteral();
+        if (ch === Symbols.Delimiters.SingleQuote) return this.readVariableName();
         if (ch === Symbols.Delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();

@@ -47,7 +47,7 @@ export module Transpiler {
 
     export function Wylis(hodor: string) {
         const splitRegex = `(${escapeRegExp(_beforeHodor)})|(${escapeRegExp(_afterHodor)})`;
-        return hodor
+        const wylis = hodor
             .split(new RegExp(splitRegex))
             .filter(hodorToken => typeof hodorToken !== "undefined" && hodorToken !== _beforeHodor && hodorToken !== _afterHodor)
             .map(hodorToken => {
@@ -66,6 +66,11 @@ export module Transpiler {
                 return hodorToken;
             })
             .join("");
+
+        if (Hodor(wylis) !== hodor) {
+            throw new Error(`String ${hodor} is not correctly hodorised.`);
+        }
+        return wylis;
     }
 
     function getWylisReplacements(hodorToken: string) {

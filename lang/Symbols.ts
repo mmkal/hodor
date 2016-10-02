@@ -53,8 +53,11 @@ class Punctuation extends SymbolSet {
 
 class Delimiters extends SymbolSet {
     Escape = "\\";
+    SingleQuote = "'";
     Quote = "\"";
     Dot = ".";
+    LiteralQuoteStart = "@\"";
+    LiteralQuoteEnd = "\"@";
 }
 
 class Tokens extends SymbolSet {

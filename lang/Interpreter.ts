@@ -57,14 +57,6 @@ export default class Interpreter {
         }
     }
 
-    private wylis(hodor: string) {
-        const wylis = Transpiler.Wylis(hodor);
-        if (Transpiler.Hodor(wylis) !== hodor) {
-            throw new Error(`String ${hodor} is not correctly hodorised.`);
-        }
-        return wylis;
-    }
-
     private primitive(value: any, type: string) {
         if (typeof value === type) {
             return value;
