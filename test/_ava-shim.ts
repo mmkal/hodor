@@ -7,16 +7,32 @@ process.argv[2] = JSON.stringify({ file: "..", precompiled: {} });
 import ava = require("ava");
 const Test = require("ava/lib/test");
 
+const _runningTests = new Array<Promise<any>>();
+
 async function runTest() {
     const args = [...arguments]
     args.unshift(null);
     const test = new (Function.prototype.bind.apply(Test, args));
+
+    let finished: (value?: any | PromiseLike<any>) => void;
+    const testFinished = new Promise(resolve => {
+        finished = resolve;
+    });
+    const currentTests = [..._runningTests];
+    _runningTests.push(testFinished);
+    if (currentTests.length > 0) {
+        await Promise.all(currentTests);
+    }
     console.log(`Running test ${test.title}`);
     const result = await test.run();
     test.assertError && console.error(test.assertError);
-}
 
-console.log(ava.test.name);
+    const index = _runningTests.indexOf(testFinished);
+    if (index > -1) {
+        _runningTests.splice(index, 1);
+    }
+    finished(result);
+}
 
 Object.defineProperty(ava, "test", {
     get() {
