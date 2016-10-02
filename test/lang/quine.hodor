@@ -1,3 +1,7 @@
-code = @"startq = fromCharCode(64) + fromCharCode(34);
+code = @"!!!!
+
+startq = fromCharCode(64) + fromCharCode(34);
 endq = fromCharCode(34) + fromCharCode(64);
-print("code = "+startq+code+endq+";eval(code);")"@;eval(code);
+print("!!!!code = "+startq+hhodor(code)+endq+"!!!!;eval(code);")
+
+"@;eval(code);

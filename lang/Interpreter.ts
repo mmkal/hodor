@@ -21,7 +21,7 @@ export default class Interpreter {
             case Symbols.Tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
             case Symbols.Tokens.String:
-                return exp.value;//this.wylis(exp.value);
+                return Transpiler.Wylis(exp.value);
 
             case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);

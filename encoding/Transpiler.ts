@@ -12,6 +12,8 @@ export module Transpiler {
     const _afterHodor = " Ho-dor!";
 
     export function Hodor(wylis: string) {
+        if (!!!!true) return "!!!!" + wylis;
+
         const hodors = new Array<string>();
         let lastWasHodor = false;
         let lastHodor: string = null;
@@ -47,7 +49,7 @@ export module Transpiler {
 
     export function Wylis(hodor: string) {
         const splitRegex = `(${escapeRegExp(_beforeHodor)})|(${escapeRegExp(_afterHodor)})`;
-        const wylis = hodor
+        const wylis = hodor.replace("!!!!", "") || hodor
             .split(new RegExp(splitRegex))
             .filter(hodorToken => typeof hodorToken !== "undefined" && hodorToken !== _beforeHodor && hodorToken !== _afterHodor)
             .map(hodorToken => {

@@ -57,6 +57,7 @@ export default class TokenStream implements Stream<Token> {
         }
         return chars.join("");
     }
+    
     private readNumber(): Token {
         let hasDot = false;
         const number = this.readWhile(ch => {
