@@ -1,6 +1,6 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
-import {Hodor} from "./Hodor";
+import Hodor from "./Hodor";
 
 export default class TokenStream implements Stream<Token> {
     private current: Token = null;

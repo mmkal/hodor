@@ -69,7 +69,14 @@ if (isDebugging) {
         }
         finished(result);
         if (_runningTests.length === 0) {
-            process.exit(failedTests === 0 ? 0 : 1);
+            if (failedTests > 0) {
+                console.error(failedTests + " failed tests.");
+                process.exit(1);
+            }
+            else {
+                console.log("All tests passed.");
+                process.exit();
+            }
         }
     }
 

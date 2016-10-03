@@ -201,3 +201,5 @@ export module Hodor {
         return nodors;
     }
 }
+
+export default Hodor;

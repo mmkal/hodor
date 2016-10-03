@@ -1,4 +1,4 @@
-import { Hodor } from "../../lang/Hodor";
+import Hodor from "../../lang/Hodor";
 import {test,packageDir} from "../_ava-shim";
 import fs = require("fs");
 
