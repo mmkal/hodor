@@ -45,7 +45,7 @@ availablePathEndings.forEach(path => {
 });
 
 test("Print hello world", t => {
-    t.is(executeAndGetOutput(Samples.HelloWorld()), "Hello, world!");
+    t.is(executeAndGetOutput(Samples.HelloWorld()), "Hello, World!");
 });
 
 test(`${Samples.Quine.name} should build a quine`, t => {

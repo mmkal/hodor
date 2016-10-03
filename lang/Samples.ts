@@ -16,7 +16,7 @@ $print("$c = "+$s+$hodor($c)+$e+";$eval($c);")
     }
 
     export function HelloWorld() {
-        return Hodor.n00b(`$print("Hello, world!");`);
+        return Hodor.n00b(`$print("Hello, World!");`);
     }
 
     const _samples: any = Samples;
