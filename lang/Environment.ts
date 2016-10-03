@@ -58,6 +58,17 @@ export default class Environment {
         return this;
     }
 
+    withAccessors() {
+        this.def("prop", (obj: any, prop: string, value?: any) => {
+            if (typeof value === undefined) {
+                return obj[prop];
+            }
+            else {
+                return obj[prop] = value;
+            }
+        });
+    }
+
     withStringFunctions() {
         this.def("fromCharCode", (code: number) => String.fromCharCode(code));
         return this;

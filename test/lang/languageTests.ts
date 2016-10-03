@@ -53,7 +53,7 @@ $print("$c = "+$s+$hodor($c)+$e+";$eval($c);")
     const quine = Hodor.n00b(`$c = @"`) + literal + Hodor.n00b(`"@;$eval($c);\r\n`);
 
     return quine;
-};
+}
 
 test("Print hello world", t => {
     const code = Hodor.n00b(`$print("Hello, world!");`);
