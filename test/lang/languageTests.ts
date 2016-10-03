@@ -1,8 +1,6 @@
 import {test, packageDir} from "../_ava-shim";
 import fs = require("fs");
 import Environment from "../../lang/Environment";
-import Interpreter from "../../lang/Interpreter";
-import Hodor from "../../lang/Hodor";
 import Samples from "../../lang/Samples";
 import glob = require("glob");
 
