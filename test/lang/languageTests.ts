@@ -1,9 +1,8 @@
-import test from "ava";
+import {test, packageDir} from "../_ava-shim";
 import fs = require("fs");
 import Environment from "../../lang/Environment";
 import Interpreter from "../../lang/Interpreter";
 import glob = require("glob");
-import {packageDir} from "../_ava-meta";
 
 function executeAndGetOutput(code: string) {
     let output = "";
@@ -22,7 +21,7 @@ const hodorTests: { [filename: string]: (filepath: string, code: string) => void
     },
     ["hodor.hodor"]: (filepath, code) => {
         test(`${filepath} should output stuff`, t=> {
-            t.is(executeAndGetOutput(code), ["false", "false", "T eU", ""].join("\r\n"))
+            t.is(executeAndGetOutput(code), ["false", "false", "A b c", ""].join("\r\n"))
         });
     },
     [""]: (filepath, code) => {

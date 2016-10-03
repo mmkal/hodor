@@ -1,7 +1,6 @@
 import { Transpiler } from "../../encoding/transpiler";
-import test from "ava";
+import {test,packageDir} from "../_ava-shim";
 import fs = require("fs");
-import {packageDir} from "../_ava-meta";
 
 [
     "e",
