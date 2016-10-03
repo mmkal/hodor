@@ -36,19 +36,15 @@ if (isDebugging) {
     let failedTests = 0;
 
     async function runTest() {
-        const args = [...arguments]
+        const args = [...arguments];
         args.unshift(null);
         const test = new (Function.prototype.bind.apply(Test, args));
 
         let finished: (value?: any | PromiseLike<any>) => void;
-        const testFinished = new Promise(resolve => {
-            finished = resolve;
-        });
+        const testFinished = new Promise(resolve => finished = resolve);
         const currentTests = [..._runningTests];
         _runningTests.push(testFinished);
-        if (currentTests.length > 0) {
-            await Promise.all(currentTests);
-        }
+        await Promise.all(currentTests);
         process.stdout.write(`Running test ${test.title}... `);
         const result = await test.run();
         if (test.assertError) {
@@ -80,13 +76,13 @@ if (isDebugging) {
     const oldTest: any = ava.test;
     const newTest: any = runTest;
 
+    Object.keys(oldTest).forEach(k => newTest[k] = oldTest[k]);
+
     Object.defineProperty(ava, "test", {
         get() {
             return newTest;
         }
     });
-
-    Object.keys(oldTest).forEach(k => newTest[k] = oldTest[k]);
 
     (async function() {
         const avaFiles = new AvaFiles({ files: initialProcessArgs.slice(2), cwd: cwd });

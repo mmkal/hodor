@@ -13,7 +13,7 @@ function executeAndGetOutput(code: string) {
     return output;
 }
 
-const hodorTests: { [filename: string]: (filepath: string, code: string) => void } = {
+const hodorTests: { [pathEnding: string]: (filepath: string, code: string) => void } = {
     ["quine.hodor"]: (filepath, code) => {
         test(`${filepath} should be a quine`, t => {
             t.is(executeAndGetOutput(code), code);
@@ -29,9 +29,18 @@ const hodorTests: { [filename: string]: (filepath: string, code: string) => void
     }
 }
 
+const matchedPathEndings = new Set<string>();
+const availablePathEndings = Object.keys(hodorTests); 
 glob.sync(packageDir + "/test/**/*.hodor").forEach(filepath => {
     const code = fs.readFileSync(filepath, "utf8");
-    Object.keys(hodorTests)
-        .filter(filename => filepath.endsWith(filename))
-        .forEach(filename => hodorTests[filename](filepath, code));
+    availablePathEndings
+        .filter(pathEnding => filepath.endsWith(pathEnding))
+        .forEach(pathEnding => {
+            hodorTests[pathEnding](filepath, code);
+            matchedPathEndings.add(pathEnding);
+        });
+});
+
+availablePathEndings.forEach(path => {
+    test(`Path ending "${path}" should have matched at some point`, t => t.true(matchedPathEndings.has(path)));
 });
