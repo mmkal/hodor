@@ -27,7 +27,7 @@ export default class TokenStream implements Stream<Token> {
         return " \r\t\n".indexOf(ch) >= 0;
     }
 
-    private isAhead(str: string) {
+    private isAboutToSee(str: string) {
         return this.input.peek(str.length) === str;
     }
 
@@ -41,10 +41,10 @@ export default class TokenStream implements Stream<Token> {
 
     private readUntil(str: string) {
         const chars = new Array<string>();
-        while (!this.input.eof() && !this.isAhead(str)) {
+        while (!this.input.eof() && !this.isAboutToSee(str)) {
             chars.push(this.input.next());
         }
-        if (!this.isAhead(str)) {
+        if (!this.isAboutToSee(str)) {
             this.fail(`Expected to find "${str}" but reached end of file.`);
         }
         return chars.join("");
@@ -147,7 +147,7 @@ export default class TokenStream implements Stream<Token> {
             return this.readNext();
         }
 
-        if (this.isAhead(Symbols.Delimiters.LiteralQuoteStart)) return this.readLiteral();
+        if (this.isAboutToSee(Symbols.Delimiters.LiteralQuoteStart)) return this.readLiteral();
         if (ch === Symbols.Delimiters.SingleQuote) return this.readVariableName();
         if (ch === Symbols.Delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();

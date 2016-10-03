@@ -36,7 +36,7 @@ export default class InputStream implements Stream<string> {
 
         const explanation = part1 + " >>> " +  line[this.column] + " <<< " + part2;
         
-        const err = `${message} (${this.line}:${this.column}).\n${explanation}"`;
+        const err = `${message} (${this.line}:${this.column})`;
 
         console.error(err);
         throw new Error(err);
