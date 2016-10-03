@@ -1,6 +1,6 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
-import {Transpiler} from "../encoding/Transpiler";
+import {Transpiler} from "./Transpiler";
 
 export default class TokenStream implements Stream<Token> {
     private current: Token = null;

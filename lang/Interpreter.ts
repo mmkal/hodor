@@ -3,7 +3,7 @@ import Environment from "./Environment"
 import Parser from "./Parser"
 import TokenStream from "./TokenStream"
 import InputStream from "./InputStream"
-import { Transpiler } from "../encoding/Transpiler";
+import { Transpiler } from "./Transpiler";
 
 export default class Interpreter {
     constructor(public env: Environment) {

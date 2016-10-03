@@ -1,5 +1,5 @@
 import Interpreter from "./Interpreter";
-import { Transpiler } from "../encoding/Transpiler";
+import { Transpiler } from "./Transpiler";
 
 export default class Environment {
     public vars: { [key: string]: boolean };

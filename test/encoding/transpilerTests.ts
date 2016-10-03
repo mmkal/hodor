@@ -1,4 +1,4 @@
-import { Transpiler } from "../../encoding/transpiler";
+import { Transpiler } from "../../lang/transpiler";
 import {test,packageDir} from "../_ava-shim";
 import fs = require("fs");
 
