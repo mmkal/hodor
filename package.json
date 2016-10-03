@@ -2,7 +2,7 @@
   "name": "hodor",
   "version": "0.0.1",
   "description": "Hodor. http://lisperator.net/pltut/parser/",
-  "main": "hodor.hodor",
+  "main": "js/lang/Hodor.js",
   "scripts": {
     "build": "tsc -p .",
     "test": "ava js/test"
@@ -17,5 +17,6 @@
     "chokidar-cli": "^1.2.0",
     "glob": "^7.1.0",
     "tap-markdown": "^1.2.1"
-  }
+  },
+  "bin": "js/lang/cli.js"
 }
