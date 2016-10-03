@@ -42,11 +42,11 @@ availablePathEndings.forEach(path => {
     test(`Path ending "${path}" should have matched at some point`, t => t.true(matchedPathEndings.has(path)));
 });
 
-test("Print hello world", t => {
+test(Samples.HelloWorld.name + " sample", t => {
     t.is(executeAndGetOutput(Samples.HelloWorld()), "Hello, World!");
 });
 
-test(`${Samples.Quine.name} should build a quine`, t => {
+test(Samples.Quine.name + " sample", t => {``
     const quine = Samples.Quine();
     const output = executeAndGetOutput(quine);
     t.is(output, quine);
