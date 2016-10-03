@@ -1,6 +1,6 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
-import {Transpiler} from "./Transpiler";
+import {Hodor} from "./Hodor";
 
 export default class TokenStream implements Stream<Token> {
     private current: Token = null;
@@ -86,7 +86,7 @@ export default class TokenStream implements Stream<Token> {
 
     private readVariableName(): Token {
         const hodorValue = this.readEscaped(Symbols.Delimiters.SingleQuote);
-        const wylisValue = Transpiler.Wylis(hodorValue);
+        const wylisValue = Hodor.Wylis(hodorValue);
         return {
             type: Symbols.Tokens.Variable,
             value: wylisValue

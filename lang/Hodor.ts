@@ -1,4 +1,4 @@
-export module Transpiler {
+export module Hodor {
     enum MorseUnit {
         Dot,
         Dash

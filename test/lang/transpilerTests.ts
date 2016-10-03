@@ -1,4 +1,4 @@
-import { Transpiler } from "../../lang/transpiler";
+import { Hodor } from "../../lang/Hodor";
 import {test,packageDir} from "../_ava-shim";
 import fs = require("fs");
 
@@ -17,8 +17,8 @@ import fs = require("fs");
     fs.readFileSync(packageDir + "/package.json", "utf8")
 ].forEach(original => {
     test("Hodor then Wylis returns original: " + original.split("\n")[0], t => {
-        const hodor = Transpiler.Hodor(original);
-        const wylis = Transpiler.Wylis(hodor);
+        const hodor = Hodor.Hodor(original);
+        const wylis = Hodor.Wylis(hodor);
         t.is(wylis, original);
     });
 });
@@ -30,12 +30,12 @@ import fs = require("fs");
     "et Et"
 ].map(s => s.split(" ")).forEach(cases => {
     test("Hodor is case sensitive: " + cases.join(), t => {
-        t.not(Transpiler.Hodor(cases[0]), Transpiler.Hodor(cases[1]));
+        t.not(Hodor.Hodor(cases[0]), Hodor.Hodor(cases[1]));
     });
 });
 
 ["Hodor. Hello"].forEach(invalidHodor => {
     test("Wylis should fail on invalid Hodor: " + invalidHodor, t => {
-        t.throws(() => Transpiler.Wylis(invalidHodor));
+        t.throws(() => Hodor.Wylis(invalidHodor));
     });
 });

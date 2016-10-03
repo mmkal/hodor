@@ -1,5 +1,5 @@
 import Interpreter from "./Interpreter";
-import { Transpiler } from "./Transpiler";
+import { Hodor } from "./Hodor";
 
 export default class Environment {
     public vars: { [key: string]: boolean };
@@ -53,8 +53,8 @@ export default class Environment {
     }
 
     withHodor() {
-        this.def("hodor", (wylis: string) => Transpiler.Hodor(wylis));
-        this.def("wylis", (hodor: string) => Transpiler.Wylis(hodor));
+        this.def("hodor", (wylis: string) => Hodor.Hodor(wylis));
+        this.def("wylis", (hodor: string) => Hodor.Wylis(hodor));
         return this;
     }
 

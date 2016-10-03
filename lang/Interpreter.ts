@@ -3,7 +3,7 @@ import Environment from "./Environment"
 import Parser from "./Parser"
 import TokenStream from "./TokenStream"
 import InputStream from "./InputStream"
-import { Transpiler } from "./Transpiler";
+import { Hodor } from "./Hodor";
 
 export default class Interpreter {
     constructor(public env: Environment) {
@@ -21,7 +21,7 @@ export default class Interpreter {
             case Symbols.Tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
             case Symbols.Tokens.String:
-                return Transpiler.Wylis(exp.value);
+                return Hodor.Wylis(exp.value);
 
             case Symbols.Tokens.Variable:
                 return this.env.get(exp.value);

@@ -2,7 +2,7 @@ import {test, packageDir} from "../_ava-shim";
 import fs = require("fs");
 import Environment from "../../lang/Environment";
 import Interpreter from "../../lang/Interpreter";
-import {Transpiler} from "../../lang/Transpiler";
+import {Hodor} from "../../lang/Hodor";
 import glob = require("glob");
 
 function executeAndGetOutput(code: string) {
@@ -51,10 +51,10 @@ function buildQuine() {
     ];
 
     function hodoriseQuotes(code: string) {
-        return code.replace(/"([^"]+)"/g, (match, group1) => `"` + Transpiler.Hodor(group1) + `"`);
+        return code.replace(/"([^"]+)"/g, (match, group1) => `"` + Hodor.Hodor(group1) + `"`);
     }
     function hodoriseVariables(code: string) {
-        return code.replace(/\$(\w+?)\b/g, (match, group1) => `'` + Transpiler.Hodor(group1) + `'`);
+        return code.replace(/\$(\w+?)\b/g, (match, group1) => `'` + Hodor.Hodor(group1) + `'`);
     }
 
     /// the string literal will be evaled, so literals inside it need to be hodorised
@@ -66,7 +66,7 @@ function buildQuine() {
 
     const evalableString = substringsHodorisedLines.join(`\r\n`);
 
-    const hodorisedEvalableString = Transpiler.Hodor(evalableString);
+    const hodorisedEvalableString = Hodor.Hodor(evalableString);
 
     const quine = hodoriseVariables(`$c = @"`) + hodorisedEvalableString + hodoriseVariables(`"@;$eval($c);\r\n`);
 
