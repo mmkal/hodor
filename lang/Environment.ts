@@ -53,7 +53,7 @@ export default class Environment {
     }
 
     withHodor() {
-        this.def("hhodor", (wylis: string) => Transpiler.Hodor(wylis));
+        this.def("hodor", (wylis: string) => Transpiler.Hodor(wylis));
         this.def("wylis", (hodor: string) => Transpiler.Wylis(hodor));
         return this;
     }

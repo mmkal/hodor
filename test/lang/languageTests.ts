@@ -20,11 +20,6 @@ const hodorTests: { [pathEnding: string]: (filepath: string, code: string) => vo
             t.is(executeAndGetOutput(code), code);
         });
     },
-    ["hodor.hodor"]: (filepath, code) => {
-        test(`${filepath} should output stuff`, t=> {
-            t.is(executeAndGetOutput(code), ["false", "false", "A b c", ""].join("\r\n"))
-        });
-    },
     [""]: (filepath, code) => {
         test(filepath + " should not throw", t => t.notThrows(() => executeAndGetOutput(code)));
     }
@@ -32,7 +27,7 @@ const hodorTests: { [pathEnding: string]: (filepath: string, code: string) => vo
 
 const matchedPathEndings = new Set<string>();
 const availablePathEndings = Object.keys(hodorTests); 
-glob.sync(packageDir + "/test/**/*.hodor").forEach(filepath => {
+glob.sync(packageDir + "/**/*.hodor").forEach(filepath => {
     const code = fs.readFileSync(filepath, "utf8");
     availablePathEndings
         .filter(pathEnding => filepath.endsWith(pathEnding))
@@ -49,9 +44,9 @@ availablePathEndings.forEach(path => {
 function buildQuine() {
     const evalableLines = [
         ``,
-        `@s = fromCharCode(64) + fromCharCode(34);`,
-        `@e = fromCharCode(34) + fromCharCode(64);`,
-        `print("@c = "+@s+@hhodor(@c)+@e+";@eval(@c);")`,
+        `@s = @fromCharCode(64) + @fromCharCode(34);`,
+        `@e = @fromCharCode(34) + @fromCharCode(64);`,
+        `@print("@c = "+@s+@hodor(@c)+@e+";@eval(@c);")`,
         ``
     ];
 
@@ -80,5 +75,6 @@ function buildQuine() {
 
 test(`${buildQuine.name} should build a quine`, t => {
     const quine = buildQuine();
-    t.is(executeAndGetOutput(quine), quine);
+    const output = executeAndGetOutput(quine);
+    t.is(output, quine);
 });

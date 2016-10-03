@@ -72,10 +72,12 @@ export default class TokenStream implements Stream<Token> {
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
-        const type
-            = Symbols.Keywords.values.has(id)   ? Symbols.Tokens.Keyword
-            : Symbols.Operators.values.has(id)  ? Symbols.Tokens.Operator
-                                                : Symbols.Tokens.Variable;
+        // TODO: tidy this up. readIdent() doesn't have that much value right now.
+        // const type
+        //     = Symbols.Keywords.values.has(id)   ? Symbols.Tokens.Keyword
+        //     : Symbols.Operators.values.has(id)  ? Symbols.Tokens.Operator
+        //                                         : Symbols.Tokens.Variable;
+        const type = Symbols.Keywords.values.has(id) ? Symbols.Tokens.Keyword : Symbols.Tokens.Operator;
         return {
             type: type,
             value: id
