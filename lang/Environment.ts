@@ -40,8 +40,8 @@ export default class Environment {
         return this.vars[name] = value;
     }
 
-    withConsoleLogger(print: string = "print") {
-        this.def(print, (txt: any) => console.log(txt));
+    withConsoleLogger() {
+        this.def("print", (txt: any) => console.log(txt));
         return this;
     }
 
