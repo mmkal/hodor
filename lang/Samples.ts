@@ -42,13 +42,18 @@ $print($f("Hello"));
     export function operators() {
         return Hodor.n00b(`
 $num = 1 + 2 - 3 * 4 / 5 % 6;
-$print(($num < 7) Ho-dor ($num > 8) Hod-or ($num <= 9) != ($num >= 10) == ($num <= 11));
+$val = ($num < 7) Ho-dor ($num > 8) Hod-or ($num <= 9) != ($num >= 10) == ($num <= 11);
+Hodor? (1 < 2) Hodor! $print(HODOR) Hodor!! $print(hodor);
+Hodor? (1 > 2) Hodor! $print(hodor) Hodor!! $print(HODOR);
 `.trim());
     }
 
+    /* istanbul ignore next */
     const _samples: any = Samples;
+    /* istanbul ignore next */
     export const All: (() => string)[] = Object.keys(Samples).map(k => _samples[k]);
 
+    /* istanbul ignore next */
     export function writeAllToDisk(dir = "samples") {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir);
@@ -62,6 +67,7 @@ $print(($num < 7) Ho-dor ($num > 8) Hod-or ($num <= 9) != ($num >= 10) == ($num 
 
 export default Samples;
 
+/* istanbul ignore if */
 if (require.main === module) {
     Samples.writeAllToDisk();
 }

@@ -56,7 +56,7 @@ export default class Interpreter {
         }
     }
 
-    private primitive(value: any, type: string) {
+    primitive(value: any, type: string) {
         if (typeof value === type) {
             return value;
         }
@@ -66,7 +66,8 @@ export default class Interpreter {
         let parsedValue: any;
         try {
             parsedValue = JSON.parse(value);
-        } catch (jsonError) {
+        } 
+        catch (jsonError) {
             throw new Error(`Expected a ${type} but got ${value}.`);
         }
         if (typeof parsedValue !== type) {

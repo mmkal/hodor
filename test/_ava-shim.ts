@@ -7,6 +7,7 @@ let initialProcessArgs: string[];
 let cwd: string;
 
 // If we're debugging, do some shimming so ava doesn't complain about bad setup.
+/* istanbul ignore next */
 if (isDebugging) {
     // Save initial process args, ava messes around with some stuff.
     initialProcessArgs = [...process.argv];
@@ -25,6 +26,7 @@ if (isDebugging) {
 
 import ava = require("ava");
 
+/* istanbul ignore next */
 if (isDebugging) {
     process.chdir(__dirname);
 

@@ -57,10 +57,6 @@ export default class Parser {
         if (this.isKw(kw)) this.input.next();
         else this.input.fail("Expecting keyword: \"" + kw + "\"");
     }
-    private skipOp(op: string) {
-        if (this.isOp(op)) this.input.next();
-        else this.input.fail("Expecting operator: \"" + op + "\"");
-    }
     private unexpected(tok?: Token) {
         this.input.fail("Unexpected token: " + JSON.stringify(tok || this.input.peek()));
     }
