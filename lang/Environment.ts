@@ -58,7 +58,7 @@ export default class Environment {
 
     withAccessors() {
         this.def("prop", (obj: any, prop: string, value?: any) => {
-            if (typeof value === "undefined") {
+            if (arguments.length < 3) {
                 return obj[prop];
             }
             else {
