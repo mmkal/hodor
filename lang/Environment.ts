@@ -72,10 +72,7 @@ export default class Environment {
     }
 
     withPrimitives() {
-        this.def("String", String);
-        this.def("Number", Number);
-        this.def("Boolean", Boolean);
-        return this;
+        return this.withKVs({String, Number, Boolean});
     }
 
     withEval() {
