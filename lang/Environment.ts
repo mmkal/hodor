@@ -45,10 +45,8 @@ export default class Environment {
         return this;
     }
 
-    withFileIO(readFile: string = "readFile", writeFile: string = "writeFile") {
-        const fs = require("fs");
-        this.def(readFile, (path: string) => fs.readFileSync(path, "utf8"));
-        this.def(writeFile, (path: string, text: string) => fs.writeFileSync(path, text, { encoding: "utf8" }));
+    withModule(name: string) {
+        this.def(name, require(name));
         return this;
     }
 
@@ -67,6 +65,9 @@ export default class Environment {
                 return obj[prop] = value;
             }
         });
+        this.def("call", (obj: any, method: string) => {
+            return obj[method].apply(obj, [...arguments].slice(2));
+        });
         return this;
     }
 
@@ -77,13 +78,13 @@ export default class Environment {
         return this;
     }
 
-    withStringFunctions() {
-        this.def("fromCharCode", (code: number) => String.fromCharCode(code));
+    withEval() {
+        this.def("eval", (code: string) => this.createInterpreter().execute(code));
         return this;
     }
 
-    withEval() {
-        this.def("eval", (code: string) => this.createInterpreter().execute(code));
+    withKVs(obj: any) {
+        Object.keys(obj).forEach(k => this.def(k, obj[k]));
         return this;
     }
 
@@ -91,11 +92,11 @@ export default class Environment {
         return new Environment()
             .withEval()
             .withConsoleLogger()
-            .withFileIO()
-            .withHodor()
-            .withStringFunctions()
-            .withAccessors()
             .withPrimitives()
+            .withHodor()
+            .withAccessors()
+            .withKVs({require})
+            .withModule("fs")
             ;
     }
 

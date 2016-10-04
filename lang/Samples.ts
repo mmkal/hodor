@@ -6,8 +6,9 @@ import decamelize = require("decamelize");
 export module Samples {
     export function quine() {
         const wylis = `
-$s = $fromCharCode(64) + $fromCharCode(34);
-$e = $fromCharCode(34) + $fromCharCode(64);
+$f = $prop($String, "fromCharCode");
+$s = $f(64) + $f(34);
+$e = $f(34) + $f(64);
 $print("$c = "+$s+$hodor($c)+$e+";$eval($c);")
 `;
         const hodor = Hodor.n00b(wylis);
