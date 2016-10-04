@@ -3,6 +3,7 @@ import fs = require("fs");
 import Environment from "./Environment";
 import repl = require("repl");
 import Hodor from "./Hodor";
+import chalk = require("chalk");
 
 const hodorArgv = process.argv.slice(2);
 const __hodorfile = hodorArgv[0];
@@ -15,21 +16,21 @@ if (__hodorfile) {
 else {
     const interpreter = Environment.createStandard().createInterpreter();
     const hodorRepl = repl.start({
-        prompt: "Hodor? ",
+        prompt: chalk.green("Hodor? "),
         eval: (cmd: string, context: any, filename: string, callback: Function) => {
             const input = cmd.trim();
             try {
-                interpreter.execute(input);
+                console.log(JSON.stringify(interpreter.execute(input)));
             }
             catch (evalError) {
                 try {
-                    console.log(Hodor.Wylis(input));
+                    console.log(chalk.blue("Hodor! ") + Hodor.Wylis(input));
                 }
                 catch(wylisError) {
-                    console.log(Hodor.Hodor(input));
+                    console.log(chalk.red("Hodor! ") + Hodor.Hodor(input));
                 }
             }
-            callback(null);
+            callback();
         }
     });
 }

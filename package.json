@@ -18,5 +18,8 @@
     "decamelize": "^1.2.0",
     "tap-markdown": "^1.2.1"
   },
-  "bin": "js/lang/cli.js"
+  "bin": "js/lang/cli.js",
+  "dependencies": {
+    "chalk": "^1.1.3"
+  }
 }
