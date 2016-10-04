@@ -4,7 +4,7 @@
   "description": "Hodor. http://lisperator.net/pltut/parser/",
   "main": "js/lang/Hodor.js",
   "scripts": {
-    "build": "tsc -p .",
+    "prepublish": "tsc -p .",
     "test": "ava js/test"
   },
   "keywords": [
