@@ -18,8 +18,8 @@ const hodorTests: { [pathEnding: string]: (filepath: string, code: string) => vo
     ["quine.hodor"]: (filepath, code) => {
         test(`${filepath} should be a quine`, t => t.is(executeAndGetOutput(code), code));
     },
-    ["hello.hodor"]: (filepath, code) => {
-        test(`${filepath} should output hello world`, t => t.is(executeAndGetOutput(code), "Hello, world!"));
+    ["hello-world.hodor"]: (filepath, code) => {
+        test(`${filepath} should output hello world`, t => t.is(executeAndGetOutput(code), "Hello, World!"));
     },
     [""]: (filepath, code) => {
         test(filepath + " should not throw", t => t.notThrows(() => executeAndGetOutput(code)));
@@ -42,12 +42,12 @@ availablePathEndings.forEach(path => {
     test(`Path ending "${path}" should have matched at some point`, t => t.true(matchedPathEndings.has(path)));
 });
 
-test(Samples.HelloWorld.name + " sample", t => {
-    t.is(executeAndGetOutput(Samples.HelloWorld()), "Hello, World!");
+test(Samples.helloWorld.name + " sample", t => {
+    t.is(executeAndGetOutput(Samples.helloWorld()), "Hello, World!");
 });
 
-test(Samples.Quine.name + " sample", t => {``
-    const quine = Samples.Quine();
+test(Samples.quine.name + " sample", t => {``
+    const quine = Samples.quine();
     const output = executeAndGetOutput(quine);
     t.is(output, quine);
 });

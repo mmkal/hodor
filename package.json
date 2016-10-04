@@ -5,7 +5,7 @@
   "main": "js/lang/Hodor.js",
   "scripts": {
     "prepublish": "tsc -p .",
-    "test": "ava js/test"
+    "test": "ava js/test && node js/lang/Samples.js"
   },
   "keywords": [
     "hodor"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "chokidar-cli": "^1.2.0",
+    "decamelize": "^1.2.0",
     "glob": "^7.1.0",
     "tap-markdown": "^1.2.1"
   },
