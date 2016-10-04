@@ -1,11 +1,14 @@
 import {test, packageDir} from "../_ava-shim";
 import Environment from "../../lang/Environment";
 import Samples from "../../lang/Samples";
+import fs = require("fs");
 
-function executeAndGetOutput(code: string) {
+function executeAndGetOutput(code: string, modifyEnvironment: (env: Environment) => void = null) {
     const output = new Array<string>();
 
-    const interpreter = Environment.createStandard().createInterpreter();
+    const environment = Environment.createStandard();
+    modifyEnvironment && modifyEnvironment(environment);
+    const interpreter = environment.createInterpreter();
     interpreter.env.def("print", (message: string) => output.push(message));
     interpreter.execute(code);
 
@@ -16,8 +19,18 @@ test(Samples.helloWorld.name + " sample", t => {
     t.is(executeAndGetOutput(Samples.helloWorld()), "Hello, World!");
 });
 
-test(Samples.quine.name + " sample", t => {``
+test(Samples.quine.name + " sample", t => {
     const quine = Samples.quine();
     const output = executeAndGetOutput(quine);
     t.is(output, quine);
+});
+
+test(Samples.fileIOQuine + " sample", t => {
+    // This would be a quine if it were a file, but it relies on process.argv which is different when
+    // not invoking it from cli. So cheat by redefining process.argv to be __filename.
+    const output = executeAndGetOutput(
+        Samples.fileIOQuine(), 
+        env => env.def("process", { argv: [__filename] })
+        );
+    t.is(output, fs.readFileSync(__filename, "utf8"));
 });

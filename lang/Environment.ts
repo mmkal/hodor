@@ -36,17 +36,13 @@ export default class Environment {
         }
         return (scope || this).vars[name] = value;
     }
+
     def (name: string, value: any) {
         return this.vars[name] = value;
     }
 
     withConsoleLogger() {
         this.def("print", (txt: any) => console.log(txt));
-        return this;
-    }
-
-    withModule(name: string) {
-        this.def(name, require(name));
         return this;
     }
 
@@ -65,8 +61,15 @@ export default class Environment {
                 return obj[prop] = value;
             }
         });
-        this.def("call", (obj: any, method: string) => {
+        this.def("call", (obj: any, method: string, ...args: any[]) => {
             return obj[method].apply(obj, [...arguments].slice(2));
+        });
+        return this;
+    }
+
+    withConstructors() {
+        this.def("construct", (type: any, ...args: any[]) => {
+            return new (Function.prototype.bind.apply(type, args));
         });
         return this;
     }
@@ -92,8 +95,8 @@ export default class Environment {
             .withPrimitives()
             .withHodor()
             .withAccessors()
-            .withKVs({require})
-            .withModule("fs")
+            .withConstructors()
+            .withKVs({require, process, __dirname, __filename})
             ;
     }
 
