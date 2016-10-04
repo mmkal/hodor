@@ -32,6 +32,20 @@ $print($content);
 `.trim());
     }
 
+    export function helloWorldLambda() {
+        return Hodor.n00b(`
+$f = Hodor($msg) $msg + ", World!";
+$print($f("Hello"));
+`.trim());
+    }
+
+    export function operators() {
+        return Hodor.n00b(`
+$num = 1 + 2 - 3 * 4 / 5 % 6;
+$print(($num < 7) Ho-dor ($num > 8) Hod-or ($num <= 9) != ($num >= 10) == ($num <= 11));
+`.trim());
+    }
+
     const _samples: any = Samples;
     export const All: (() => string)[] = Object.keys(Samples).map(k => _samples[k]);
 

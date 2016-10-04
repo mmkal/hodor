@@ -13,6 +13,7 @@ export default class Environment {
     extend() {
         return new Environment(this);
     }
+    
     lookup (name: string) {
         let scope: Environment = this;
         while (scope) {
@@ -23,12 +24,14 @@ export default class Environment {
         }
         return scope;
     }
+
     get (name: string) {
         if (name in this.vars) {
             return this.vars[name];
         }
         throw new Error("Undefined variable " + name);
     }
+
     set (name: string, value: any) {
         const scope = this.lookup(name);
         if (!scope && this.parent) {

@@ -34,3 +34,15 @@ test(Samples.fileIOQuine + " sample", t => {
         );
     t.is(output, fs.readFileSync(__filename, "utf8"));
 });
+
+test(Samples.helloWorldLambda + " sample", t => {
+    t.is(executeAndGetOutput(Samples.helloWorldLambda()), "Hello, World!");
+});
+
+test(Samples.operators.name, t => {
+    t.is(executeAndGetOutput(Samples.operators()), "true");
+})
+
+test("Invalid script throws", t => {
+    t.throws(() => executeAndGetOutput("hello!"));
+});

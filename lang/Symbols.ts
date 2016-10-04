@@ -86,15 +86,4 @@ export default class Symbols {
     static Delimiters = new Delimiters();
 
     static Tokens = new Tokens();
-
-    static get sets(): SymbolSet[] {
-        const symbols: any = Symbols;
-        if (!symbols._sets) {
-            symbols._sets = Object
-                .keys(symbols)
-                .map(k => symbols[k])
-                .filter(v => v.hasOwnProperty("values")); 
-        }
-        return symbols._sets;
-    }
 }

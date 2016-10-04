@@ -2,3 +2,4 @@ js/
 typings/
 node_modules/
 samples/
+.nyc_output/
