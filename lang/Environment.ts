@@ -60,13 +60,21 @@ export default class Environment {
 
     withAccessors() {
         this.def("prop", (obj: any, prop: string, value?: any) => {
-            if (typeof value === undefined) {
+            if (typeof value === "undefined") {
                 return obj[prop];
             }
             else {
                 return obj[prop] = value;
             }
         });
+        return this;
+    }
+
+    withPrimitives() {
+        this.def("String", String);
+        this.def("Number", Number);
+        this.def("Boolean", Boolean);
+        return this;
     }
 
     withStringFunctions() {
@@ -74,8 +82,21 @@ export default class Environment {
         return this;
     }
 
+    withEval() {
+        this.def("eval", (code: string) => this.createInterpreter().execute(code));
+        return this;
+    }
+
     static createStandard(): Environment {
-        return new Environment().withConsoleLogger().withFileIO().withHodor().withStringFunctions();
+        return new Environment()
+            .withEval()
+            .withConsoleLogger()
+            .withFileIO()
+            .withHodor()
+            .withStringFunctions()
+            .withAccessors()
+            .withPrimitives()
+            ;
     }
 
     createInterpreter() {

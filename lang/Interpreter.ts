@@ -7,7 +7,6 @@ import Hodor from "./Hodor";
 
 export default class Interpreter {
     constructor(public env: Environment) {
-        this.env.def("eval", (code: string) => this.execute(code));
     }
 
     execute(code: string): any {
