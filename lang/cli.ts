@@ -3,8 +3,10 @@ import fs = require("fs");
 import Environment from "./Environment";
 
 const hodorArgv = process.argv.slice(2);
-const code = fs.readFileSync(hodorArgv[0], "utf8");
+const __hodorfile = hodorArgv[0];
 
-const interpreter = Environment.createStandard().createInterpreter();
+const code = fs.readFileSync(__hodorfile, "utf8");
+
+const interpreter = Environment.createStandard().withKVs({__hodorfile}).createInterpreter();
 
 interpreter.execute(code);

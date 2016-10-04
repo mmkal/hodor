@@ -27,10 +27,10 @@ test(Samples.quine.name + " sample", t => {
 
 test(Samples.fileIOQuine + " sample", t => {
     // This would be a quine if it were a file, but it relies on process.argv which is different when
-    // not invoking it from cli. So cheat by redefining process.argv to be __filename.
+    // not invoking it from cli. So cheat by redefining __hodorfile to be __filename.
     const output = executeAndGetOutput(
         Samples.fileIOQuine(), 
-        env => env.def("process", { argv: [__filename] })
+        env => env.def("__hodorfile", __filename)
         );
     t.is(output, fs.readFileSync(__filename, "utf8"));
 });

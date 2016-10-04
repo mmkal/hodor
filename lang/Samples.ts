@@ -25,12 +25,9 @@ $print("$c = "+$s+$hodor($c)+$e+";$eval($c);")
 
     export function fileIOQuine() {
         return Hodor.n00b(`
-$argv = $prop($process, "argv");
-$sliced = $call($argv, "slice", 0-1);
-$filename = $prop($sliced, 0);
 $fs = $require("fs");
 $rfs = $prop($fs, "readFileSync");
-$content = $rfs($filename, "utf8");
+$content = $rfs($__hodorfile, "utf8");
 $print($content);
 `.trim());
     }

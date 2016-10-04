@@ -96,7 +96,7 @@ export default class Environment {
             .withHodor()
             .withAccessors()
             .withConstructors()
-            .withKVs({require, process, __dirname, __filename})
+            .withKVs({global, require, process, __dirname, __filename})
             ;
     }
 
