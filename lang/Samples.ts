@@ -32,7 +32,7 @@ $fs = $require("fs");
 $rfs = $prop($fs, "readFileSync");
 $content = $rfs($filename, "utf8");
 $print($content);
-`);
+`.trim());
     }
 
     const _samples: any = Samples;
