@@ -38,7 +38,6 @@ export default class InputStream implements Stream<string> {
         
         const err = `${message} (${this.line}:${this.column})`;
 
-        console.error(err);
         throw new Error(err);
     }
 }
