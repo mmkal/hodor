@@ -1,9 +1,12 @@
 language: node_js
 node_js:
-    - "6"
-
-branches:
-    only:
-    - master
-
+- '6'
 after_success: npm run coverage
+deploy:
+  provider: npm
+  email: misha.kaletsky@gmail.com
+  api_key:
+    secure: iOHHBJ7XBLY3nRC7QARMjphnK2OTvdtS65JcobxyGJsqkjObprRk0mg/SMYg37D/Q6zQD8t34l7Q36LicTSwNztedn38wWARvZSMSm8VTr1clZIvr4gB6V3wMbAkN5JWkAd/VRu74ROLvptqLYsbOpUJ9bW3FTqp4cu5U3pYUoHeHfgfplvAe8tb8MLjluUhfGEyvDl0+imCEylV7qa3XyaCUIYmp2T1Kbx8rSwwuKpOfmNz6I8Nq+4iEepa9UMphV9M9+SBLE3f94fPxrNWNtbl5hK2k9vLcPLwjWb1ftVxw5DTzzQthJtBtXfUSBx2o6n49mEEp1FhxbdHp2b9mhxw7o0i6drobaIwV/bswGMpSqydRlvMibUzIlF/v/Zo4KAlUD72Zw8VAg1HyudksfcoZHPJNn04k80LonXhvaCMX/h0fgGrPOa9PAFeOGxWXn+d9QjjXuue2jNWpP5AzAL0KMFMcX6DOQOHBQbqPzndzeNAYCwvCdLKVRcHxv5zPq/QSCumbRWVNVpMTpGh6RjYRwWae8OJg4CSiUAckqTx4hzip0NppL9as5ysTqwJKFYIwXu2dH8crmF0YYn3yFFT+xlsXUxz1Hua+QpH4wspHjk7EpgInGbFJT4RoK6B6hF04kqiReRcaKSI0bU6nVyGYnDlgJm5XSe+mDRmTy0=
+  on:
+    branch: master
+    repo: mmkal/hodor
