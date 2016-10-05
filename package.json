@@ -20,7 +20,8 @@
     "chokidar-cli": "^1.2.0",
     "decamelize": "^1.2.0",
     "minimist": "^1.2.0",
-    "tap-markdown": "^1.2.1"
+    "tap-markdown": "^1.2.1",
+    "typescript": "^2.0.3"
   },
   "bin": "js/lang/cli.js",
   "dependencies": {
