@@ -75,7 +75,7 @@ const outputs: { [name: string]: string } = {
     "get in lambda:3": `$x = 1; $f = Hodor($y) { $print($x + $y); }; $f(2);`,
     "set in lambda:3":`$f = Hodor($x) { $y = $x + 2; }; $print($f(1));`,
     "construct and call method:Hi I'm bob and it's Monday": `$b = $construct($TestThing, "bob"); $print($call($b, "getGreeting", "Monday"));`,
-    "string escaping:\"hi\"": `$print("\"hi\"");`
+    "string escaping:\"hi\"": `$print("\\"hi\\"");`
 };
 
 Object.keys(outputs).forEach(info => {
