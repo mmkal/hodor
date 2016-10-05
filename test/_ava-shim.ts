@@ -47,6 +47,10 @@ if (isDebugging) {
         const currentTests = [..._runningTests];
         _runningTests.push(testFinished);
         await Promise.all(currentTests);
+        if (!test.title || test.title === "[anonymous]") {
+            const fn: string = test.fn.toString().replace(/\r?\n/g, " ");
+            if (fn.length < 60) test.title = fn;
+        }
         process.stdout.write(`Running test ${test.title}... `);
         const result = await test.run();
         if (test.assertError) {
