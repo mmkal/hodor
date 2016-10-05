@@ -54,7 +54,6 @@ Hodor? (1 > 2) Hodor! $print(hodor) Hodor!! $print(HODOR);
      * dumb and will only work with very simple scripts, while you're learning how to Hodor properly.
      */
     export function fromPseudoHodor(wylis: string) {
-        // TODO: make this work!
         function hodoriseQuotes(code: string) {
             return code.replace(/([^@])"(?!@)([^"]+[^@])"(?!@)/g, (match, group1, group2) => group1 + `"` + Hodor.Hodor(group2) + `"`);
         }
