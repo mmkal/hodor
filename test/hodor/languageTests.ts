@@ -62,7 +62,7 @@ const validScriptTests: { [name: string]: string } = {
 
 Object.keys(validScriptTests).forEach(name => {
     test(decamelize(name) + " script doesn't throw", t => {
-        const code = Hodor.n00b(validScriptTests[name]);
+        const code = Samples.fromPseudoHodor(validScriptTests[name]);
         t.notThrows(() => executeAndGetOutput(code));
     });
 });
@@ -81,7 +81,7 @@ const outputs: { [name: string]: string } = {
 Object.keys(outputs).forEach(info => {
     const [name, message] = info.split(":");
     test(name + " should output " + message, t => {
-        const code = Hodor.n00b(outputs[info]);
+        const code = Samples.fromPseudoHodor(outputs[info]);
         t.is(executeAndGetOutput(code), message);
     });
 });
@@ -98,14 +98,14 @@ const invalidScriptTests: { [name: string]: string } = {
 Object.keys(invalidScriptTests).forEach(info => {
     const[name, errorRegex] = info.split(":");
     test(name + " throws", t => {
-        const code = Hodor.n00b(invalidScriptTests[info]);
+        const code = Samples.fromPseudoHodor(invalidScriptTests[info]);
         t.throws(() => executeAndGetOutput(code), new RegExp(errorRegex));
     });
 });
 
 test(Samples.operators.name, t => {
     t.is(executeAndGetOutput(Samples.operators()), "true\r\ntrue");
-})
+});
 
 test("Invalid script throws", t => {
     t.throws(() => executeAndGetOutput("hello!"));
