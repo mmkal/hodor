@@ -5,9 +5,9 @@
   "repository": {
     "url": "https://github.com/mmkal/hodor"
   },
-  "main": "js/lang/Hodor.js",
+  "main": "js/hodor/Hodor.js",
   "scripts": {
-    "prepublish": "typings install && tsc -p . && node js/lang/Samples.js",
+    "prepublish": "typings install && tsc -p . && node js/hodor/Samples.js",
     "test": "nyc ava js/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -25,7 +25,7 @@
     "typescript": "^2.0.3",
     "typings": "^1.4.0"
   },
-  "bin": "js/lang/cli.js",
+  "bin": "js/hodor/cli.js",
   "dependencies": {
     "chalk": "^1.1.3"
   }

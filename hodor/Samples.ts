@@ -11,20 +11,20 @@ $s = $f(64) + $f(34);
 $e = $f(34) + $f(64);
 $print("$c = "+$s+$hodor($c)+$e+";$eval($c);")
 `;
-        const hodor = Hodor.n00b(wylis);
+        const hodor = fromPseudoHodor(wylis);
         const literal = Hodor.Hodor(hodor);
 
-        const quine = Hodor.n00b(`$c = @"`) + literal + Hodor.n00b(`"@;$eval($c);`);
+        const quine = fromPseudoHodor(`$c = @"`) + literal + fromPseudoHodor(`"@;$eval($c);`);
 
         return quine;
     }
 
     export function helloWorld() {
-        return Hodor.n00b(`$print("Hello, World!");`);
+        return fromPseudoHodor(`$print("Hello, World!");`);
     }
 
     export function fileIOQuine() {
-        return Hodor.n00b(`
+        return fromPseudoHodor(`
 $fs = $require("fs");
 $rfs = $prop($fs, "readFileSync");
 $content = $rfs($__hodorfile, "utf8");
@@ -33,14 +33,14 @@ $print($content);
     }
 
     export function helloWorldLambda() {
-        return Hodor.n00b(`
+        return fromPseudoHodor(`
 $f = Hodor($msg) $msg + ", World!";
 $print($f("Hello"));
 `.trim());
     }
 
     export function operators() {
-        return Hodor.n00b(`
+        return fromPseudoHodor(`
 $num = 1 + 2 - 3 * 4 / 5 % 6;
 $val = ($num < 7) Ho-dor ($num > 8) Hod-or ($num <= 9) != ($num >= 10) == ($num <= 11);
 Hodor? (1 < 2) Hodor! $print(HODOR) Hodor!! $print(hodor);
@@ -48,20 +48,24 @@ Hodor? (1 > 2) Hodor! $print(hodor) Hodor!! $print(HODOR);
 `.trim());
     }
 
-    /* istanbul ignore next */
-    const _samples: any = Samples;
-    /* istanbul ignore next */
-    export const All: (() => string)[] = Object.keys(Samples).map(k => _samples[k]);
-
-    /* istanbul ignore next */
-    export function writeAllToDisk(dir = "samples") {
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
+    /**
+     * If you're still unfamiliar with Hodor, you can use fromPseudoHodor to convert Hodor-style pseudocode into
+     * valid Hodor. This will very naively attempt to find quotes and variables (denoted by $someWord). It's 
+     * dumb and will only work with very simple scripts, while you're learning how to Hodor properly.
+     */
+    export function fromPseudoHodor(wylis: string) {
+        // TODO: make this work!
+        function hodoriseQuotes(code: string) {
+            return code.replace(/([^@])"(?!@)([^"]+[^@])"(?!@)/g, (match, group1, group2) => group1 + `"` + Hodor.Hodor(group2) + `"`);
         }
-        All.forEach(func => {
-            const filePath = path.join(dir, decamelize(func.name, "-") + ".hodor");
-            fs.writeFileSync(filePath, func(), { encoding: "utf8" });
-        });
+        function hodoriseVariables(code: string) {
+            return code.replace(/\$(\w+?)\b/g, (match, group1) => `'` + Hodor.Hodor(group1) + `'`);
+        }
+
+        let hodor = hodoriseVariables(wylis);
+        hodor = hodoriseQuotes(hodor);
+
+        return hodor;
     }
 }
 
@@ -69,5 +73,13 @@ export default Samples;
 
 /* istanbul ignore if */
 if (require.main === module) {
-    Samples.writeAllToDisk();
+    const dir = "samples";
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir);
+    }
+    const samples: { [name:string]: Function } = Samples as any;
+    Object.keys(samples).map(k => samples[k]).filter(fn => fn.length === 0).forEach(fn => {
+        const filepath = path.join(dir, decamelize(fn.name, "-") + ".hodor");
+        fs.writeFileSync(filepath, fn(), { encoding: "utf8" });
+    });
 }

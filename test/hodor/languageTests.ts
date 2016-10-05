@@ -1,7 +1,7 @@
 import {test, packageDir} from "../_ava-shim";
-import Environment from "../../lang/Environment";
-import Samples from "../../lang/Samples";
-import Hodor from "../../lang/Hodor";
+import Environment from "../../hodor/Environment";
+import Samples from "../../hodor/Samples";
+import Hodor from "../../hodor/Hodor";
 import fs = require("fs");
 import decamelize = require("decamelize");
 

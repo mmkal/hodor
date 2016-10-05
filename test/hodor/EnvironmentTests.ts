@@ -1,5 +1,5 @@
 import test from "../_ava-shim";
-import Environment from "../../lang/Environment";
+import Environment from "../../hodor/Environment";
 
 const env = new Environment();
 

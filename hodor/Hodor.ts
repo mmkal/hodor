@@ -73,26 +73,6 @@ export module Hodor {
         return wylis;
     }
 
-    /**
-     * If you're still unfamiliar with Hodor, you can use Hodor.n00b to convert Hodor-style pseudocode into
-     * valid Hodor. This will very naively attempt to find quotes and variables (denoted by $someWord). It's 
-     * dumb and will only work with very simple scripts, while you're learning how to Hodor properly.
-     */
-    export function n00b(wylis: string) {
-        // TODO: make this work!
-        function hodoriseQuotes(code: string) {
-            return code.replace(/([^@])"(?!@)([^"]+[^@])"(?!@)/g, (match, group1, group2) => group1 + `"` + Hodor(group2) + `"`);
-        }
-        function hodoriseVariables(code: string) {
-            return code.replace(/\$(\w+?)\b/g, (match, group1) => `'` + Hodor(group1) + `'`);
-        }
-
-        let hodor = hodoriseVariables(wylis);
-        hodor = hodoriseQuotes(hodor);
-
-        return hodor;
-    }
-
     function getWylisReplacements(hodorToken: string) {
         const replacements: { [key: string]: string } = {};
         _nodorKeys

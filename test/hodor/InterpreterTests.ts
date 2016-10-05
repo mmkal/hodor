@@ -1,6 +1,6 @@
 import test from "../_ava-shim";
-import Interpreter from "../../lang/Interpreter";
-import Environment from "../../lang/Environment";
+import Interpreter from "../../hodor/Interpreter";
+import Environment from "../../hodor/Environment";
 
 const int = new Interpreter(new Environment());
 
