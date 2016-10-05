@@ -79,6 +79,7 @@ if (require.main === module) {
     const samples: { [name:string]: Function } = Samples as any;
     Object.keys(samples).map(k => samples[k]).filter(fn => fn.length === 0).forEach(fn => {
         const filepath = path.join(dir, decamelize(fn.name, "-") + ".hodor");
+        console.log("Writing " + filepath);
         fs.writeFileSync(filepath, fn(), { encoding: "utf8" });
     });
 }
