@@ -1,0 +1,4 @@
+'Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' = 1 + 2 - 3 * 4 / 5 % 6;
+'Hodor Hodor Hodor Hodor? Hodor Hodor? Hodor Hodor, Hodor Hodor.' = ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' < 7) Ho-dor ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' > 8) Hod-or ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= 9) != ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' >= 10) == ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= 11);
+Hodor? (1 < 2) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor);
+Hodor? (1 > 2) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR);
