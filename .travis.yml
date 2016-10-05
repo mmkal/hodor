@@ -10,3 +10,4 @@ deploy:
   on:
     branch: master
     repo: mmkal/hodor
+  skip_cleanup: true
