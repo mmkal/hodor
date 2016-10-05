@@ -6,7 +6,7 @@ export default class Environment {
     public parent: Environment;
 
     constructor(parent?: Environment) {
-        this.vars = {};//Object.create(parent ? parent.vars : null);
+        this.vars = {};
         this.parent = parent;
     }
     
