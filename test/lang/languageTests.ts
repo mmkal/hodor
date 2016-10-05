@@ -67,9 +67,12 @@ Object.keys(validScriptTests).forEach(name => {
 });
 
 const outputs: { [name: string]: string } = {
+    "print:123": "$print(123);",
     "property get:123": `$print($prop($complexObject, "value"));`,
     "property set:456": `$print($prop($complexObject, "otherValue", 456));`,
     "comment ignored:hello": `$print("hello"); # goodbye`,
+    "get in lambda:3": `$x = 1; $f = Hodor($y) { $print($x + $y); }; $f(2);`,
+    "set in lambda:3":`$f = Hodor($x) { $y = $x + 2; }; $print($f(1));`
     // TODO test! "string escaping:\"hi\"": `$print("\"hi\"");`
 };
 

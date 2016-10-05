@@ -6,7 +6,7 @@ export default class Environment {
     public parent: Environment;
 
     constructor(parent?: Environment) {
-        this.vars = Object.create(parent ? parent.vars : null);
+        this.vars = {};//Object.create(parent ? parent.vars : null);
         this.parent = parent;
     }
     
@@ -26,17 +26,15 @@ export default class Environment {
     }
 
     get (name: string) {
-        if (name in this.vars) {
-            return this.vars[name];
+        const scope = this.lookup(name);
+        if (name in scope.vars) {
+            return scope.vars[name];
         }
         throw new Error("Undefined variable " + name);
     }
 
     set (name: string, value: any) {
         const scope = this.lookup(name);
-        if (!scope && this.parent) {
-            throw new Error("Undefined variable " + name);
-        }
         return (scope || this).vars[name] = value;
     }
 
