@@ -18,10 +18,10 @@ export default class TokenStream implements Stream<Token> {
         return this.isIdStart(ch) || "?!-<>=0123456789".indexOf(ch) >= 0;
     }
     private isOpChar(ch: string) {
-        return Symbols.Operators.identifyingCharacters.has(ch);
+        return Symbols.operators.identifyingCharacters.has(ch);
     }
     private isPunc(ch: string) {
-        return Symbols.Punctuation.values.has(ch);
+        return Symbols.punctuation.values.has(ch);
     }
     private isWhitespace(ch: string) {
         return " \r\t\n".indexOf(ch) >= 0;
@@ -59,23 +59,23 @@ export default class TokenStream implements Stream<Token> {
     private readNumber(): Token {
         let hasDot = false;
         const number = this.readWhile(ch => {
-            if (ch === Symbols.Delimiters.Dot) {
+            if (ch === Symbols.delimiters.Dot) {
                 if (hasDot) return false;
                 hasDot = true;
                 return true;
             }
             return this.isDigit(ch);
         });
-        return { type: Symbols.Tokens.Number, value: parseFloat(number).toString() };
+        return { type: Symbols.tokens.Number, value: parseFloat(number).toString() };
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
         // TODO: tidy this up. readIdent() doesn't have that much value right now.
         // const type
-        //     = Symbols.Keywords.values.has(id)   ? Symbols.Tokens.Keyword
-        //     : Symbols.Operators.values.has(id)  ? Symbols.Tokens.Operator
-        //                                         : Symbols.Tokens.Variable;
-        const type = Symbols.Keywords.values.has(id) ? Symbols.Tokens.Keyword : Symbols.Tokens.Operator;
+        //     = Symbols.keywords.values.has(id)   ? Symbols.tokens.Keyword
+        //     : Symbols.operators.values.has(id)  ? Symbols.tokens.Operator
+        //                                         : Symbols.tokens.Variable;
+        const type = Symbols.keywords.values.has(id) ? Symbols.tokens.Keyword : Symbols.tokens.Operator;
         return {
             type: type,
             value: id
@@ -83,10 +83,10 @@ export default class TokenStream implements Stream<Token> {
     }
 
     private readVariableName(): Token {
-        const hodorValue = this.readEscaped(Symbols.Delimiters.SingleQuote);
+        const hodorValue = this.readEscaped(Symbols.delimiters.SingleQuote);
         const wylisValue = Hodor.Wylis(hodorValue);
         return {
-            type: Symbols.Tokens.Variable,
+            type: Symbols.tokens.Variable,
             value: wylisValue
         };
     }
@@ -101,7 +101,7 @@ export default class TokenStream implements Stream<Token> {
                 chars.push(ch);
                 escaped = false;
             }
-            else if (ch === Symbols.Delimiters.Escape) {
+            else if (ch === Symbols.delimiters.Escape) {
                 escaped = true;
             }
             else if (ch === end) {
@@ -115,18 +115,18 @@ export default class TokenStream implements Stream<Token> {
     }
     private readString(): Token {
         return {
-            type: Symbols.Tokens.String,
-            value: this.readEscaped(Symbols.Delimiters.Quote)
+            type: Symbols.tokens.String,
+            value: this.readEscaped(Symbols.delimiters.Quote)
         };
     }
 
     private readLiteral(): Token {
-        this.movePast(Symbols.Delimiters.LiteralQuoteStart);
-        const value = this.readUntil(Symbols.Delimiters.LiteralQuoteEnd);
-        this.movePast(Symbols.Delimiters.LiteralQuoteEnd);
+        this.movePast(Symbols.delimiters.LiteralQuoteStart);
+        const value = this.readUntil(Symbols.delimiters.LiteralQuoteEnd);
+        this.movePast(Symbols.delimiters.LiteralQuoteEnd);
 
         return {
-            type: Symbols.Tokens.String,
+            type: Symbols.tokens.String,
             value: value
         };
     }
@@ -145,13 +145,13 @@ export default class TokenStream implements Stream<Token> {
             return this.readNext();
         }
 
-        if (this.isAboutToSee(Symbols.Delimiters.LiteralQuoteStart)) return this.readLiteral();
-        if (ch === Symbols.Delimiters.SingleQuote) return this.readVariableName();
-        if (ch === Symbols.Delimiters.Quote) return this.readString();
+        if (this.isAboutToSee(Symbols.delimiters.LiteralQuoteStart)) return this.readLiteral();
+        if (ch === Symbols.delimiters.SingleQuote) return this.readVariableName();
+        if (ch === Symbols.delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();
-        if (this.isPunc(ch)) return { type: Symbols.Tokens.Punctuation, value: this.input.next() };
-        if (this.isOpChar(ch)) return { type: Symbols.Tokens.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
+        if (this.isPunc(ch)) return { type: Symbols.tokens.Punctuation, value: this.input.next() };
+        if (this.isOpChar(ch)) return { type: Symbols.tokens.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
 
         this.input.fail("Unexpected character: "  + ch);
     }

@@ -4,6 +4,7 @@
         "module": "commonjs",
         "sourceMap": true,
         "noImplicitAny": true,
-        "outDir": "js"
+        "outDir": "js",
+        "declaration": true
     }
 }

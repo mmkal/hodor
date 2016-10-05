@@ -15,39 +15,39 @@ export default class Interpreter {
 
     evaluate(exp: Token): any {
         switch (exp.type) {
-            case Symbols.Tokens.Number:
+            case Symbols.tokens.Number:
                 return this.primitive(exp.value, "number");
-            case Symbols.Tokens.Boolean:
+            case Symbols.tokens.Boolean:
                 return this.primitive(exp.value, "boolean");
-            case Symbols.Tokens.String:
+            case Symbols.tokens.String:
                 return Hodor.Wylis(exp.value);
 
-            case Symbols.Tokens.Variable:
+            case Symbols.tokens.Variable:
                 return this.env.get(exp.value);
 
-            case Symbols.Tokens.Assign:
-                if (exp.left.type !== Symbols.Tokens.Variable) {
+            case Symbols.tokens.Assign:
+                if (exp.left.type !== Symbols.tokens.Variable) {
                     throw new Error("Cannot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
 
-            case Symbols.Tokens.Binary:
+            case Symbols.tokens.Binary:
                 return this.applyOp(exp.operator, this.evaluate(exp.left), this.evaluate(exp.right));
 
-            case Symbols.Tokens.Lambda:
+            case Symbols.tokens.Lambda:
                 return this.makeLambda(exp);
 
-            case Symbols.Tokens.If:
+            case Symbols.tokens.If:
                 const cond = this.evaluate(exp.cond);
                 if (cond !== false) {
                     return this.evaluate(exp.then);
                 }
                 return exp.else ? this.evaluate(exp.else) : false;
 
-            case Symbols.Tokens.Program:
+            case Symbols.tokens.Program:
                 return exp.prog.reduce((prev, currentToken) => this.evaluate(currentToken), false);
 
-            case Symbols.Tokens.Call:
+            case Symbols.tokens.Call:
                 const func = this.evaluate(exp.func);
                 return func.apply(null, exp.args.map(arg => this.evaluate(arg)));
 
@@ -86,19 +86,19 @@ export default class Interpreter {
             return x;
         }
         switch (op) {
-            case Symbols.Operators.Plus: return a + b;
-            case Symbols.Operators.Minus: return num(a) - num(b);
-            case Symbols.Operators.Multiply: return num(a) * num(b);
-            case Symbols.Operators.Divide: return num(a) / div(b);
-            case Symbols.Operators.Modulo: return num(a) % div(b);
-            case Symbols.Operators.And: return a !== false && b;
-            case Symbols.Operators.Or: return a !== false ? a : b;
-            case Symbols.Operators.LessThan: return num(a) < num(b);
-            case Symbols.Operators.GreaterThan: return num(a) > num(b);
-            case Symbols.Operators.Leq: return num(a) <= num(b);
-            case Symbols.Operators.Geq: return num(a) >= num(b);
-            case Symbols.Operators.EqualTo: return a === b;
-            case Symbols.Operators.NotEqualTo: return a !== b;
+            case Symbols.operators.Plus: return a + b;
+            case Symbols.operators.Minus: return num(a) - num(b);
+            case Symbols.operators.Multiply: return num(a) * num(b);
+            case Symbols.operators.Divide: return num(a) / div(b);
+            case Symbols.operators.Modulo: return num(a) % div(b);
+            case Symbols.operators.And: return a !== false && b;
+            case Symbols.operators.Or: return a !== false ? a : b;
+            case Symbols.operators.LessThan: return num(a) < num(b);
+            case Symbols.operators.GreaterThan: return num(a) > num(b);
+            case Symbols.operators.Leq: return num(a) <= num(b);
+            case Symbols.operators.Geq: return num(a) >= num(b);
+            case Symbols.operators.EqualTo: return a === b;
+            case Symbols.operators.NotEqualTo: return a !== b;
         }
         throw new Error("Can't apply operator " + op);
     }
