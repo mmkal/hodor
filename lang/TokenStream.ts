@@ -33,9 +33,7 @@ export default class TokenStream implements Stream<Token> {
 
     private movePast(str: string) {
         [...str].forEach(ch => {
-            if (this.input.next() !== ch) {
-                this.input.fail("Unexpected character: " + ch);
-            }
+            this.input.next() === ch || this.input.fail("Unexpected character: " + ch);
         });
     }
 

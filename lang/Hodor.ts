@@ -129,25 +129,28 @@ export module Hodor {
             return MorseUnit.Dash;
         }
         else {
-            throw new Error("Only . or - can be parsed as a morse unit.");
+            /* istanbul ignore next */ 
+            throw new Error(symbol + " cannot be parsed as a morse unit.");
         }
     }
 
     function HodoriseMorseUnits(units: MorseUnit[]) {
-        const hodors = units.map(unit => unit === MorseUnit.Dot ? "Hodor" : "Hodor,");
-        let hodor = hodors.join(" ");
-        const last = hodor[hodor.length - 1];
-        if (last === "r") {
-            hodor += ".";
-        }
-        else if (last === ",") {
-            const punctuation = hodors.length % 2 === 0 ? "?" : "!";
-            hodor = hodor.substring(0, hodor.length - 1) + punctuation;
-        }
-        else {
-            throw new Error("Hodor?");
-        }
-        return hodor;
+        return units.map((unit, index) => {
+            const isDot = unit === MorseUnit.Dot;
+            if (index < units.length - 1) {
+                return isDot ? "Hodor" : "Hodor,";
+            }
+            // Now deal with the last unit:
+            else if (isDot) {
+                return "Hodor.";
+            }
+            else if (units.length % 2 === 0) {
+                return "Hodor?";
+            }
+            else {
+                return "Hodor!";
+            }
+        }).join(" ");
     }
 
     function BuildHodors() {

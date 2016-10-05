@@ -68,7 +68,7 @@ Object.keys(validScriptTests).forEach(name => {
 });
 
 const outputs: { [name: string]: string } = {
-    "print:123": "$print(123);",
+    "print:1.23": "$print(1.23);",
     "property get:123": `$print($prop($complexObject, "value"));`,
     "property set:456": `$print($prop($complexObject, "otherValue", 456));`,
     "comment ignored:hello": `$print("hello"); # goodbye`,
@@ -90,7 +90,9 @@ const invalidScriptTests: { [name: string]: string } = {
     "bad assignment:Cannot assign to .*bool": "hodor = 1",
     "missing semicolon:Expecting punctuation:.*;": "$print(123) $print(456)",
     "missing then:Expecting keyword": "Hodor? (1 < 2) $print(HODOR) Hodor!! $print(hodor);",
-    "undefined variable in scope:Undefined variable": `$f = Hodor($x) { $print($y); }; $f(1);`
+    "undefined variable in scope:Undefined variable": `$f = Hodor($x) { $print($y); }; $f(1);`,
+    "weird tilde:Unexpected character: ~": "~",
+    'unterminated strign literal: Expected to find ""@" but reached end of file': '$x = @"hello' 
 };
 
 Object.keys(invalidScriptTests).forEach(info => {
