@@ -21,7 +21,8 @@
     "decamelize": "^1.2.0",
     "minimist": "^1.2.0",
     "tap-markdown": "^1.2.1",
-    "typescript": "^2.0.3"
+    "typescript": "^2.0.3",
+    "typings": "^1.4.0"
   },
   "bin": "js/lang/cli.js",
   "dependencies": {
