@@ -29,8 +29,9 @@ export default class Parser {
     parse() {
         const prog = new Array<Token>();
         while (!this.input.eof()) {
-            prog.push(this.parseExpression());
-            if (!this.input.eof()) {
+            const expression = this.parseExpression();
+            prog.push(expression);
+            if (!this.input.eof() && expression.type !== Symbols.Tokens.Program) {
                 this.skipPunc(Symbols.Punctuation.EndExpression);
             }
         }
@@ -155,8 +156,6 @@ export default class Parser {
             Symbols.Punctuation.EndExpression,
             () => this.parseExpression());
 
-        if (prog.length === 0) return this.FALSE;
-        if (prog.length === 1) return prog[0];
         return { type: Symbols.Tokens.Program, prog: prog };
     }
 

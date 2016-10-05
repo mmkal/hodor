@@ -56,7 +56,7 @@ const validScriptTests: { [name: string]: string } = {
     booleanOperators:  "$val = (1 < 7) Ho-dor (1 > 8) Hod-or (1 <= 9) != (1 >= 10) == (1 <= 11);",
     trueCondition: "Hodor? (1 < 2) Hodor! $print(HODOR) Hodor!! $print(hodor);",
     falseCondition: "Hodor? (1 > 2) Hodor! $print(hodor) Hodor!! $print(HODOR);",
-    blockScope: "{}; { $print(123); }; { $print(456); $print(789); };"
+    blockScope: "{} { $x = 123; } { $y = 456; $z = 789; }"
 };
 
 Object.keys(validScriptTests).forEach(name => {
@@ -82,15 +82,16 @@ Object.keys(outputs).forEach(info => {
 });
 
 const invalidScriptTests: { [name: string]: string } = {
-    badAssignment: "hodor = 1",
-    missingSemicolon: "$print(123) $print(456)",
-    missingThen: "Hodor? (1 < 2) $print(HODOR) Hodor!! $print(hodor);",
+    "bad assignment:Cannot assign to .*bool": "hodor = 1",
+    "missing semicolon:Expecting punctuation:.*;": "$print(123) $print(456)",
+    "missing then:Expecting keyword": "Hodor? (1 < 2) $print(HODOR) Hodor!! $print(hodor);"
 };
 
-Object.keys(invalidScriptTests).forEach(name => {
+Object.keys(invalidScriptTests).forEach(info => {
+    const[name, errorRegex] = info.split(":");
     test(name + " throws", t => {
-        const code = Hodor.n00b(invalidScriptTests[name]);
-        t.throws(() => executeAndGetOutput(code));
+        const code = Hodor.n00b(invalidScriptTests[info]);
+        t.throws(() => executeAndGetOutput(code), new RegExp(errorRegex));
     });
 });
 
