@@ -31,10 +31,11 @@ import fs = require("fs");
 
 /* istanbul ignore next */
 if (isDebugging) {
-    const options = minimist(process.argv.slice(2));
+    const options = minimist(initialProcessArgs.slice(2));
     const sort: boolean = options["sort"];
     const sortResultFile = sort ? path.resolve(__filename + ".results.json") : null;
 
+    // ava seems to change the working directory for some reason. Do the same so tests relying on that behave consistently.
     process.chdir(__dirname);
 
     const Test = require("ava/lib/test");
@@ -59,6 +60,7 @@ if (isDebugging) {
     }
 
     async function runTest(test: ITest) {
+        // If we've got an anonymous test, use function.toString() if it's short enough.
         if (!test.title || test.title === "[anonymous]") {
             const fn: string = test.fn.toString().replace(/\r?\n/g, " ");
             if (fn.length < 60) test.title = fn;
@@ -76,22 +78,27 @@ if (isDebugging) {
         }
     }
 
+    Object.defineProperty(ava, "test", {
+        get() {
+            return addTest;
+        }
+    });
+
     const oldTest: any = ava.test;
     const newTest: any = addTest;
 
     Object.keys(oldTest).forEach(k => newTest[k] = oldTest[k]);
 
-    Object.defineProperty(ava, "test", {
-        get() {
-            return newTest;
-        }
-    });
-
     (async function() {
-        const avaFiles = new AvaFiles({ files: initialProcessArgs.slice(2), cwd: cwd });
+        // Find the test files.
+        const avaFiles = new AvaFiles({ files: options._, cwd: cwd });
         const testFiles: string[] = await avaFiles.findTestFiles();
+
+        // Require each of the filepaths directly. This will make their code run, and since we've now
+        // replaced ava.test, whenever they call the test method, addTest() above will run.
         testFiles.forEach(require);
 
+        // If a results file from the previous run exists, sort the tests to put failing ones first.
         let results: { [title: string]: boolean };
         if (sortResultFile && fs.existsSync(sortResultFile)) {
             results = JSON.parse(fs.readFileSync(sortResultFile, "utf8"));
@@ -107,6 +114,7 @@ if (isDebugging) {
         console.log(`${passed}/${tests.length} tests passed.`);
         failed && console.error(`${failed}/${tests.length} tests failed. See above for details.`);
 
+        // Output test results info so they can be sorted next time, with failures going first.
         if (sortResultFile) {
             results = {};
             tests.forEach(t => results[t.title] = !t.assertError);
@@ -123,5 +131,5 @@ export default ava.test;
 
 export const test = ava.test;
 
-const options: { resolveTestsFrom: string } = JSON.parse(process.argv[2]);
-export const packageDir = options.resolveTestsFrom;
+const avaOptions: { resolveTestsFrom: string } = JSON.parse(process.argv[2]);
+export const packageDir = avaOptions.resolveTestsFrom;
