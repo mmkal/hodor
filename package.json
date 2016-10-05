@@ -8,7 +8,8 @@
   "main": "js/lang/Hodor.js",
   "scripts": {
     "prepublish": "typings install && tsc -p . && node js/lang/Samples.js",
-    "test": "ava js/test"
+    "test": "nyc ava js/test",
+    "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [
     "hodor"
@@ -17,8 +18,10 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.16.0",
+    "coveralls": "^2.11.14",
     "decamelize": "^1.2.0",
     "minimist": "^1.2.0",
+    "nyc": "^8.3.0",
     "typescript": "^2.0.3",
     "typings": "^1.4.0"
   },

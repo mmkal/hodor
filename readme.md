@@ -1,5 +1,5 @@
 # Hodor
 
-[![Build Status](https://travis-ci.org/mmkal/hodor.svg?branch=master)](https://travis-ci.org/mmkal/hodor)
+[![Build Status](https://travis-ci.org/mmkal/hodor.svg?branch=master)](https://travis-ci.org/mmkal/hodor) [![Coverage Status](https://coveralls.io/repos/github/mmkal/hodor/badge.svg?branch=master)](https://coveralls.io/github/mmkal/hodor?branch=master)
 
 Hodor.
