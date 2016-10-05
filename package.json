@@ -19,6 +19,7 @@
     "ava": "^0.16.0",
     "chokidar-cli": "^1.2.0",
     "decamelize": "^1.2.0",
+    "minimist": "^1.2.0",
     "tap-markdown": "^1.2.1"
   },
   "bin": "js/lang/cli.js",

@@ -21,13 +21,20 @@ if (isDebugging) {
     // to work. It'll use string indexing on opts.precompiled (hence empty object) and will use 
     // require(opts.file), hence "path" (a pretty safe bet for a valid require).
     const avaOptions = { file: "path", precompiled: {}, resolveTestsFrom: cwd };
-    process.argv[2] = JSON.stringify(avaOptions);
+    process.argv.splice(2, 0, JSON.stringify(avaOptions));
 }
 
 import ava = require("ava");
+import minimist = require("minimist");
+import path = require("path");
+import fs = require("fs");
 
 /* istanbul ignore next */
 if (isDebugging) {
+    const options = minimist(process.argv.slice(2));
+    const sort: boolean = options["sort"];
+    const sortResultFile = sort ? path.resolve(__filename + ".results.json") : null;
+
     process.chdir(__dirname);
 
     const Test = require("ava/lib/test");
@@ -35,10 +42,10 @@ if (isDebugging) {
     const beautifyStack = require("ava/lib/beautify-stack");
 
     interface ITest {
+        title: string;
         run: () => Promise<any> | PromiseLike<any> | void;
         fn: Function;
         assertError: Error;
-        title: string;
     }
 
     const tests = new Array<ITest>();
@@ -56,20 +63,16 @@ if (isDebugging) {
             const fn: string = test.fn.toString().replace(/\r?\n/g, " ");
             if (fn.length < 60) test.title = fn;
         }
-        process.stdout.write(`Running test ${test.title}... `);
         const result = await test.run();
         if (test.assertError) {
-            console.error("Failed.");
+            console.error(test.title + " failed.");
 
             // Prettify stack, but make sure cwd stays in there so that you can click the console error messages.
             const nixCwd = cwd.replace("\\", "/");
             let prettyStack: string = beautifyStack(test.assertError.stack);
-            prettyStack = prettyStack.replace(/\((.*:\d+:\d+)\)/g, (match, group1) => "(" + nixCwd + "/" + group1 + ")");
+            prettyStack = prettyStack.replace(/(([^ \(]+):\d+:\d+)/g, (match, group1) => "(" + nixCwd + "/" + group1 + ")");
             test.assertError.stack = prettyStack;
             console.error(test.assertError);
-        }
-        else {
-            console.log("Passed.");
         }
     }
 
@@ -88,13 +91,29 @@ if (isDebugging) {
         const avaFiles = new AvaFiles({ files: initialProcessArgs.slice(2), cwd: cwd });
         const testFiles: string[] = await avaFiles.findTestFiles();
         testFiles.forEach(require);
+
+        let results: { [title: string]: boolean };
+        if (sortResultFile && fs.existsSync(sortResultFile)) {
+            results = JSON.parse(fs.readFileSync(sortResultFile, "utf8"));
+            tests.sort((tLeft, tRight) => Number(results[tLeft.title]) - Number(results[tRight.title]));
+        }
+
         for (const test of tests) {
             await runTest(test);
         }
+
         const passed = tests.filter(t => !t.assertError).length;
         const failed = tests.length - passed; 
-        console.log(passed + " tests passed.");
-        failed && console.error(failed + " tests failed. See above for details.");
+        console.log(`${passed}/${tests.length} tests passed.`);
+        failed && console.error(`${failed}/${tests.length} tests failed. See above for details.`);
+
+        if (sortResultFile) {
+            results = {};
+            tests.forEach(t => results[t.title] = !t.assertError);
+            fs.writeFileSync(sortResultFile, JSON.stringify(results), { encoding: "utf8" });
+        }
+
+        console.log("Exiting.");
         process.exit(failed === 0 ? 0 : 1);
     })();
 }

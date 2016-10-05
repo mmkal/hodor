@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/test/_ava-shim.ts",
             "stopOnEntry": false,
-            "args": ["js/test"],
+            "args": ["js/test", "--sort"],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
