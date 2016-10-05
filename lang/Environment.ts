@@ -27,7 +27,7 @@ export default class Environment {
 
     get (name: string) {
         const scope = this.lookup(name);
-        if (name in scope.vars) {
+        if (scope && name in scope.vars) {
             return scope.vars[name];
         }
         throw new Error("Undefined variable " + name);
@@ -63,13 +63,14 @@ export default class Environment {
             }
         });
         this.def("call", (obj: any, method: string, ...args: any[]) => {
-            return obj[method].apply(obj, [...arguments].slice(2));
+            return obj[method].apply(obj, args);
         });
         return this;
     }
 
     withConstructors() {
         this.def("construct", (type: any, ...args: any[]) => {
+            args.unshift(null);
             return new (Function.prototype.bind.apply(type, args));
         });
         return this;
