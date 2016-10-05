@@ -1,13 +1,13 @@
 {
   "name": "hodor",
   "version": "0.0.1",
-  "description": "Hodor. http://lisperator.net/pltut/parser/",
+  "description": "Hodor.",
   "repository": {
     "url": "https://github.com/mmkal/hodor"
   },
   "main": "js/lang/Hodor.js",
   "scripts": {
-    "prepublish": "tsc -p . && node js/lang/Samples.js",
+    "prepublish": "typings install && tsc -p . && node js/lang/Samples.js",
     "test": "ava js/test"
   },
   "keywords": [
