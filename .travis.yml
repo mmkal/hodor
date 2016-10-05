@@ -1,7 +1,11 @@
 language: node_js
 node_js:
-    - "6"
-
+- '6'
 branches:
-    only:
-    - master
+  only:
+  - master
+deploy:
+  api_key:
+    secure: Pa6xSYO00ekPOI6UfF8oapDqC8kU9xRZjaejrg8Wdf8fMP+MQeGOTWnXCk/UdTP9DVRFJ83jq4r/PAGZO/GmIxy6O98EkxEExRCtdHSxM+mcP6xYqIu/OcNkUxEo3aDTXUU6FNdUZRmoUYQk2Uw2NY3nQqcNROPYJaaVbX85sX55NfD5EE82DRuOPQqA6n8CZUmtklUpCEz+eFsolqGCcLkQoBXa7MB4b3JrduSFb+ucu3leAzHcLhDgE7Tnwk4sJaRCv8xrXm4w5luI/7TJNR9GahY2ohaGYobqEHDnbZWXtVzgAPZhP2etwCD00f7o+UQW0CK0wlZWBUwdsAatrqkhoo0SBq7KVV5g7v90BjQPaLhXdDn10uQW7U+HMmTFPCxXJRV1/g30r+bmFJDV1tsXDZH4L39B9WBOMBhIDnQyBbm3IBdtSZn5BTiZp9bsL7yLpPkryFHMTwpL/o/1PXEZi7o21gJRjTFq8sisUOWJFw6MC6HVvUbpacFqJakeD+nJ87iR1w72c3r5RvKiIEU+SZ9vPxdJeelD4lG7PnPNQHlmyut9yyA4SXPymkIVJ7xfU8GWGCqUKIyc4SQuLsbFAnesaNhoN2KLeIPm7nmroyZvoR2qmGFG1eWiGFbevWoCHIdc6c9rNVlJqwJc41SNrZz5DRPlIqJ3EJfPiKQ=
+  email: misha.kaletsky@gmail.com
+  provider: npm
