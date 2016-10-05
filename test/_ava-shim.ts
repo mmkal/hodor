@@ -34,19 +34,24 @@ if (isDebugging) {
     const AvaFiles = require("ava-files");
     const beautifyStack = require("ava/lib/beautify-stack");
 
-    const _runningTests = new Array<Promise<any>>();
-    let failedTests = 0;
+    interface ITest {
+        run: () => Promise<any> | PromiseLike<any> | void;
+        fn: Function;
+        assertError: Error;
+        title: string;
+    }
 
-    async function runTest() {
+    const tests = new Array<ITest>();
+
+    function addTest() {
         const args = [...arguments];
         args.unshift(null);
         const test = new (Function.prototype.bind.apply(Test, args));
 
-        let finished: (value?: any | PromiseLike<any>) => void;
-        const testFinished = new Promise(resolve => finished = resolve);
-        const currentTests = [..._runningTests];
-        _runningTests.push(testFinished);
-        await Promise.all(currentTests);
+        tests.push(test);
+    }
+
+    async function runTest(test: ITest) {
         if (!test.title || test.title === "[anonymous]") {
             const fn: string = test.fn.toString().replace(/\r?\n/g, " ");
             if (fn.length < 60) test.title = fn;
@@ -62,32 +67,14 @@ if (isDebugging) {
             prettyStack = prettyStack.replace(/\((.*:\d+:\d+)\)/g, (match, group1) => "(" + nixCwd + "/" + group1 + ")");
             test.assertError.stack = prettyStack;
             console.error(test.assertError);
-
-            failedTests++;
         }
         else {
             console.log("Passed.");
         }
-
-        const index = _runningTests.indexOf(testFinished);
-        if (index > -1) {
-            _runningTests.splice(index, 1);
-        }
-        finished(result);
-        if (_runningTests.length === 0) {
-            if (failedTests > 0) {
-                console.error(failedTests + " failed tests.");
-                process.exit(1);
-            }
-            else {
-                console.log("All tests passed.");
-                process.exit();
-            }
-        }
     }
 
     const oldTest: any = ava.test;
-    const newTest: any = runTest;
+    const newTest: any = addTest;
 
     Object.keys(oldTest).forEach(k => newTest[k] = oldTest[k]);
 
@@ -101,6 +88,14 @@ if (isDebugging) {
         const avaFiles = new AvaFiles({ files: initialProcessArgs.slice(2), cwd: cwd });
         const testFiles: string[] = await avaFiles.findTestFiles();
         testFiles.forEach(require);
+        for (const test of tests) {
+            await runTest(test);
+        }
+        const passed = tests.filter(t => !t.assertError).length;
+        const failed = tests.length - passed; 
+        console.log(passed + " tests passed.");
+        failed && console.error(failed + " tests failed. See above for details.");
+        process.exit(failed === 0 ? 0 : 1);
     })();
 }
 
