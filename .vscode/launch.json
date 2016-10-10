@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceRoot}/test/_ava-shim.ts",
             "stopOnEntry": false,
-            "args": ["js/test", "--sort"],
+            "args": ["dist/test", "--sort"],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": null,
             "runtimeExecutable": null,
@@ -19,7 +19,7 @@
             },
             "console": "internalConsole",
             "sourceMaps": true,
-            "outDir": "${workspaceRoot}/js"
+            "outDir": "${workspaceRoot}/dist"
         },
         {
             "name": "Attach",

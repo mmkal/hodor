@@ -1,4 +1,4 @@
-js/ 
+dist/ 
 typings/
 node_modules/
 .nyc_output/

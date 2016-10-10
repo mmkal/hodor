@@ -1,5 +1,5 @@
-import Hodor from "../../hodor/Hodor";
-import {test,packageDir} from "../_ava-shim";
+import Hodor from "../Hodor";
+import {test,packageDir} from "./_ava-shim";
 import fs = require("fs");
 
 const sampleStrings = [
