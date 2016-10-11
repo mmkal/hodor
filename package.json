@@ -5,9 +5,9 @@
   "repository": {
     "url": "https://github.com/mmkal/hodor"
   },
-  "main": "dist/hodor/Hodor.js",
+  "main": "dist/Hodor.js",
   "scripts": {
-    "prepublish": "tsc -p . && node dist/hodor/Samples.js",
+    "prepublish": "tsc -p .",
     "test": "nyc ava dist/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -28,7 +28,7 @@
     "nyc": "^8.3.0",
     "typescript": "^2.0.3"
   },
-  "bin": "dist/hodor/cli.js",
+  "bin": "dist/cli.js",
   "dependencies": {
     "chalk": "^1.1.3"
   }
