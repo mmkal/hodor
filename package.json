@@ -7,7 +7,7 @@
   },
   "main": "dist/hodor/Hodor.js",
   "scripts": {
-    "prepublish": "typings install && tsc -p . && node dist/hodor/Samples.js",
+    "prepublish": "tsc -p . && node dist/hodor/Samples.js",
     "test": "nyc ava dist/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
@@ -17,13 +17,16 @@
   "author": "mmkal",
   "license": "MIT",
   "devDependencies": {
+    "@types/chalk": "^0.4.30",
+    "@types/decamelize": "0.0.30",
+    "@types/minimist": "^1.1.29",
+    "@types/node": "^6.0.45",
     "ava": "^0.16.0",
     "coveralls": "^2.11.14",
     "decamelize": "^1.2.0",
     "minimist": "^1.2.0",
     "nyc": "^8.3.0",
-    "typescript": "^2.0.3",
-    "typings": "^1.4.0"
+    "typescript": "^2.0.3"
   },
   "bin": "dist/hodor/cli.js",
   "dependencies": {
