@@ -12,6 +12,10 @@ if (__hodorfile) {
     const code = fs.readFileSync(__hodorfile, "utf8");
     const interpreter = Environment.createStandard().withKVs({__hodorfile}).createInterpreter();
     interpreter.execute(code);
+    console.log("Finished");
+    new Promise((r, j) => {}).then(() => {
+        console.log(123123123123);
+    });
 }
 else {
     const interpreter = Environment.createStandard().createInterpreter();
@@ -36,4 +40,5 @@ else {
         }
     });
 }
+    console.log("lastline");
     

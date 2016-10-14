@@ -1,3 +1,6 @@
+$chalk = $require("chalk");
+$foo = $call($chalk, "red", "foo");
+$print($foo);
 $express = $require("express");
 $app = $express();
 
@@ -10,13 +13,17 @@ $botConfig = $construct($Object);
 $prop($botConfig, "appId", "f3bfd2f4-85a2-4292-b6f6-4bb50528a2bf");
 $prop($botConfig, "appPassword", "ODCeCi6oaeEgX5q24fG1Ekf");
 
+$call($app, "listen", 3978, $print);
+
 $connector = $construct($Connector, $botConfig);
 
 $UniversalBot = $prop($botbuilder, "UniversalBot");
 $bot = $construct($UniversalBot, $connector);
 
 $listener = $call($connector, "listen");
-$call($app, "post", "api/messages", $listener);
+$call($app, "post", "/api/messages", $listener);
 
 $sessionHandler = Hodor($session) { $call($session, "send", "Hoooodor."); };
 $call($bot, "dialog", "/", $sessionHandler);
+
+$print(1);

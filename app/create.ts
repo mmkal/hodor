@@ -1,6 +1,7 @@
 import fs = require("fs");
 import path = require("path");
 import Samples from "../hodor/Samples"
+const express = require("express");
 
 const tsconfig = JSON.parse(fs.readFileSync("tsconfig.json", "utf8"));
 
@@ -17,3 +18,7 @@ const wylisCode = fs.readFileSync("app/app.hodor.wylis", "utf8");
 const hodorCode = Samples.fromPseudoHodor(wylisCode);
 
 fs.writeFileSync(serverFile, hodorCode, "utf8");
+
+console.log("written to", serverFile);
+
+process.exit();

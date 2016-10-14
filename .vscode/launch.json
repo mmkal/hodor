@@ -42,6 +42,26 @@
             "outDir": "${workspaceRoot}/dist"
         },
         {
+            "name": "RunApp",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/cli.ts",
+            "stopOnEntry": false,
+            "args": ["app/app.hodor"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "outDir": "${workspaceRoot}/dist"
+        },
+        {
             "name": "Attach",
             "type": "node",
             "request": "attach",
