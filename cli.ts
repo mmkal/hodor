@@ -20,7 +20,9 @@ else {
         eval: (cmd: string, context: any, filename: string, callback: Function) => {
             const input = cmd.trim();
             try {
-                console.log(JSON.stringify(interpreter.execute(input)));
+                const value = interpreter.execute(input);
+                const toPrint = value ? JSON.stringify(value) : value;
+                typeof toPrint !== "undefined" && console.log(chalk.grey(toPrint));
             }
             catch (evalError) {
                 try {
