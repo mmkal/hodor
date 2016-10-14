@@ -1,8 +1,8 @@
 #! /usr/bin/env node
 import fs = require("fs");
-import Environment from "./Environment";
+import Environment from "./hodor/Environment";
 import repl = require("repl");
-import Hodor from "./Hodor";
+import Hodor from "./hodor/Hodor";
 import chalk = require("chalk");
 
 const hodorArgv = process.argv.slice(2);
