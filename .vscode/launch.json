@@ -22,6 +22,26 @@
             "outDir": "${workspaceRoot}/dist"
         },
         {
+            "name": "CreateApp",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/app/create.ts",
+            "stopOnEntry": false,
+            "args": [""],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy"
+            ],
+            "env": {
+                "NODE_ENV": "development"
+            },
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "outDir": "${workspaceRoot}/dist"
+        },
+        {
             "name": "Attach",
             "type": "node",
             "request": "attach",
