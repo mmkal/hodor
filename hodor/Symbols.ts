@@ -61,22 +61,6 @@ export module Symbols {
         LiteralQuoteEnd = "\"@";
     }
 
-    export class Tokens extends SymbolSet {
-        Number = "Number";
-        Boolean = "Boolean";
-        Keyword = "Keyword";
-        Variable = "Variable";
-        String = "String";
-        Punctuation = "Punctuation";
-        Operator = "Operator";
-        Assign = "Assign";
-        Binary = "Binary";
-        Call = "Call";
-        If = "If";
-        Lambda = "Lambda";
-        Program = "Program";
-    }
-
     export const operators = new Operators();
 
     export const punctuation = new Punctuation();
@@ -84,8 +68,6 @@ export module Symbols {
     export const keywords = new Keywords();
 
     export const delimiters = new Delimiters();
-
-    export const tokens = new Tokens();
 }
 
 export default Symbols;

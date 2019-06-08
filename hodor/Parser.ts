@@ -31,7 +31,7 @@ export default class Parser {
         while (!this.input.eof()) {
             const expression = this.parseExpression();
             prog.push(expression);
-            if (!this.input.eof() && expression.type !== Symbols.tokens.Program) {
+            if (!this.input.eof() && expression.type !== types.Program) {
                 this.skipPunc(Symbols.punctuation.EndExpression);
             }
         }
@@ -182,7 +182,7 @@ export default class Parser {
 
             const tok = this.input.next();
 
-            if (tok.type === Symbols.tokens.Variable || tok.type === Symbols.tokens.Number || tok.type === Symbols.tokens.String) {
+            if (tok.type === types.Variable || tok.type === types.Number || tok.type === types.String) {
                 return tok;
             }
 

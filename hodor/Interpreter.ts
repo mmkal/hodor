@@ -27,7 +27,7 @@ export default class Interpreter {
                 return this.env.get(exp.value);
 
             case types.Assign:
-                if (exp.left.type !== Symbols.tokens.Variable) {
+                if (exp.left.type !== types.Variable) {
                     throw new Error("Cannot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
