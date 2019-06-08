@@ -7,7 +7,7 @@
   },
   "main": "dist/hodor/Hodor.js",
   "scripts": {
-    "prepublish": "tsc -p .",
+    "build": "tsc -p .",
     "test": "nyc ava dist/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },

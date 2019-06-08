@@ -14,7 +14,7 @@ export module Hodor {
     export function Hodor(wylis: string) {
         const hodors = new Array<string>();
         let lastWasHodor = false;
-        let lastHodor: string = null;
+        let lastHodor: string | null = null;
 
         [...wylis].forEach(ch => {
             const hodor = _hodors[ch];
@@ -80,7 +80,7 @@ export module Hodor {
                 const nodorRegex = new RegExp(escapeRegExp(nodor), "gm");
                 const indexes = new Array<number>(); 
                 
-                let match: RegExpExecArray;
+                let match: RegExpExecArray | null;
                 while ((match = nodorRegex.exec(hodorToken)) !== null) {
                     indexes.push(match.index);
                 }

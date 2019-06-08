@@ -3,7 +3,7 @@ import Hodor from "./Hodor";
 
 export default class Environment {
     public vars: { [key: string]: boolean };
-    public parent: Environment;
+    public parent?: Environment;
 
     constructor(parent?: Environment) {
         this.vars = {};
@@ -15,7 +15,7 @@ export default class Environment {
     }
     
     lookup (name: string) {
-        let scope: Environment = this;
+        let scope: Environment | undefined = this;
         while (scope) {
             if (Object.prototype.hasOwnProperty.call(scope.vars, name)) {
                 return scope;
