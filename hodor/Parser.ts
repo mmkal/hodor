@@ -111,6 +111,7 @@ export default class Parser {
     private parseVarName(): Token {
         const name = this.input.next();
         if (name && name.type === types.Variable) return name;
+        /* istanbul ignore next */
         throw this.input.fail("Expecting variable name, got " + JSON.stringify(name));
     }
     private parseIf() {
@@ -145,6 +146,7 @@ export default class Parser {
     private parseBool(): Token {
         const next: any = this.input.next()
         if (!next || !next.value) {
+            /* istanbul ignore next */
             throw this.input.fail(`expected token with value, got ${JSON.stringify(next)}`)
         }
         return {
