@@ -70,8 +70,7 @@ export default class Environment {
 
     withConstructors() {
         this.def("construct", (type: any, ...args: any[]) => {
-            args.unshift(null);
-            return new (Function.prototype.bind.apply(type, args));
+            return new (Function.prototype.bind.apply(type, [null, ...args]));
         });
         return this;
     }

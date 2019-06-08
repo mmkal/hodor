@@ -1,6 +1,6 @@
 export module Symbols {
     export abstract class SymbolSet {
-        private _values: Set<string>;
+        private _values!: Set<string>;
         public get values() {
             if (!this._values) {
                 const _this: any = this;

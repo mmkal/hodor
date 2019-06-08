@@ -110,8 +110,8 @@ export default class Parser {
     }
     private parseVarName(): Token {
         const name = this.input.next();
-        if (name.type === types.Variable) return name;
-        this.input.fail("Expecting variable name, got " + JSON.stringify(name));
+        if (name && name.type === types.Variable) return name;
+        throw this.input.fail("Expecting variable name, got " + JSON.stringify(name));
     }
     private parseIf() {
         this.skipKw(Symbols.keywords.If);
@@ -180,13 +180,16 @@ export default class Parser {
                 return this.parseLambda();
             }
 
-            const tok = this.input.next();
+            const tok = this.input.next()!;
+            if (!tok) {
+                // throw this.input.fail('reached end of input but token was expected')
+            }
 
             if (tok.type === types.Variable || tok.type === types.Number || tok.type === types.String) {
                 return tok;
             }
 
-            this.unexpected(tok);
+            throw this.unexpected(tok);
         });
     }
     private maybeCall(expr: () => Token) {

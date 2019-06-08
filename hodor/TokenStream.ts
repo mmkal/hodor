@@ -4,7 +4,7 @@ import Hodor from "./Hodor";
 import {Token, types} from './Token'
 
 export default class TokenStream implements Stream<Token> {
-    private current: Token = null;
+    private current: Token | undefined;
 
     constructor(public input: InputStream) {
     }
@@ -134,9 +134,9 @@ export default class TokenStream implements Stream<Token> {
         this.readWhile(ch => ch !== "\n");
         this.input.next();
     }
-    private readNext(): Token {
+    private readNext(): Token | undefined {
         this.readWhile(ch => this.isWhitespace(ch));
-        if (this.input.eof()) return null;
+        if (this.input.eof()) return undefined;
 
         let ch = this.input.peek();
         if (ch === "#") {
@@ -159,11 +159,11 @@ export default class TokenStream implements Stream<Token> {
     }
     public next() {
         const token = this.current;
-        this.current = null;
+        this.current = undefined;
         return token || this.readNext();
     }
     public eof() {
-        return this.peek() === null;
+        return !this.peek();
     }
     public fail(message: any) {
         this.input.fail(message);

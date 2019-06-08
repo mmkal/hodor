@@ -68,4 +68,4 @@ export type Token = TokenTypes[TokenName]
 export type TokenType = Token['type']
 
 export const types: {[K in typeof tokenTypeNames[number]]: K} = {} as any
-tokenTypeNames.forEach(name => types[name as any] = name)
+tokenTypeNames.forEach(name => (types as any)[name] = name)
