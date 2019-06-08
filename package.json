@@ -26,7 +26,7 @@
     "decamelize": "^1.2.0",
     "minimist": "^1.2.0",
     "nyc": "^8.3.0",
-    "typescript": "^2.0.3"
+    "typescript": "^3.3.4000"
   },
   "bin": "dist/cli.js",
   "dependencies": {

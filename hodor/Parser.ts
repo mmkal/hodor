@@ -1,8 +1,8 @@
 import Symbols from "./Symbols"
 import TokenStream from "./TokenStream"
+import {Token, types} from './Token'
 
 export default class Parser {
-    private FALSE : Token = { type: Symbols.tokens.Boolean, value: false };
     private PRECEDENCE: { [key: string]: number } = {
         [Symbols.operators.Assign]: 1,
         [Symbols.operators.Or]: 2,
@@ -26,7 +26,7 @@ export default class Parser {
     constructor(public input: TokenStream) {
     }
 
-    parse() {
+    parse(): Token {
         const prog = new Array<Token>();
         while (!this.input.eof()) {
             const expression = this.parseExpression();
@@ -35,20 +35,20 @@ export default class Parser {
                 this.skipPunc(Symbols.punctuation.EndExpression);
             }
         }
-        return { type: Symbols.tokens.Program, prog: prog };
+        return { type: types.Program, prog: prog };
     }
 
     private isPunc(ch: string) {
         const tok = this.input.peek();
-        return tok && tok.type == Symbols.tokens.Punctuation && (!ch || tok.value == ch) && tok;
+        return tok && tok.type == types.Punctuation && (!ch || tok.value == ch) && tok;
     }
     private isKw(kw: string) {
         const tok = this.input.peek();
-        return tok && tok.type == Symbols.tokens.Keyword && (!kw || tok.value == kw) && tok;
+        return tok && tok.type == types.Keyword && (!kw || tok.value == kw) && tok;
     }
     private isOp(op?: string) {
         const tok = this.input.peek();
-        return tok && tok.type == Symbols.tokens.Operator && (!op || tok.value == op) && tok;
+        return tok && tok.type == types.Operator && (!op || tok.value == op) && tok;
     }
     private skipPunc(ch: string) {
         if (this.isPunc(ch)) this.input.next();
@@ -68,7 +68,7 @@ export default class Parser {
             if (tokenPrecedence > precedence) {
                 this.input.next();
                 return this.maybeBinary({
-                    type: tok.value === Symbols.operators.Assign ? Symbols.tokens.Assign : Symbols.tokens.Binary,
+                    type: tok.value === Symbols.operators.Assign ? types.Assign : types.Binary as any,
                     operator: tok.value,
                     left: left,
                     right: this.maybeBinary(this.parseAtom(), tokenPrecedence)
@@ -99,7 +99,7 @@ export default class Parser {
     }
     private parseCall(func: Token): Token {
         return {
-            type: Symbols.tokens.Call,
+            type: types.Call,
             func: func,
             args: this.delimited(
                 Symbols.punctuation.OpenParen, 
@@ -110,8 +110,8 @@ export default class Parser {
     }
     private parseVarName() {
         const name = this.input.next();
-        if (name.type !== Symbols.tokens.Variable) this.input.fail("Expecting variable name, got " + JSON.stringify(name));
-        return name.value;
+        if (name.type === types.Variable) return name.value;
+        this.input.fail("Expecting variable name, got " + JSON.stringify(name));
     }
     private parseIf() {
         this.skipKw(Symbols.keywords.If);
@@ -121,7 +121,7 @@ export default class Parser {
         }
         const then = this.parseExpression();
         const token: Token = {
-            type: Symbols.tokens.If,
+            type: types.If,
             cond: cond,
             then: then
         };
@@ -133,7 +133,7 @@ export default class Parser {
     }
     private parseLambda(): Token {
         return {
-            type: Symbols.tokens.Lambda,
+            type: types.Lambda,
             vars: this.delimited(
                 Symbols.punctuation.OpenParen, 
                 Symbols.punctuation.CloseParen, 
@@ -144,7 +144,7 @@ export default class Parser {
     }
     private parseBool(): Token {
         return {
-            type: Symbols.tokens.Boolean,
+            type: types.Boolean,
             value: this.input.next().value === Symbols.keywords.True
         };
     }
@@ -156,7 +156,7 @@ export default class Parser {
             Symbols.punctuation.EndExpression,
             () => this.parseExpression());
 
-        return { type: Symbols.tokens.Program, prog: prog };
+        return { type: types.Program, prog: prog };
     }
 
     private parseAtom() {

@@ -4,6 +4,7 @@ import Parser from "./Parser"
 import TokenStream from "./TokenStream"
 import InputStream from "./InputStream"
 import Hodor from "./Hodor";
+import {Token, types} from "./Token";
 
 export default class Interpreter {
     constructor(public env: Environment) {
@@ -15,39 +16,39 @@ export default class Interpreter {
 
     evaluate(exp: Token): any {
         switch (exp.type) {
-            case Symbols.tokens.Number:
+            case types.Number:
                 return this.primitive(exp.value, "number");
-            case Symbols.tokens.Boolean:
+            case types.Boolean:
                 return this.primitive(exp.value, "boolean");
-            case Symbols.tokens.String:
+            case types.String:
                 return Hodor.Wylis(exp.value);
 
-            case Symbols.tokens.Variable:
+            case types.Variable:
                 return this.env.get(exp.value);
 
-            case Symbols.tokens.Assign:
+            case types.Assign:
                 if (exp.left.type !== Symbols.tokens.Variable) {
                     throw new Error("Cannot assign to " + JSON.stringify(exp.left));
                 }
                 return this.env.set(exp.left.value, this.evaluate(exp.right));
 
-            case Symbols.tokens.Binary:
+            case types.Binary:
                 return this.applyOp(exp.operator, this.evaluate(exp.left), this.evaluate(exp.right));
 
-            case Symbols.tokens.Lambda:
+            case types.Lambda:
                 return this.makeLambda(exp);
 
-            case Symbols.tokens.If:
+            case types.If:
                 const cond = this.evaluate(exp.cond);
                 if (cond !== false) {
                     return this.evaluate(exp.then);
                 }
                 return exp.else ? this.evaluate(exp.else) : false;
 
-            case Symbols.tokens.Program:
+            case types.Program:
                 return exp.prog.reduce((prev, currentToken) => this.evaluate(currentToken), false);
 
-            case Symbols.tokens.Call:
+            case types.Call:
                 const func = this.evaluate(exp.func);
                 return func.apply(null, exp.args.map(arg => this.evaluate(arg)));
 
