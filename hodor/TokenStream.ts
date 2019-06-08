@@ -76,11 +76,9 @@ export default class TokenStream implements Stream<Token> {
         //     = Symbols.keywords.values.has(id)   ? Symbols.tokens.Keyword
         //     : Symbols.operators.values.has(id)  ? Symbols.tokens.Operator
         //                                         : Symbols.tokens.Variable;
-        const type = Symbols.keywords.values.has(id) ? Symbols.tokens.Keyword : Symbols.tokens.Operator;
-        return {
-            type: type,
-            value: id
-        };
+        return Symbols.keywords.values.has(id)
+            ? {type: types.Keyword, value: id}
+            : {type: types.Operator, value: id}
     }
 
     private readVariableName(): Token {

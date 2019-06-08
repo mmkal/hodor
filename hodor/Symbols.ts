@@ -62,19 +62,19 @@ export module Symbols {
     }
 
     export class Tokens extends SymbolSet {
-        Number = "num";
-        Boolean = "bool";
-        Keyword = "kw";
-        Variable = "var";
-        String = "str";
-        Punctuation = "punc";
-        Operator = "op";
-        Assign = "assign";
-        Binary = "binary";
-        Call = "call";
-        If = "if";
-        Lambda = "lambda";
-        Program = "prog";
+        Number = "Number";
+        Boolean = "Boolean";
+        Keyword = "Keyword";
+        Variable = "Variable";
+        String = "String";
+        Punctuation = "Punctuation";
+        Operator = "Operator";
+        Assign = "Assign";
+        Binary = "Binary";
+        Call = "Call";
+        If = "If";
+        Lambda = "Lambda";
+        Program = "Program";
     }
 
     export const operators = new Operators();

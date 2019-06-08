@@ -14,6 +14,11 @@ export interface Token0 {
     body?: Token0;
 }
 
+
+export const tokenTypeNames = [
+    'Number', 'Boolean', 'Keyword', 'Variable', 'String', 'Punctuation', 'Operator', 'Assign', 'Binary', 'Lambda', 'If', 'Program', 'Call',
+] as const
+
 type TokenTypes_ = {
     Number: {value: string}
     Boolean: {value: boolean}
@@ -23,17 +28,17 @@ type TokenTypes_ = {
     Punctuation: {value: string}
     Operator: {
         value: string
-        left: Token
-        right: Token
+        left?: Token
+        right?: Token
     }
     Assign: {
-        left: TokenTypes['Variable']
-        right: Token
+        left: any // for some reason this being `Token` causes OOM exceptions
+        right: any // for some reason this being `Token` causes OOM exceptions
     }
     Binary: {
         operator: string
-        left: Token
-        right: Token
+        left: any // for some reason this being `Token` causes OOM exceptions
+        right: any // for some reason this being `Token` causes OOM exceptions
     }
     Lambda: {
         vars: Token[]
@@ -53,13 +58,14 @@ type TokenTypes_ = {
     }
 }
 
-export type TokenTypesT = {
-    [K in keyof TokenTypes_]: TokenTypes_[K] & {type: K}
-}
-export interface TokenTypes extends TokenTypesT {}
+type TokenName = typeof tokenTypeNames[number]
 
-export type Token = TokenTypes[keyof TokenTypes]
-// export interface Token2 extends TokenT {}
+export type TokenTypes = {
+    [K in TokenName]: TokenTypes_[K] & {type: K}
+}
+
+export type Token = TokenTypes[TokenName]
 export type TokenType = Token['type']
 
-export const types: {[K in keyof TokenTypes]: K} = {} as any
+export const types: {[K in typeof tokenTypeNames[number]]: K} = {} as any
+tokenTypeNames.forEach(name => types[name as any] = name)

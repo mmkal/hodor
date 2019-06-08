@@ -108,9 +108,9 @@ export default class Parser {
                 () => this.parseExpression())
         };
     }
-    private parseVarName() {
+    private parseVarName(): Token {
         const name = this.input.next();
-        if (name.type === types.Variable) return name.value;
+        if (name.type === types.Variable) return name;
         this.input.fail("Expecting variable name, got " + JSON.stringify(name));
     }
     private parseIf() {
@@ -143,9 +143,13 @@ export default class Parser {
         }
     }
     private parseBool(): Token {
+        const next: any = this.input.next()
+        if (!next || !next.value) {
+            this.input.fail(`expected token with value, got ${JSON.stringify(next)}`)
+        }
         return {
             type: types.Boolean,
-            value: this.input.next().value === Symbols.keywords.True
+            value: next.value === Symbols.keywords.True
         };
     }
 

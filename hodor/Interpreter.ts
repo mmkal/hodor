@@ -107,7 +107,7 @@ export default class Interpreter {
     makeLambda(exp: any) {
         const _this = this;
         return function() {
-            const names: any[] = exp.vars;
+            const names: any[] = exp.vars.map(t => t.value);
             const scope = new Interpreter(_this.env.extend());
             for (let i = 0; i < names.length; i++) {
                 const name = names[i];
