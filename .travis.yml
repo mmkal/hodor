@@ -1,4 +1,6 @@
 language: node_js
 node_js: 12
 script: npm run ci
-after_success: npm run coverage
+after_success:
+  - npm run coverage
+  - npm run release
