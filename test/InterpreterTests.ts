@@ -1,16 +1,14 @@
-import test from "./_ava-shim";
 import Interpreter from "../hodor/Interpreter";
 import Environment from "../hodor/Environment";
 
 const int = new Interpreter(new Environment());
 
-test(t => t.is(1, int.primitive(1, "number")));
-test(t => t.is(true, int.primitive(true, "boolean")));
-test(t => t.throws(() => int.primitive(1, "string")));
-test(t => t.throws(() => int.primitive(1, "boolean")));
-test(t => t.throws(() => int.primitive("hi, world!", "number")));
-test(t => t.throws(() => int.primitive(1, "boolean")));
+test('number', () => expect(1).toBe(int.primitive(1, "number")));
+test('boolean', () => expect(true).toBe(int.primitive(true, "boolean")));
+test('string', () => void expect(() => int.primitive(1, "string")).toThrow());
+test('boolean from number', () => void expect(() => int.primitive(1, "boolean")).toThrow());
+test('number from string', () => void expect(() => int.primitive("hi, world!", "number")).toThrow());
 
-test(t => t.throws(() => int.applyOp("invalidop", 1, 2)));
+test('invalid op', () => void expect(() => int.applyOp("invalidop", 1, 2)).toThrow());
 
-test(t => t.throws(() => int.evaluate({ type: "invalidtoken" } as any)));
+test('invalid token', () => void expect(() => int.evaluate({ type: "invalidtoken" } as any)).toThrow());

@@ -3,7 +3,7 @@ import fs = require("fs");
 import Environment from "./hodor/Environment";
 import repl = require("repl");
 import Hodor from "./hodor/Hodor";
-import chalk = require("chalk");
+import chalk from 'chalk'
 
 const hodorArgv = process.argv.slice(2);
 const __hodorfile = hodorArgv[0];
