@@ -15,14 +15,15 @@ if (__hodorfile) {
 }
 else {
     const interpreter = Environment.createStandard().createInterpreter();
-    const hodorRepl = repl.start({
+    repl.start({
         prompt: chalk.green("Hodor? "),
-        eval: (cmd: string, context: any, filename: string, callback: Function) => {
+        eval: (cmd: string, _context: any, _filename: string, callback: Function) => {
             const input = cmd.trim();
             try {
                 const value = interpreter.execute(input);
                 const toPrint = value ? JSON.stringify(value) : value;
-                typeof toPrint !== "undefined" && console.log(chalk.grey(toPrint));
+                typeof toPrint !== "undefined" && console.log(
+                    chalk.yellow("Hodor! ") + chalk.grey(toPrint));
             }
             catch (evalError) {
                 try {
@@ -36,4 +37,3 @@ else {
         }
     });
 }
-    

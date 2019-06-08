@@ -13,4 +13,4 @@ test(t => t.throws(() => int.primitive(1, "boolean")));
 
 test(t => t.throws(() => int.applyOp("invalidop", 1, 2)));
 
-test(t => t.throws(() => int.evaluate({ type: "invalidtoken" })));
+test(t => t.throws(() => int.evaluate({ type: "invalidtoken" } as any)));

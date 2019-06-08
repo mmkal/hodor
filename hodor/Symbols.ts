@@ -1,6 +1,6 @@
 export module Symbols {
     export abstract class SymbolSet {
-        private _values: Set<string>;
+        private _values!: Set<string>;
         public get values() {
             if (!this._values) {
                 const _this: any = this;
@@ -61,22 +61,6 @@ export module Symbols {
         LiteralQuoteEnd = "\"@";
     }
 
-    export class Tokens extends SymbolSet {
-        Number = "num";
-        Boolean = "bool";
-        Keyword = "kw";
-        Variable = "var";
-        String = "str";
-        Punctuation = "punc";
-        Operator = "op";
-        Assign = "assign";
-        Binary = "binary";
-        Call = "call";
-        If = "if";
-        Lambda = "lambda";
-        Program = "prog";
-    }
-
     export const operators = new Operators();
 
     export const punctuation = new Punctuation();
@@ -84,8 +68,6 @@ export module Symbols {
     export const keywords = new Keywords();
 
     export const delimiters = new Delimiters();
-
-    export const tokens = new Tokens();
 }
 
 export default Symbols;

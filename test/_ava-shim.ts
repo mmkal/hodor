@@ -3,8 +3,8 @@
 // ava library checks for process.send being a function to determine if we're running from cli or in node, so do the same here.
 const isDebugging = typeof process.send !== "function";
 
-let initialProcessArgs: string[];
-let cwd: string;
+let initialProcessArgs: string[] = [];
+let cwd: string = '';
 
 // If we're debugging, do some shimming so ava doesn't complain about bad setup.
 /* istanbul ignore next */
@@ -53,8 +53,7 @@ if (isDebugging) {
 
     function addTest() {
         const args = [...arguments];
-        args.unshift(null);
-        const test = new (Function.prototype.bind.apply(Test, args));
+        const test = new (Function.prototype.bind.apply(Test, [null, ...args]));
 
         tests.push(test);
     }

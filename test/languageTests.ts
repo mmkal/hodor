@@ -87,7 +87,7 @@ Object.keys(outputs).forEach(info => {
 });
 
 const invalidScriptTests: { [name: string]: string } = {
-    "bad assignment:Cannot assign to .*bool": "hodor = 1",
+    "bad assignment:Cannot assign to .*Boolean": "hodor = 1",
     "missing semicolon:Expecting punctuation:.*;": "$print(123) $print(456)",
     "missing then:Expecting keyword": "Hodor? (1 < 2) $print(HODOR) Hodor!! $print(hodor);",
     "undefined variable in scope:Undefined variable": `$f = Hodor($x) { $print($y); }; $f(1);`,

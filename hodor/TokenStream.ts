@@ -1,9 +1,10 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
 import Hodor from "./Hodor";
+import {Token, types} from './Token'
 
 export default class TokenStream implements Stream<Token> {
-    private current: Token = null;
+    private current: Token | undefined;
 
     constructor(public input: InputStream) {
     }
@@ -66,7 +67,7 @@ export default class TokenStream implements Stream<Token> {
             }
             return this.isDigit(ch);
         });
-        return { type: Symbols.tokens.Number, value: parseFloat(number).toString() };
+        return { type: types.Number, value: parseFloat(number).toString() };
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
@@ -75,18 +76,16 @@ export default class TokenStream implements Stream<Token> {
         //     = Symbols.keywords.values.has(id)   ? Symbols.tokens.Keyword
         //     : Symbols.operators.values.has(id)  ? Symbols.tokens.Operator
         //                                         : Symbols.tokens.Variable;
-        const type = Symbols.keywords.values.has(id) ? Symbols.tokens.Keyword : Symbols.tokens.Operator;
-        return {
-            type: type,
-            value: id
-        };
+        return Symbols.keywords.values.has(id)
+            ? {type: types.Keyword, value: id}
+            : {type: types.Operator, value: id}
     }
 
     private readVariableName(): Token {
         const hodorValue = this.readEscaped(Symbols.delimiters.SingleQuote);
         const wylisValue = Hodor.Wylis(hodorValue);
         return {
-            type: Symbols.tokens.Variable,
+            type: types.Variable,
             value: wylisValue
         };
     }
@@ -115,7 +114,7 @@ export default class TokenStream implements Stream<Token> {
     }
     private readString(): Token {
         return {
-            type: Symbols.tokens.String,
+            type: types.String,
             value: this.readEscaped(Symbols.delimiters.Quote)
         };
     }
@@ -126,7 +125,7 @@ export default class TokenStream implements Stream<Token> {
         this.movePast(Symbols.delimiters.LiteralQuoteEnd);
 
         return {
-            type: Symbols.tokens.String,
+            type: types.String,
             value: value
         };
     }
@@ -135,9 +134,9 @@ export default class TokenStream implements Stream<Token> {
         this.readWhile(ch => ch !== "\n");
         this.input.next();
     }
-    private readNext(): Token {
+    private readNext(): Token | undefined {
         this.readWhile(ch => this.isWhitespace(ch));
-        if (this.input.eof()) return null;
+        if (this.input.eof()) return undefined;
 
         let ch = this.input.peek();
         if (ch === "#") {
@@ -150,8 +149,8 @@ export default class TokenStream implements Stream<Token> {
         if (ch === Symbols.delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();
-        if (this.isPunc(ch)) return { type: Symbols.tokens.Punctuation, value: this.input.next() };
-        if (this.isOpChar(ch)) return { type: Symbols.tokens.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
+        if (this.isPunc(ch)) return { type: types.Punctuation, value: this.input.next() };
+        if (this.isOpChar(ch)) return { type: types.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };
 
         this.input.fail("Unexpected character: "  + ch);
     }
@@ -160,11 +159,11 @@ export default class TokenStream implements Stream<Token> {
     }
     public next() {
         const token = this.current;
-        this.current = null;
+        this.current = undefined;
         return token || this.readNext();
     }
     public eof() {
-        return this.peek() === null;
+        return !this.peek();
     }
     public fail(message: any) {
         this.input.fail(message);
