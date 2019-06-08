@@ -1,7 +1,6 @@
-import {test, packageDir} from "./_ava-shim";
+import test from 'ava'
 import Environment from "../hodor/Environment";
 import Samples from "../hodor/Samples";
-import Hodor from "../hodor/Hodor";
 import fs = require("fs");
 import decamelize = require("decamelize");
 
@@ -92,11 +91,11 @@ const invalidScriptTests: { [name: string]: string } = {
     "missing then:Expecting keyword": "Hodor? (1 < 2) $print(HODOR) Hodor!! $print(hodor);",
     "undefined variable in scope:Undefined variable": `$f = Hodor($x) { $print($y); }; $f(1);`,
     "weird tilde:Unexpected character: ~": "~",
-    'unterminated strign literal: Expected to find ""@" but reached end of file': '$x = @"hello' 
+    'unterminated strinng literal: Expected to find ""@" but reached end of file': '$x = @"hello' 
 };
 
 Object.keys(invalidScriptTests).forEach(info => {
-    const[name, errorRegex] = info.split(":");
+    const[name, errorRegex] = info.split(":").map(part => part.trim());
     test(name + " throws", t => {
         const code = Samples.fromPseudoHodor(invalidScriptTests[info]);
         t.throws(() => executeAndGetOutput(code), new RegExp(errorRegex));

@@ -1,5 +1,5 @@
 import Hodor from "../hodor/Hodor";
-import {test,packageDir} from "./_ava-shim";
+import test from 'ava'
 import fs = require("fs");
 
 const sampleStrings = [
@@ -14,7 +14,7 @@ const sampleStrings = [
     "Hodor!",
     "Hodor?",
     "// It rubs the lotion on its skin, or else it gets the hose again.",
-    fs.readFileSync(packageDir + "/package.json", "utf8")
+    fs.readFileSync(process.cwd() + "/package.json", "utf8")
 ];
 
 sampleStrings.forEach(original => {

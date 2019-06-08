@@ -1,4 +1,4 @@
-import test from "./_ava-shim";
+import test from 'ava'
 import Environment from "../hodor/Environment";
 
 const env = new Environment();
