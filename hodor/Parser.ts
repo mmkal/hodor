@@ -145,7 +145,7 @@ export default class Parser {
     private parseBool(): Token {
         const next: any = this.input.next()
         if (!next || !next.value) {
-            this.input.fail(`expected token with value, got ${JSON.stringify(next)}`)
+            throw this.input.fail(`expected token with value, got ${JSON.stringify(next)}`)
         }
         return {
             type: types.Boolean,
