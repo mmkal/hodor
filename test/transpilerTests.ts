@@ -1,5 +1,4 @@
 import Hodor from "../hodor/Hodor";
-import test from 'ava'
 import fs = require("fs");
 
 const sampleStrings = [
@@ -18,18 +17,18 @@ const sampleStrings = [
 ];
 
 sampleStrings.forEach(original => {
-    test("Hodor then Wylis returns original: " + original.split("\n")[0], t => {
+    test("Hodor then Wylis returns original: " + original.split("\n")[0], () => {
         const hodor = Hodor.Hodor(original);
         const wylis = Hodor.Wylis(hodor);
-        t.is(wylis, original);
+        expect(wylis).toBe(original);
     });
 });
 
 sampleStrings.forEach(original => {
-    test("Hodor twice then Wylis twice returns original: " + original.split("\n")[0], t => {
+    test("Hodor twice then Wylis twice returns original: " + original.split("\n")[0], () => {
         const hodor = Hodor.Hodor(Hodor.Hodor(original));
         const wylis = Hodor.Wylis(Hodor.Wylis(hodor));
-        t.is(wylis, original);
+        expect(wylis).toBe(original);
     });
 });
 
@@ -39,13 +38,13 @@ sampleStrings.forEach(original => {
     "et eT",
     "et Et"
 ].map(s => s.split(" ")).forEach(cases => {
-    test("Hodor is case sensitive: " + cases.join(), t => {
-        t.not(Hodor.Hodor(cases[0]), Hodor.Hodor(cases[1]));
+    test("Hodor is case sensitive: " + cases.join(), () => {
+        expect(Hodor.Hodor(cases[0])).not.toBe(Hodor.Hodor(cases[1]));
     });
 });
 
 ["Hodor. Hello"].forEach(invalidHodor => {
-    test("Wylis should fail on invalid Hodor: " + invalidHodor, t => {
-        t.throws(() => Hodor.Wylis(invalidHodor));
+    test("Wylis should fail on invalid Hodor: " + invalidHodor, () => {
+        expect(() => Hodor.Wylis(invalidHodor)).toThrow();
     });
 });

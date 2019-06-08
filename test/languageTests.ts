@@ -1,4 +1,3 @@
-import test from 'ava'
 import Environment from "../hodor/Environment";
 import Samples from "../hodor/Samples";
 import fs = require("fs");
@@ -30,25 +29,25 @@ function executeAndGetOutput(code: string) {
     return output.join("\r\n");
 }
 
-test(Samples.helloWorld.name + " sample", t => {
-    t.is(executeAndGetOutput(Samples.helloWorld()), "Hello, World!");
+test(Samples.helloWorld.name + " sample", () => {
+    expect(executeAndGetOutput(Samples.helloWorld())).toBe("Hello, World!");
 });
 
-test(Samples.quine.name + " sample", t => {
+test(Samples.quine.name + " sample", () => {
     const quine = Samples.quine();
     const output = executeAndGetOutput(quine);
-    t.is(output, quine);
+    expect(output).toBe(quine);
 });
 
-test(Samples.fileIOQuine.name + " sample", t => {
+test(Samples.fileIOQuine.name + " sample", () => {
     // This would be a quine if it were a file, but it relies on process.argv which is different when
     // not invoking it from cli. So cheat by redefining __hodorfile to be __filename.
     const output = executeAndGetOutput(Samples.fileIOQuine());
-    t.is(output, fs.readFileSync(__filename, "utf8"));
+    expect(output).toBe(fs.readFileSync(__filename, "utf8"));
 });
 
-test(Samples.helloWorldLambda.name + " sample", t => {
-    t.is(executeAndGetOutput(Samples.helloWorldLambda()), "Hello, World!");
+test(Samples.helloWorldLambda.name + " sample", () => {
+    expect(executeAndGetOutput(Samples.helloWorldLambda())).toBe("Hello, World!");
 });
 
 const validScriptTests: { [name: string]: string } = {
@@ -60,9 +59,9 @@ const validScriptTests: { [name: string]: string } = {
 };
 
 Object.keys(validScriptTests).forEach(name => {
-    test(decamelize(name) + " script doesn't throw", t => {
+    test(decamelize(name) + " script doesn't throw", () => {
         const code = Samples.fromPseudoHodor(validScriptTests[name]);
-        t.notThrows(() => executeAndGetOutput(code));
+        expect(() => executeAndGetOutput(code)).not.toThrow();
     });
 });
 
@@ -79,9 +78,9 @@ const outputs: { [name: string]: string } = {
 
 Object.keys(outputs).forEach(info => {
     const [name, message] = info.split(":");
-    test(name + " should output " + message, t => {
+    test(name + " should output " + message, () => {
         const code = Samples.fromPseudoHodor(outputs[info]);
-        t.is(executeAndGetOutput(code), message);
+        expect(executeAndGetOutput(code)).toBe(message);
     });
 });
 
@@ -96,16 +95,16 @@ const invalidScriptTests: { [name: string]: string } = {
 
 Object.keys(invalidScriptTests).forEach(info => {
     const[name, errorRegex] = info.split(":").map(part => part.trim());
-    test(name + " throws", t => {
+    test(name + " throws", () => {
         const code = Samples.fromPseudoHodor(invalidScriptTests[info]);
-        t.throws(() => executeAndGetOutput(code), new RegExp(errorRegex));
+        expect(() => executeAndGetOutput(code)).toThrowError(new RegExp(errorRegex));
     });
 });
 
-test(Samples.operators.name, t => {
-    t.is(executeAndGetOutput(Samples.operators()), "true\r\ntrue");
+test(Samples.operators.name, () => {
+    expect(executeAndGetOutput(Samples.operators())).toBe("true\r\ntrue");
 });
 
-test("Invalid script throws", t => {
-    t.throws(() => executeAndGetOutput("hello!"));
+test("Invalid script throws", () => {
+    expect(() => executeAndGetOutput("hello!")).toThrow();
 });
