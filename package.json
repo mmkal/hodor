@@ -5,6 +5,9 @@
   "repository": {
     "url": "https://github.com/mmkal/hodor"
   },
+  "files": [
+    "dist"
+  ],
   "main": "dist/hodor/Hodor.js",
   "bin": "dist/cli.js",
   "scripts": {
@@ -44,9 +47,5 @@
     "semantic-release": "^15.13.12",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.1"
-  },
-  "dependencies": {
-    "ava": "^2.0.0",
-    "chalk": "^2.4.2"
   }
 }
