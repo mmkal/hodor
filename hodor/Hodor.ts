@@ -191,7 +191,7 @@ module Hodor {
 }
 
 export const hodor = (input: string) => {
-  const interpreter = Environment.createStandard().createInterpreter();
+  const interpreter = Environment.createBasic().createInterpreter();
   return interpreter.execute(input);
 };
 

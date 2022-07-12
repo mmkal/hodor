@@ -89,7 +89,7 @@ export default class Environment {
         return this;
     }
 
-    static createStandard(): Environment {
+    static createBasic(): Environment {
         return new Environment()
             .withEval()
             .withConsoleLogger()
@@ -97,8 +97,19 @@ export default class Environment {
             .withHodor()
             .withAccessors()
             .withConstructors()
+            ;
+    }
+
+    static createNode(): Environment {
+        return this
+            .createBasic()
             .withKVs({global, require, process, __dirname, __filename})
             ;
+    }
+
+    /** @deprecated use `createNode()` */
+    static createStandard(): Environment {
+        return this.createNode()
     }
 
     createInterpreter() {
