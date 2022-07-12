@@ -11,6 +11,9 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 14.x
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 6.0.2
       - run: pnpm install
       - run: pnpm test
       - run: pnpm run build
