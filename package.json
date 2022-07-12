@@ -6,7 +6,8 @@
     "url": "https://github.com/mmkal/hodor"
   },
   "files": [
-    "dist"
+    "dist",
+    "!dist/test"
   ],
   "main": "dist/hodor/Hodor.js",
   "bin": "dist/cli.js",
