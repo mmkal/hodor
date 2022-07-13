@@ -12,8 +12,17 @@ class TestThing {
 function executeAndGetOutput(code: string) {
   const output = new Array<string>();
 
+  const createNodeEnvironment = () =>
+    Environment.createBasic().withKVs({
+      global,
+      require,
+      process,
+      __dirname,
+      __filename,
+    });
+
   // Create environment with a few extra definitions to play around with
-  const interpreter = Environment.createStandard()
+  const interpreter = createNodeEnvironment()
     .withKVs({
       __hodorfile: __filename,
       complexObject: { value: 123 },

@@ -100,18 +100,6 @@ export default class Environment {
             ;
     }
 
-    static createNode(): Environment {
-        return this
-            .createBasic()
-            .withKVs({global, require, process, __dirname, __filename})
-            ;
-    }
-
-    /** @deprecated use `createNode()` */
-    static createStandard(): Environment {
-        return this.createNode()
-    }
-
     createInterpreter() {
         return new Interpreter(this);
     }

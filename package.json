@@ -11,6 +11,7 @@
   ],
   "source": "hodor/main.ts",
   "main": "./dist/hodor.js",
+  "types": "./dist/main.d.ts",
   "module": "./dist/hodor.module.mjs",
   "exports": "./dist/hodor.modern.mjs",
   "bin": "./bin/cli.js",
@@ -24,6 +25,9 @@
   "keywords": [
     "hodor"
   ],
+  "np": {
+    "cleanup": false
+  },
   "jest": {
     "transform": {
       "^.+\\.tsx?$": "ts-jest"

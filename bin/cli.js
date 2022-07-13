@@ -7,14 +7,18 @@ const chalk = require('./colors')
 const hodorArgv = process.argv.slice(2);
 const __hodorfile = hodorArgv[0];
 
+const createNodeEnvironment = () => Hodor.Environment
+  .createBasic()
+  .withKVs({global, require: eval('require'), process, __dirname, __filename})
+
 if (__hodorfile) {
   const code = fs.readFileSync(__hodorfile, "utf8");
-  const interpreter = Hodor.Environment.createNode()
+  const interpreter = createNodeEnvironment()
     .withKVs({ __hodorfile })
     .createInterpreter();
   interpreter.execute(code);
 } else {
-  const interpreter = Hodor.Environment.createNode().createInterpreter();
+  const interpreter = createNodeEnvironment().createInterpreter();
   repl.start({
     prompt: chalk.green("Hodor? "),
     eval: (
