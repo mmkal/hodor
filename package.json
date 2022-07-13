@@ -10,10 +10,13 @@
     "bin"
   ],
   "source": "hodor/main.ts",
-  "main": "./dist/hodor.js",
   "types": "./dist/main.d.ts",
   "module": "./dist/hodor.module.mjs",
-  "exports": "./dist/hodor.modern.mjs",
+  "exports": {
+    ".": "./dist/hodor.js",
+    "./es": "./dist/hodor.module.mjs",
+    "./modern": "./dist/hodor.modern.mjs"
+  },
   "bin": "./bin/cli.js",
   "scripts": {
     "clean": "rm -rf dist",
