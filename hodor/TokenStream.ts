@@ -1,7 +1,8 @@
 import InputStream from "./InputStream"
 import Symbols from "./Symbols"
-import Hodor from "./Hodor";
+import * as Hodor from "./Hodor";
 import {Token, types} from './Token'
+import {Stream} from "./Stream";
 
 export default class TokenStream implements Stream<Token> {
     private current: Token | undefined;
@@ -33,7 +34,7 @@ export default class TokenStream implements Stream<Token> {
     }
 
     private movePast(str: string) {
-        [...str].forEach(ch => {
+        str.split("").forEach(ch => {
             this.input.next() === ch || this.input.fail("Unexpected character: " + ch);
         });
     }

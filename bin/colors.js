@@ -1,5 +1,5 @@
 // https://stackoverflow.com/a/41407246
-export const colours = {
+const colours = {
   Reset: "\x1b[0m",
   Bright: "\x1b[1m",
   Dim: "\x1b[2m",
@@ -25,11 +25,13 @@ export const colours = {
   BgWhite: "\x1b[47m",
 };
 
-export const wrapInput = (colour: keyof typeof colours) => (input: string) =>
+/** @type {(colour: keyof typeof colours) => (input: string) => string} */
+const wrapInput = (colour) => (input) =>
   `${colours[colour]}${input}${colours.Reset}`;
 
-export const green = wrapInput("FgGreen");
-export const yellow = wrapInput("FgYellow");
-export const blue = wrapInput("FgBlue");
-export const grey = wrapInput("Dim");
-export const red = wrapInput("FgRed");
+
+exports.green = wrapInput("FgGreen");
+exports.yellow = wrapInput("FgYellow");
+exports.blue = wrapInput("FgBlue");
+exports.grey = wrapInput("Dim");
+exports.red = wrapInput("FgRed");

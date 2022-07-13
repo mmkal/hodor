@@ -1,4 +1,4 @@
-import Hodor from "../hodor/Hodor";
+import * as Hodor from "../hodor/Hodor";
 import fs = require("fs");
 
 const sampleStrings = [

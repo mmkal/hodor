@@ -7,13 +7,17 @@
   },
   "files": [
     "dist",
-    "!dist/test"
+    "bin"
   ],
-  "main": "dist/hodor/Hodor.js",
-  "bin": "dist/cli.js",
+  "source": "hodor/main.ts",
+  "main": "./dist/hodor.js",
+  "module": "./dist/hodor.module.mjs",
+  "exports": "./dist/hodor.modern.mjs",
+  "bin": "./bin/cli.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "build": "tsc -p .",
+    "compile": "tsc -p .",
+    "build": "microbundle && microbundle --format cjs --target node",
     "test": "jest",
     "coverage": "jest --coverage --coverageReporters=text-lcov | coveralls"
   },
@@ -41,6 +45,7 @@
     "@types/node": "14.14.31",
     "coveralls": "3.0.4",
     "jest": "24.8.0",
+    "microbundle": "0.15.0",
     "ts-jest": "24.0.2",
     "typescript": "4.7.4"
   }

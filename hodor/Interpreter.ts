@@ -3,7 +3,7 @@ import Environment from "./Environment"
 import Parser from "./Parser"
 import TokenStream from "./TokenStream"
 import InputStream from "./InputStream"
-import Hodor from "./Hodor";
+import * as Hodor from "./Hodor";
 import {Token, types} from "./Token";
 
 export default class Interpreter {

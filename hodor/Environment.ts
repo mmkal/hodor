@@ -1,5 +1,5 @@
 import Interpreter from "./Interpreter";
-import Hodor from "./Hodor";
+import * as Hodor from "./Hodor";
 
 export default class Environment {
     public vars: { [key: string]: boolean };

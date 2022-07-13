@@ -1,4 +1,4 @@
-import * as hodor from "../hodor/Hodor";
+import * as hodor from "../hodor/main";
 
 test("adding", () => expect(hodor.hodor("1 + 2")).toBe(3));
 test("bodMas", () => expect(hodor.hodor("1 + 2 * 3")).toBe(7));

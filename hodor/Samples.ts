@@ -1,4 +1,4 @@
-import Hodor from "./Hodor";
+import * as Hodor from "./Hodor";
 import path = require("path");
 import fs = require("fs");
 

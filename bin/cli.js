@@ -1,28 +1,27 @@
 #! /usr/bin/env node
-import fs = require("fs");
-import Environment from "./hodor/Environment";
-import repl = require("repl");
-import Hodor from "./hodor/Hodor";
-import chalk = require("./hodor/colors");
+const fs = require("fs");
+const repl = require("repl");
+const Hodor = require("../output/hodor");
+const chalk = require('./colors')
 
 const hodorArgv = process.argv.slice(2);
 const __hodorfile = hodorArgv[0];
 
 if (__hodorfile) {
   const code = fs.readFileSync(__hodorfile, "utf8");
-  const interpreter = Environment.createStandard()
+  const interpreter = Hodor.Environment.createNode()
     .withKVs({ __hodorfile })
     .createInterpreter();
   interpreter.execute(code);
 } else {
-  const interpreter = Environment.createStandard().createInterpreter();
+  const interpreter = Hodor.Environment.createNode().createInterpreter();
   repl.start({
     prompt: chalk.green("Hodor? "),
     eval: (
-      cmd: string,
-      _context: any,
-      _filename: string,
-      callback: Function
+      cmd,
+      _context,
+      _filename,
+      callback
     ) => {
       const input = cmd.trim();
       try {

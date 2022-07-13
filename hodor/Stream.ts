@@ -1,4 +1,4 @@
-interface Stream<TToken> {
+export interface Stream<TToken> {
     next(): TToken | undefined;
     peek(): TToken | undefined;
     eof(): boolean;

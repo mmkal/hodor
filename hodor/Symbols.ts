@@ -37,7 +37,7 @@ export module Symbols {
 
         get identifyingCharacters() {
             // Consider removing. I don't like relying on the first character to identify an operator.
-            return new Set([...this.values.values()].map(v => v.charAt(0)).filter(c => /[^a-z]/.test(c)));
+            return new Set(Array.from(this.values.values()).map(v => v.charAt(0)).filter(c => /[^a-z]/.test(c)));
         }
     }
 

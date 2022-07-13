@@ -1,3 +1,5 @@
+import {Stream} from "./Stream";
+
 export default class InputStream implements Stream<string> {
     private position = 0;
     private line = 1;
