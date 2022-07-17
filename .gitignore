@@ -4,3 +4,4 @@ node_modules/
 report*.json
 coverage
 .env
+*.tgz

@@ -13,9 +13,11 @@
   "types": "./dist/main.d.ts",
   "module": "./dist/hodor.module.mjs",
   "exports": {
-    ".": "./dist/hodor.js",
-    "./es": "./dist/hodor.module.mjs",
-    "./modern": "./dist/hodor.modern.mjs"
+    ".": {
+      "import": "./dist/hodor.module.mjs",
+      "require": "./dist/hodor.js",
+      "default": "./dist/hodor.modern.mjs"
+    }
   },
   "bin": "./bin/cli.js",
   "scripts": {
