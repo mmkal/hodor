@@ -11,7 +11,7 @@
   ],
   "source": "hodor/main.ts",
   "types": "./dist/main.d.ts",
-  "module": "./dist/hodor.module.mjs",
+  "main": "./dist/hodor.js",
   "exports": {
     ".": {
       "import": "./dist/hodor.module.mjs",
