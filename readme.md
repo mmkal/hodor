@@ -123,6 +123,8 @@ Writing a quine in Hodor is much easier:
 "@;'Hodor. Hodor Hodor Hodor Hodor? Hodor Hodor? Hodor Hodor, Hodor Hodor.'('Hodor, Hodor Hodor, Hodor.');
 ```
 
+[Click here](https://raw.githubusercontent.com/mmkal/hodor/master/samples/quine.hodor) to see the raw quine wihtout having to scroll sideways.
+
 ## Demo
 
 [Here](https://mx5imo.csb.app/) is a demo application which evaluates the input in the textarea and renders the output. [Here's the source code](https://codesandbox.io/s/funny-grothendieck-mx5imo?file=/src/App.js). However, `npx hodor` can do this for you too, as well as translate text to and from Hodor format.
