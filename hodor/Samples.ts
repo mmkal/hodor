@@ -75,9 +75,44 @@ Hodor? (1 > 2) Hodor! $print(hodor) Hodor!! $print(HODOR);
         (match, group1) => `'` + Hodor.Hodor(group1) + `'`
       );
     }
+    function hodoriseNumbers(code: string) {
+      // Match numbers (integers and decimals, including negatives)
+      // But don't match numbers inside @"..."@ literals
+      let result = code;
+      let inLiteral = false;
+      let i = 0;
+      
+      while (i < result.length) {
+        if (result.substring(i).startsWith('@"')) {
+          inLiteral = true;
+          i += 2;
+          continue;
+        }
+        if (inLiteral && result.substring(i).startsWith('"@')) {
+          inLiteral = false;
+          i += 2;
+          continue;
+        }
+        if (!inLiteral) {
+          // Match numbers outside of literals
+          const numberMatch = result.substring(i).match(/^(-?\d+\.?\d*)/);
+          if (numberMatch) {
+            const num = parseFloat(numberMatch[1]);
+            const encoded = Hodor.HodorNumber(num);
+            result = result.substring(0, i) + encoded + result.substring(i + numberMatch[1].length);
+            i += encoded.length;
+            continue;
+          }
+        }
+        i++;
+      }
+      
+      return result;
+    }
 
     let hodor = hodoriseVariables(wylis);
     hodor = hodoriseQuotes(hodor);
+    hodor = hodoriseNumbers(hodor);
 
     return hodor;
   }
