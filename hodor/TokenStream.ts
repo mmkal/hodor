@@ -59,16 +59,71 @@ export default class TokenStream implements Stream<Token> {
     }
     
     private readNumber(): Token {
-        let hasDot = false;
-        const number = this.readWhile(ch => {
-            if (ch === Symbols.delimiters.Dot) {
-                if (hasDot) return false;
-                hasDot = true;
-                return true;
+        // Check if we're about to see "Hodor..."
+        if (!this.isAboutToSee("Hodor...")) {
+            this.input.fail("Expected number to start with 'Hodor...'");
+        }
+        
+        // Move past "Hodor..."
+        this.movePast("Hodor...");
+        
+        // Read the encoded number - it contains Morse code with spaces
+        // Read characters that are part of Morse code pattern until we hit something that's not
+        const encodedParts: string[] = ["Hodor..."];
+        
+        while (!this.input.eof()) {
+            const ch = this.input.peek();
+            
+            // Stop at operators that aren't part of Morse code
+            if (this.isOpChar(ch) && ch !== "-") {
+                break;
             }
-            return this.isDigit(ch);
-        });
-        return { type: types.Number, value: parseFloat(number).toString() };
+            
+            // Stop at punctuation that's not part of Morse code
+            if (this.isPunc(ch) && ![",", ".", "?", "!"].includes(ch)) {
+                break;
+            }
+            
+            // Stop at digits (old number syntax)
+            if (this.isDigit(ch)) {
+                this.input.fail("Unexpected digit in number encoding (old number syntax not supported)");
+            }
+            
+            // Read the character (including whitespace, letters, Morse punctuation)
+            encodedParts.push(this.input.next());
+            
+            // If we just read whitespace, check if the next non-whitespace character
+            // indicates the end of the number
+            if (this.isWhitespace(ch)) {
+                // Skip any additional whitespace
+                while (!this.input.eof() && this.isWhitespace(this.input.peek())) {
+                    encodedParts.push(this.input.next());
+                }
+                
+                // If we're at EOF, we're done
+                if (this.input.eof()) {
+                    break;
+                }
+                
+                // Check if the next character indicates end of number
+                const nextCh = this.input.peek();
+                if ((this.isOpChar(nextCh) && nextCh !== "-") ||
+                    (this.isPunc(nextCh) && ![",", ".", "?", "!"].includes(nextCh))) {
+                    break;
+                }
+                // Otherwise, continue reading (the space was part of the Morse code)
+            }
+        }
+        
+        const encodedNumber = encodedParts.join("");
+        try {
+            const numericValue = Hodor.WylisNumber(encodedNumber);
+            return { type: types.Number, value: numericValue.toString() };
+        } catch (error) {
+            this.input.fail(`Failed to decode number: ${error instanceof Error ? error.message : String(error)}`);
+            // This will never be reached, but satisfies TypeScript
+            throw error;
+        }
     }
     private readIdent(): Token {
         const id = this.readWhile(ch => this.isId(ch));
@@ -148,7 +203,7 @@ export default class TokenStream implements Stream<Token> {
         if (this.isAboutToSee(Symbols.delimiters.LiteralQuoteStart)) return this.readLiteral();
         if (ch === Symbols.delimiters.SingleQuote) return this.readVariableName();
         if (ch === Symbols.delimiters.Quote) return this.readString();
-        if (this.isDigit(ch)) return this.readNumber();
+        if (this.isAboutToSee("Hodor...")) return this.readNumber();
         if (this.isIdStart(ch)) return this.readIdent();
         if (this.isPunc(ch)) return { type: types.Punctuation, value: this.input.next() };
         if (this.isOpChar(ch)) return { type: types.Operator, value: this.readWhile(ch => this.isOpChar(ch)) };

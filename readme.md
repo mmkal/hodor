@@ -65,6 +65,28 @@ The string `'Why have you done this?'` in Hodor is:
 HODOR HODOR, HODOR! Hodor Hodor Hodor Hodor. Hodor, Hodor Hodor, Hodor? Ho-dor! Ho-dor? Hodor Hodor Hodor Hodor. Hodor Hodor? Hodor Hodor Hodor Hodor? Hodor. Ho-dor! Ho-dor? Hodor, Hodor Hodor, Hodor? Hodor, Hodor, Hodor! Hodor Hodor Hodor! Ho-dor! Ho-dor? Hodor, Hodor Hodor. Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. Ho-dor! Ho-dor? Hodor! Hodor Hodor Hodor Hodor. Hodor Hodor. Hodor Hodor Hodor. Ho-dor!?
 ```
 
+## Numbers
+
+Numbers in Hodor are encoded using Morse code, similar to strings. Numbers start with `Hodor...` (three dots) followed by the Morse code encoding of the number spelled out as words.
+
+Numbers are spelled out digit by digit:
+- Each digit is written as its word name (zero, one, two, three, four, five, six, seven, eight, nine)
+- Digits are separated by spaces
+- Decimal points are written as "point"
+- Negative numbers start with "minus"
+
+For example:
+- `1` becomes `Hodor...` followed by Morse code for "one"
+- `123` becomes `Hodor...` followed by Morse code for "one two three"
+- `1.23` becomes `Hodor...` followed by Morse code for "one point two three"
+- `-123` becomes `Hodor...` followed by Morse code for "minus one two three"
+
+The number `123` in Hodor is:
+
+```
+Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. Ho-dor! Ho-dor? Hodor! Hodor Hodor, Hodor! Hodor, Hodor, Hodor! Ho-dor! Ho-dor? Hodor! Hodor Hodor Hodor Hodor. Hodor Hodor, Hodor. Hodor. Hodor.
+```
+
 ## Writing Hodor Programs
 
 Writing Hodor is somewhat similar to writing JavaScript or Python, if you imagine JavaScript or Python only using the word "Hodor". Identifiers are written similarly to strings, but use single quotes instead of double quotes. For example, a function called `foo` could be called like so:
@@ -91,10 +113,10 @@ Mathematical operators like `+`, `-`, `*`, `/` and `%` are all supported similar
 Here's an example of usage of some Mathematical operators, as well as `If`/`Then`/`Else` (look for `Hodor?`/`Hodor!`/`Hodor!!` respectively):
 
 ```
-'Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' = 1 + 2 - 3 * 4 / 5 % 6;
-'Hodor Hodor Hodor Hodor? Hodor Hodor? Hodor Hodor, Hodor Hodor.' = ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' < 7) Ho-dor ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' > 8) Hod-or ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= 9) != ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' >= 10) == ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= 11);
-Hodor? (1 < 2) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor);
-Hodor? (1 > 2) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR);
+'Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' = Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. + Hodor...Hodor! Hodor Hodor, Hodor! Hodor, Hodor, Hodor! - Hodor...Hodor! Hodor Hodor Hodor Hodor. Hodor Hodor, Hodor. Hodor. Hodor. * Hodor...Hodor Hodor Hodor, Hodor. Hodor, Hodor, Hodor! Hodor Hodor Hodor! Hodor Hodor, Hodor. / Hodor...Hodor Hodor Hodor, Hodor. Hodor Hodor. Hodor Hodor Hodor Hodor? Hodor. % Hodor...Hodor Hodor Hodor. Hodor Hodor. Hodor, Hodor Hodor Hodor?;
+'Hodor Hodor Hodor Hodor? Hodor Hodor? Hodor Hodor, Hodor Hodor.' = ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' < Hodor...Hodor Hodor Hodor. Hodor. Hodor Hodor Hodor Hodor? Hodor. Hodor, Hodor.) Ho-dor ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' > Hodor...Hodor. Hodor Hodor. Hodor, Hodor, Hodor. Hodor Hodor Hodor Hodor. Hodor!) Hod-or ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= Hodor...Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor.) != ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' >= Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. Ho-dor! Ho-dor? Hodor, Hodor, Hodor Hodor. Hodor. Hodor Hodor, Hodor. Hodor, Hodor, Hodor!) == ('Hodor, Hodor. Hodor Hodor Hodor! Hodor, Hodor?' <= Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. Ho-dor! Ho-dor? Hodor, Hodor, Hodor! Hodor, Hodor. Hodor.);
+Hodor? (Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. < Hodor...Hodor! Hodor Hodor, Hodor! Hodor, Hodor, Hodor!) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor);
+Hodor? (Hodor...Hodor, Hodor, Hodor! Hodor, Hodor. Hodor. > Hodor...Hodor! Hodor Hodor, Hodor! Hodor, Hodor, Hodor!) Hodor! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(hodor) Hodor!! 'Hodor Hodor, Hodor, Hodor. Hodor Hodor, Hodor. Hodor Hodor. Hodor, Hodor. Hodor!'(HODOR);
 ```
 
 Here's an example usage of a Lambda - this creates a new function which can be called to print `'Hello, World!'`.
