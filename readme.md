@@ -6,7 +6,7 @@
 
 This is a programming language implementation, written in TypeScript. There's no formal spec for the language, and (as far as I know) this is the only implementation.
 
-Here's what you should know, so you can get started using Hodor for fun an profit:
+Here's what you should know, so you can get started using Hodor:
 
 1. All keywords are some variant of `Hodor`.
 1. All strings are composed out of variants of `Hodor`.
