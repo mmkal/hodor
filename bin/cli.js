@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 const fs = require("fs");
 const repl = require("repl");
-const Hodor = require("../output/hodor");
+const Hodor = require("../dist/hodor");
 const chalk = require('./colors')
 
 const hodorArgv = process.argv.slice(2);
