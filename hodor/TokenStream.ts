@@ -58,6 +58,22 @@ export default class TokenStream implements Stream<Token> {
         return chars.join("");
     }
     
+    private readHodorNumber(): Token {
+        // Read "Hodor..." prefix
+        this.movePast("Hodor...");
+        this.readWhile(ch => this.isWhitespace(ch)); // skip whitespace
+        
+        // Read until we find " Hodor..." suffix
+        const hodorValue = this.readUntil(" Hodor...");
+        this.movePast(" Hodor...");
+        
+        const wylisValue = Hodor.WylisNumber("Hodor... " + hodorValue + " Hodor...");
+        return {
+            type: types.Number,
+            value: wylisValue
+        };
+    }
+    
     private readNumber(): Token {
         let hasDot = false;
         const number = this.readWhile(ch => {
@@ -114,9 +130,12 @@ export default class TokenStream implements Stream<Token> {
         return chars.join("");
     }
     private readString(): Token {
+        // Legacy format: just read the escaped content
+        const hodorValue = this.readEscaped(Symbols.delimiters.Quote);
+        const wylisValue = Hodor.Wylis(hodorValue);
         return {
             type: types.String,
-            value: this.readEscaped(Symbols.delimiters.Quote)
+            value: wylisValue
         };
     }
 
@@ -146,6 +165,7 @@ export default class TokenStream implements Stream<Token> {
         }
 
         if (this.isAboutToSee(Symbols.delimiters.LiteralQuoteStart)) return this.readLiteral();
+        if (this.isAboutToSee("Hodor...")) return this.readHodorNumber();
         if (ch === Symbols.delimiters.SingleQuote) return this.readVariableName();
         if (ch === Symbols.delimiters.Quote) return this.readString();
         if (this.isDigit(ch)) return this.readNumber();

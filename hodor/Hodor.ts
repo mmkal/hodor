@@ -9,8 +9,41 @@ const _nodorKeys = Object.keys(_nodors).sort((k1, k2) => k2.length - k1.length);
 
 const _beforeHodor = "Ho-dor? ";
 const _afterHodor = " Ho-dor!";
+const _numberPrefix = "Hodor...";
+const _numberSuffix = "Hodor...";
+const _numberInStringPrefix = "Hodor... ";
+const _numberInStringSuffix = " ...Hodor";
 
 export function Hodor(wylis: string) {
+  // First, handle numbers within strings
+  // Match numbers (including negative and decimal numbers)
+  const numberPattern = /-?\d+(\.\d+)?/g;
+  let processed = wylis;
+  const numberMatches: Array<{match: string, index: number}> = [];
+  
+  let match;
+  while ((match = numberPattern.exec(wylis)) !== null) {
+    numberMatches.push({ match: match[0], index: match.index });
+  }
+  
+  // Replace numbers from end to start to preserve indices
+  for (let i = numberMatches.length - 1; i >= 0; i--) {
+    const { match: numStr, index } = numberMatches[i];
+    const words = numberToWords(numStr);
+    // Insert markers as plain text - they'll be encoded along with everything else
+    const replacement = _numberInStringPrefix + words + _numberInStringSuffix;
+    processed = processed.substring(0, index) + replacement + processed.substring(index + numStr.length);
+  }
+  
+  // Now process the rest normally (this will encode the markers along with everything else)
+  return HodorWithoutNumbers(processed);
+}
+
+function HodorWithoutNumbers(wylis: string) {
+  return HodorWithoutNumbersHelper(wylis);
+}
+
+function HodorWithoutNumbersHelper(wylis: string) {
   const hodors = new Array<string>();
   let lastWasHodor = false;
   let lastHodor: string | null = null;
@@ -38,11 +71,72 @@ export function Hodor(wylis: string) {
   return hodors.join("");
 }
 
+// Pre-encode the markers so we can use them when decoding
+const _encodedNumberInStringPrefix = HodorWithoutNumbersHelper(_numberInStringPrefix);
+const _encodedNumberInStringSuffix = HodorWithoutNumbersHelper(_numberInStringSuffix);
+
 function escapeRegExp(str: string) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
 export function Wylis(hodor: string) {
+  // First, handle numbers within strings (encoded markers pattern)
+  let processed = hodor;
+  const numberInStringPattern = new RegExp(escapeRegExp(_encodedNumberInStringPrefix) + "(.+?)" + escapeRegExp(_encodedNumberInStringSuffix), "g");
+  const numberMatches: Array<{match: string, encoded: string, index: number}> = [];
+  
+  let match;
+  while ((match = numberInStringPattern.exec(hodor)) !== null) {
+    numberMatches.push({ match: match[0], encoded: match[1], index: match.index });
+  }
+  
+  // Replace numbers from end to start to preserve indices
+  for (let i = numberMatches.length - 1; i >= 0; i--) {
+    const { match: fullMatch, encoded, index } = numberMatches[i];
+    const words = WylisWithoutNumbers(encoded);
+    
+    // Convert words back to number string
+    const wordToDigit: { [key: string]: string } = {
+      zero: "0",
+      one: "1",
+      two: "2",
+      three: "3",
+      four: "4",
+      five: "5",
+      six: "6",
+      seven: "7",
+      eight: "8",
+      nine: "9",
+    };
+    
+    const parts = words.split(" ");
+    let result = "";
+    let foundMinus = false;
+    
+    for (const part of parts) {
+      if (part === "minus") {
+        foundMinus = true;
+      } else if (part === "point") {
+        result += ".";
+      } else if (wordToDigit[part.toLowerCase()]) {
+        result += wordToDigit[part.toLowerCase()];
+      }
+    }
+    
+    const numStr = foundMinus ? "-" + result : result;
+    processed = processed.substring(0, index) + numStr + processed.substring(index + fullMatch.length);
+  }
+  
+  // Now process the rest normally
+  const wylis = WylisWithoutNumbers(processed);
+
+  if (Hodor(wylis) !== hodor) {
+    throw new Error(`String ${hodor} is not correctly hodorised.`);
+  }
+  return wylis;
+}
+
+function WylisWithoutNumbers(hodor: string) {
   const splitRegex = `(${escapeRegExp(_beforeHodor)})|(${escapeRegExp(
     _afterHodor
   )})`;
@@ -71,9 +165,6 @@ export function Wylis(hodor: string) {
     })
     .join("");
 
-  if (Hodor(wylis) !== hodor) {
-    throw new Error(`String ${hodor} is not correctly hodorised.`);
-  }
   return wylis;
 }
 
@@ -183,3 +274,96 @@ function BuildNodors() {
   });
   return nodors;
 }
+
+// Convert a digit to its word representation
+function digitToWord(digit: string): string {
+  const digitWords: { [key: string]: string } = {
+    "0": "zero",
+    "1": "one",
+    "2": "two",
+    "3": "three",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine",
+  };
+  return digitWords[digit] || digit;
+}
+
+// Convert a number string to spelled-out words
+function numberToWords(numStr: string): string {
+  let result: string[] = [];
+  let i = 0;
+  
+  // Handle negative sign
+  if (numStr.startsWith("-")) {
+    result.push("minus");
+    i = 1;
+  }
+  
+  // Process each character
+  while (i < numStr.length) {
+    const ch = numStr[i];
+    if (ch === ".") {
+      result.push("point");
+    } else if (/[0-9]/.test(ch)) {
+      result.push(digitToWord(ch));
+    }
+    i++;
+  }
+  
+  return result.join(" ");
+}
+
+// Encode a number using morse code
+export function HodorNumber(numStr: string): string {
+  const words = numberToWords(numStr);
+  const encoded = Hodor(words);
+  return _numberPrefix + " " + encoded + " " + _numberSuffix;
+}
+
+// Decode a number from hodor format
+export function WylisNumber(hodor: string): string {
+  // Remove prefix and suffix
+  if (!hodor.startsWith(_numberPrefix + " ") || !hodor.endsWith(" " + _numberSuffix)) {
+    throw new Error(`Number ${hodor} does not have correct format.`);
+  }
+  
+  const withoutPrefix = hodor.substring(_numberPrefix.length + 1);
+  const withoutSuffix = withoutPrefix.substring(0, withoutPrefix.length - _numberSuffix.length - 1);
+  
+  const words = Wylis(withoutSuffix);
+  
+  // Convert words back to number string
+  const wordToDigit: { [key: string]: string } = {
+    zero: "0",
+    one: "1",
+    two: "2",
+    three: "3",
+    four: "4",
+    five: "5",
+    six: "6",
+    seven: "7",
+    eight: "8",
+    nine: "9",
+  };
+  
+  const parts = words.split(" ");
+  let result = "";
+  let foundMinus = false;
+  
+  for (const part of parts) {
+    if (part === "minus") {
+      foundMinus = true;
+    } else if (part === "point") {
+      result += ".";
+    } else if (wordToDigit[part.toLowerCase()]) {
+      result += wordToDigit[part.toLowerCase()];
+    }
+  }
+  
+  return foundMinus ? "-" + result : result;
+}
+
