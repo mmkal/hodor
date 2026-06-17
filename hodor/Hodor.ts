@@ -183,3 +183,104 @@ function BuildNodors() {
   });
   return nodors;
 }
+
+const NUMBER_PREFIX = "Hodor...";
+const DIGIT_WORDS: { [key: string]: string } = {
+  "zero": "0",
+  "one": "1",
+  "two": "2",
+  "three": "3",
+  "four": "4",
+  "five": "5",
+  "six": "6",
+  "seven": "7",
+  "eight": "8",
+  "nine": "9",
+};
+
+const DIGIT_TO_WORD: { [key: string]: string } = {
+  "0": "zero",
+  "1": "one",
+  "2": "two",
+  "3": "three",
+  "4": "four",
+  "5": "five",
+  "6": "six",
+  "7": "seven",
+  "8": "eight",
+  "9": "nine",
+};
+
+function numberToWords(num: number): string {
+  const isNegative = num < 0;
+  const absNum = Math.abs(num);
+  const numStr = absNum.toString();
+  const parts: string[] = [];
+
+  if (isNegative) {
+    parts.push("minus");
+  }
+
+  for (let i = 0; i < numStr.length; i++) {
+    const ch = numStr[i];
+    if (ch === ".") {
+      parts.push("point");
+    } else {
+      const word = DIGIT_TO_WORD[ch];
+      if (word) {
+        parts.push(word);
+      } else {
+        throw new Error(`Cannot convert digit "${ch}" to word`);
+      }
+    }
+  }
+
+  return parts.join(" ");
+}
+
+function wordsToNumber(words: string): number {
+  const parts = words.trim().toLowerCase().split(/\s+/).filter(p => p.length > 0);
+  let isNegative = false;
+  let beforeDecimal: string[] = [];
+  let afterDecimal: string[] = [];
+  let seenPoint = false;
+
+  for (const part of parts) {
+    if (part === "minus") {
+      isNegative = true;
+    } else if (part === "point") {
+      seenPoint = true;
+    } else if (DIGIT_WORDS[part]) {
+      if (seenPoint) {
+        afterDecimal.push(DIGIT_WORDS[part]);
+      } else {
+        beforeDecimal.push(DIGIT_WORDS[part]);
+      }
+    } else {
+      throw new Error(`Unknown number word: ${part}`);
+    }
+  }
+
+  if (beforeDecimal.length === 0) {
+    throw new Error("Number must have at least one digit");
+  }
+
+  const numStr = beforeDecimal.join("") + (afterDecimal.length > 0 ? "." + afterDecimal.join("") : "");
+  const num = parseFloat(numStr);
+  return isNegative ? -num : num;
+}
+
+export function HodorNumber(num: number): string {
+  const words = numberToWords(num);
+  const encoded = Hodor(words);
+  return NUMBER_PREFIX + encoded;
+}
+
+export function WylisNumber(hodor: string): number {
+  if (!hodor.startsWith(NUMBER_PREFIX)) {
+    throw new Error(`Number must start with "${NUMBER_PREFIX}"`);
+  }
+  const encoded = hodor.substring(NUMBER_PREFIX.length);
+  const words = Wylis(encoded);
+  return wordsToNumber(words);
+}
