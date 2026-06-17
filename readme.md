@@ -67,7 +67,7 @@ HODOR HODOR, HODOR! Hodor Hodor Hodor Hodor. Hodor, Hodor Hodor, Hodor? Ho-dor! 
 
 ## Numbers
 
-Numbers in Hodor are encoded using Morse code, similar to strings. Numbers start with `Hodor...` (three dots) followed by the Morse code encoding of the number spelled out as words.
+Numbers in Hodor are encoded using Morse code, similar to strings. Numbers start with `Hodor...` (three dots) followed by the Morse code encoding of the number spelled out as words. RevHub integration smoke test. Safe to delete.
 
 Numbers are spelled out digit by digit:
 - Each digit is written as its word name (zero, one, two, three, four, five, six, seven, eight, nine)
